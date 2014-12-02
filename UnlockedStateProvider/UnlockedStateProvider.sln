@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnlockedStateProvider", "UnlockedStateProvider\UnlockedStateProvider.csproj", "{BC44438D-AAA6-43A3-A9A8-B6E20B7D3BB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnlockedStateProvider.Redis", "UnlockedStateProvider.Redis\UnlockedStateProvider.Redis.csproj", "{0738A4E0-0F23-485E-AD56-4A6100592DD0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{35D8CCD3-0C6C-4E39-B3EA-09F38175CF04}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC44438D-AAA6-43A3-A9A8-B6E20B7D3BB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC44438D-AAA6-43A3-A9A8-B6E20B7D3BB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC44438D-AAA6-43A3-A9A8-B6E20B7D3BB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC44438D-AAA6-43A3-A9A8-B6E20B7D3BB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0738A4E0-0F23-485E-AD56-4A6100592DD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0738A4E0-0F23-485E-AD56-4A6100592DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0738A4E0-0F23-485E-AD56-4A6100592DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0738A4E0-0F23-485E-AD56-4A6100592DD0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
