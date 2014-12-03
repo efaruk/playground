@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 using StackExchange.Redis;
 
 namespace UnlockedStateProvider.Redis
@@ -12,7 +13,7 @@ namespace UnlockedStateProvider.Redis
 		{
 			private readonly IDatabase _redisDatabase;
 			private readonly ConnectionMultiplexer _redisConnection;
-
+			
 			public RedisUnlockedStateStore()
 			{
 				StoreConfiguration configuration = StoreConfiguration.Instance;
@@ -41,13 +42,55 @@ namespace UnlockedStateProvider.Redis
 				}
 			}
 
+			private Dictionary<string, object> _items;
+
+			public Dictionary<string, object> Items
+			{
+				get
+				{
+					if (_items == null)
+					{
+						if (HttpContext.Current != null)
+						{
+							_items = GetContextItems(HttpContext.Current);
+						}
+					}
+					return _items;
+				}
+				set { _items = value; }
+			}
+
+			public object this[string name]
+			{
+				get
+				{
+					var result = Items[name];
+					return result;
+				}
+				set
+				{
+					Items[name] = value;
+				}
+			}
+
 			public Dictionary<string, object> GetContextItems(HttpContextBase controllerContext)
 			{
 				var items = (Dictionary<string, object>) controllerContext.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
 				return items;
 			}
 
+			public Dictionary<string, object> GetContextItems(HttpContext controllerContext)
+			{
+				var items = (Dictionary<string, object>)controllerContext.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
+				return items;
+			}
+
 			public void SetContextItems(HttpContextBase controllerContext, Dictionary<string, object> items)
+			{
+				controllerContext.SetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY, items);
+			}
+
+			public void SetContextItems(HttpContext controllerContext, Dictionary<string, object> items)
 			{
 				controllerContext.SetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY, items);
 			}
