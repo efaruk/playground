@@ -14,12 +14,11 @@ namespace UnlockedStateProvider {
 		///// <returns></returns>
 		//IUnlockedStateStore UnlockedStore();
 
-		// IUnlockedStateStore GetStoreForContext();
+		IUnlockedStateStore GetStoreFromContext(HttpContextBase controllerContext);
 
-		Dictionary<string, object> GetContextItems(HttpContextBase controllerContext);
+		//Dictionary<string, object> GetContextItems(HttpContextBase controllerContext);
 
 		void SetContextItems(HttpContextBase controllerContext, Dictionary<string, object> items);
-
 
 		/// <summary>
 		/// Supports Auto sliding expiration or not.
@@ -31,6 +30,17 @@ namespace UnlockedStateProvider {
 		/// Supports asynchronous operations or not.
 		/// </summary>
 		bool AsyncSupport { get; }
+
+		/// <summary>
+		///  Update context object with <see cref="Items" />
+		/// </summary>
+		void UpdateContext();
+
+		// Context shared items
+		Dictionary<string, object> Items { get; set; }
+
+		// Context shared items
+		object this[string name] { get; set; }
 
 		/// <summary>
 		/// Returns object from store with specified key.

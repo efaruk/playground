@@ -13,18 +13,23 @@ namespace UnlockedStateProvider.Redis
 		{
 			private readonly IDatabase _redisDatabase;
 			private readonly ConnectionMultiplexer _redisConnection;
+			private readonly StoreConfiguration _configuration = StoreConfiguration.Instance;
 			
 			public RedisUnlockedStateStore()
 			{
-				StoreConfiguration configuration = StoreConfiguration.Instance;
-				_redisConnection = ConnectionMultiplexer.Connect(configuration.Host);
-				_redisDatabase = _redisConnection.GetDatabase(int.Parse(configuration.Database));
+				_redisConnection = ConnectionMultiplexer.Connect(_configuration.Host);
+				_redisDatabase = _redisConnection.GetDatabase(int.Parse(_configuration.Database));
 			}
 
 			//public IUnlockedStateStore UnlockedStore()
 			//{
 			//	return new RedisUnlockedStateStore();
 			//}
+
+			public void UpdateContext()
+			{
+				SetContextItems(HttpContext.Current, _items);
+			}
 
 			public bool AutoSlidingSupport
 			{
@@ -52,13 +57,17 @@ namespace UnlockedStateProvider.Redis
 					{
 						if (HttpContext.Current != null)
 						{
-							_items = GetContextItems(HttpContext.Current);
+							_items = HttpContext.Current.GetContextItems();
 						}
 						// if (_items == null) _items = new Dictionary<string, object>(UnlockedStateUsageAttribute.DEFAULT_ITEM_COUNT);
 					}
 					return _items;
 				}
-				set { _items = value; }
+				set
+				{
+					_items = value;
+					// SetContextItems(HttpContext.Current, _items);
+				}
 			}
 
 			public object this[string name]
@@ -70,21 +79,25 @@ namespace UnlockedStateProvider.Redis
 				}
 				set
 				{
+					//if (Items != null)
+					//{
+					//	Items[name] = value;
+					//	//if (Items.ContainsKey(name))
+					//	//	Items[name] = value;
+					//	//else
+					//	//	Items.Add(name, value);
+					//}
 					Items[name] = value;
 				}
 			}
 
-			public Dictionary<string, object> GetContextItems(HttpContextBase controllerContext)
+			public IUnlockedStateStore GetStoreFromContext(HttpContextBase controllerContext)
 			{
-				var items = (Dictionary<string, object>) controllerContext.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
-				return items;
+				var store = (IUnlockedStateStore)controllerContext.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_STORE_KEY);
+				return store;
 			}
 
-			public Dictionary<string, object> GetContextItems(HttpContext controllerContext)
-			{
-				var items = (Dictionary<string, object>)controllerContext.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
-				return items;
-			}
+			
 
 			public void SetContextItems(HttpContextBase controllerContext, Dictionary<string, object> items)
 			{
@@ -98,9 +111,12 @@ namespace UnlockedStateProvider.Redis
 
 			public object Get(string key, bool slide = true, bool slideAsync = true)
 			{
-				var result = _redisDatabase.StringGet(key);
+				var data = _redisDatabase.StringGet(key);
+				var result = StateBinarySerializer.Deserialize(data);
 				if (slide)
 				{
+					var expire = DateTime.Now.AddMinutes(_configuration.SessionTimeout).TimeOfDay;
+					Slide(key, expire, slideAsync);
 				}
 				return result;
 			}
@@ -108,10 +124,11 @@ namespace UnlockedStateProvider.Redis
 			public bool Set(string key, object value, TimeSpan expireTime, bool async = false)
 			{
 				bool result = false;
+				var data = (RedisValue) StateBinarySerializer.Serialize(value);
 				if(async)
-					_redisDatabase.StringSetAsync(key, (RedisValue)value, expireTime);
+					_redisDatabase.StringSetAsync(key, data, expireTime);
 				else
-					result = _redisDatabase.StringSet(key, (RedisValue)value, expireTime);
+					result = _redisDatabase.StringSet(key, data, expireTime);
 				return result;
 			}
 

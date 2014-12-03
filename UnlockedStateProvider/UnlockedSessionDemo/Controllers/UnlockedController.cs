@@ -15,6 +15,9 @@ namespace UnlockedSessionDemo.Controllers
 		// GET: Home
 		public ActionResult Index()
 		{
+			var items = this.GetContextItems();
+			ViewBag.UnlockedItems = this.GetContextItems();
+			items["test"] = "test";
 			return View();
 		}
 	}

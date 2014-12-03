@@ -42,10 +42,11 @@ namespace UnlockedStateProvider
 
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
+			var store = UnlockedStateStore;
 			var sessionId = filterContext.HttpContext.GetSessionId(CookieName);
-			var session = UnlockedStateStore.Get(GetSessionKey(sessionId)) ?? new Dictionary<string, object>(DEFAULT_ITEM_COUNT);
+			var session = store.Get(GetSessionKey(sessionId)) ?? new Dictionary<string, object>(DEFAULT_ITEM_COUNT);
 			filterContext.HttpContext.SetContextItem(UNLOCKED_STATE_OBJECT_KEY, session);
-			filterContext.HttpContext.SetContextItem(UNLOCKED_STATE_STORE_KEY, UnlockedStateStore);
+			filterContext.HttpContext.SetContextItem(UNLOCKED_STATE_STORE_KEY, store);
 			base.OnActionExecuting(filterContext);
 		}
 
