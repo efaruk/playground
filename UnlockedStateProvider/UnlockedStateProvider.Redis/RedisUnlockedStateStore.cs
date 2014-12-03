@@ -54,6 +54,7 @@ namespace UnlockedStateProvider.Redis
 						{
 							_items = GetContextItems(HttpContext.Current);
 						}
+						// if (_items == null) _items = new Dictionary<string, object>(UnlockedStateUsageAttribute.DEFAULT_ITEM_COUNT);
 					}
 					return _items;
 				}
