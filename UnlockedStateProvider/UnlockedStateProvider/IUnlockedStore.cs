@@ -5,14 +5,33 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace UnlockedStateProvider {
-	public interface IUnlockedStore
+	public interface IUnlockedStore : IDisposable
 	{
+		/// <summary>
+		/// Public constructor.
+		/// </summary>
+		/// <returns></returns>
+		IUnlockedStore UnlockedStore(StoreConfiguration configuration);
+
+		/// <summary>
+		/// Supports Auto sliding expiration or not.
+		/// </summary>
+		bool AutoSlidingSupport { get; }
+
+
+		/// <summary>
+		/// Supports asynchronous operations or not.
+		/// </summary>
+		bool AsyncSupport { get; }
+
 		/// <summary>
 		/// Returns object from store with specified key.
 		/// </summary>
 		/// <param name="key"></param>
+		/// <param name="slide"></param>
+		/// <param name="slideAsync"></param>
 		/// <returns></returns>
-		object Get(string key);
+		object Get(string key, bool slide = true, bool slideAsync = true);
 
 		/// <summary>
 		/// Set or add object to store with specified key and expireTime.
@@ -49,9 +68,13 @@ namespace UnlockedStateProvider {
 		/// <returns></returns>
 		void Slide(string prefix, TimeSpan expireTime, bool async = false);
 
-		bool AutoSlidingSupport { get;}
+		/// <summary>
+		/// Delete all objects from store which has given prefix.
+		/// </summary>
+		/// <param name="prefix"></param>
+		/// <param name="async"></param>
+		void DeleteStartsWith(string prefix, bool async = false);
 
-		bool AsyncSupport { get; }
 
 	}
 }

@@ -10,16 +10,41 @@ namespace UnlockedStateProvider.Redis
 		public class UnlockedRedisStore : IUnlockedStore
 		{
 			private readonly IDatabase _redisDatabase;
+			private readonly ConnectionMultiplexer _redisConnection;
 
-			public UnlockedRedisStore()
+			public UnlockedRedisStore(StoreConfiguration configuration)
 			{
-				ConnectionMultiplexer redisConnection = ConnectionMultiplexer.Connect("localhost");
-				_redisDatabase = redisConnection.GetDatabase(3);
+				_redisConnection = ConnectionMultiplexer.Connect(configuration.Host);
+				_redisDatabase = _redisConnection.GetDatabase(int.Parse(configuration.Database));
 			}
 
-			public object Get(string key)
+			public IUnlockedStore UnlockedStore(StoreConfiguration configuration)
+			{
+				return new UnlockedRedisStore(configuration);
+			}
+
+			public bool AutoSlidingSupport
+			{
+				get
+				{
+					return false;
+				}
+			}
+
+			public bool AsyncSupport
+			{
+				get
+				{
+					return true;
+				}
+			}
+
+			public object Get(string key, bool slide = true, bool slideAsync = true)
 			{
 				var result = _redisDatabase.StringGet(key);
+				if (slide)
+				{
+				}
 				return result;
 			}
 
@@ -54,20 +79,21 @@ namespace UnlockedStateProvider.Redis
 		
 			public void Slide(string prefix, TimeSpan expireTime, bool async = false)
 			{
-				string script = string.Format("{0} {1}", prefix, expireTime);
+				string script = string.Format("\"return redis.call('expire', unpack(redis.call('keys', ARGV[1])), ARGV[2])\" 2 {0}:* {1}", prefix, expireTime);
 				Eval(script, async);
 			}
 
-			public bool AutoSlidingSupport {
-				get {
-					return false;
-				}
+			public void DeleteStartsWith(string prefix, bool async = false)
+			{
+				string script = string.Format("\"return redis.call('del', unpack(redis.call('keys', ARGV[1])))\" 1 {0}:*", prefix);
+				Eval(script, async);
 			}
 
-			public bool AsyncSupport {
-				get {
-					return true;
-				}
+
+
+			public void Dispose()
+			{
+				_redisConnection.Dispose();
 			}
 		}
 }
