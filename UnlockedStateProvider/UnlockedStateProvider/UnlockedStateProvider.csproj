@@ -43,11 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IUnlockedStore.cs" />
+    <Compile Include="ContextHelper.cs" />
+    <Compile Include="IUnlockedStateStore.cs" />
     <Compile Include="SettingsHelper.cs" />
     <Compile Include="StoreConfiguration.cs" />
-    <Compile Include="UnlockedSessionUsageAttribute.cs" />
-    <Compile Include="UnlockedStateProvider.cs" />
+    <Compile Include="UnlockedStateUsageAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

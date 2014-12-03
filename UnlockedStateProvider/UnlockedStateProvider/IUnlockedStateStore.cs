@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace UnlockedStateProvider {
-	public interface IUnlockedStore : IDisposable
+	public interface IUnlockedStateStore : IDisposable
 	{
-		/// <summary>
-		/// Public constructor.
-		/// </summary>
-		/// <returns></returns>
-		IUnlockedStore UnlockedStore(StoreConfiguration configuration);
+		///// <summary>
+		///// Public constructor.
+		///// </summary>
+		///// <returns></returns>
+		//IUnlockedStateStore UnlockedStore();
+
+		// IUnlockedStateStore GetStoreForContext();
+
+		Dictionary<string, object> GetContextItems(HttpContextBase controllerContext);
+
+		void SetContextItems(HttpContextBase controllerContext, Dictionary<string, object> items);
+
 
 		/// <summary>
 		/// Supports Auto sliding expiration or not.

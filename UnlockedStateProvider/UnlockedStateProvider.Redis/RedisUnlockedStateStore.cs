@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using StackExchange.Redis;
 
 namespace UnlockedStateProvider.Redis
 {
-		public class UnlockedRedisStore : IUnlockedStore
+		public class RedisUnlockedStateStore : IUnlockedStateStore
 		{
 			private readonly IDatabase _redisDatabase;
 			private readonly ConnectionMultiplexer _redisConnection;
 
-			public UnlockedRedisStore(StoreConfiguration configuration)
+			public RedisUnlockedStateStore()
 			{
+				StoreConfiguration configuration = StoreConfiguration.Instance;
 				_redisConnection = ConnectionMultiplexer.Connect(configuration.Host);
 				_redisDatabase = _redisConnection.GetDatabase(int.Parse(configuration.Database));
 			}
 
-			public IUnlockedStore UnlockedStore(StoreConfiguration configuration)
-			{
-				return new UnlockedRedisStore(configuration);
-			}
+			//public IUnlockedStateStore UnlockedStore()
+			//{
+			//	return new RedisUnlockedStateStore();
+			//}
 
 			public bool AutoSlidingSupport
 			{
@@ -37,6 +39,17 @@ namespace UnlockedStateProvider.Redis
 				{
 					return true;
 				}
+			}
+
+			public Dictionary<string, object> GetContextItems(HttpContextBase controllerContext)
+			{
+				var items = (Dictionary<string, object>) controllerContext.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
+				return items;
+			}
+
+			public void SetContextItems(HttpContextBase controllerContext, Dictionary<string, object> items)
+			{
+				controllerContext.SetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY, items);
 			}
 
 			public object Get(string key, bool slide = true, bool slideAsync = true)
@@ -89,11 +102,10 @@ namespace UnlockedStateProvider.Redis
 				Eval(script, async);
 			}
 
-
-
 			public void Dispose()
 			{
 				_redisConnection.Dispose();
 			}
+
 		}
 }
