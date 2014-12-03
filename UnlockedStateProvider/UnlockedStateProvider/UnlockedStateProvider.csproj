@@ -47,6 +47,7 @@
     <Compile Include="IUnlockedStateStore.cs" />
     <Compile Include="SettingsHelper.cs" />
     <Compile Include="StoreConfiguration.cs" />
+    <Compile Include="UnlockedStateUsage.cs" />
     <Compile Include="UnlockedStateUsageAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

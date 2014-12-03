@@ -42,10 +42,10 @@ namespace UnlockedStateProvider
 
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			var sessionId = ContextHelper.GetSessionId(filterContext.HttpContext, CookieName);
+			var sessionId = filterContext.HttpContext.GetSessionId(CookieName);
 			var session = UnlockedStateStore.Get(GetSessionKey(sessionId)) ?? new Dictionary<string, object>(DEFAULT_ITEM_COUNT);
-			ContextHelper.SetContextItem(filterContext.HttpContext, UNLOCKED_STATE_OBJECT_KEY, session);
-			ContextHelper.SetContextItem(filterContext.HttpContext, UNLOCKED_STATE_STORE_KEY, UnlockedStateStore);
+			filterContext.HttpContext.SetContextItem(UNLOCKED_STATE_OBJECT_KEY, session);
+			filterContext.HttpContext.SetContextItem(UNLOCKED_STATE_STORE_KEY, UnlockedStateStore);
 			base.OnActionExecuting(filterContext);
 		}
 
@@ -61,11 +61,11 @@ namespace UnlockedStateProvider
 
 		public override void OnResultExecuted(ResultExecutedContext filterContext)
 		{
-			var session = ContextHelper.GetContextItem(filterContext.HttpContext, UNLOCKED_STATE_OBJECT_KEY);
+			var session = filterContext.HttpContext.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
 			if (session != null)
 			{
-				var store = (IUnlockedStateStore)ContextHelper.GetContextItem(filterContext.HttpContext, UNLOCKED_STATE_STORE_KEY);
-				var sessionId = ContextHelper.GetSessionId(filterContext.HttpContext, CookieName);
+				var store = (IUnlockedStateStore)filterContext.HttpContext.GetContextItem(UNLOCKED_STATE_STORE_KEY);
+				var sessionId = filterContext.HttpContext.GetSessionId(CookieName);
 				var sessionKey = GetSessionKey(sessionId);
 				var expire = DateTime.Now.AddMinutes(Timeout).TimeOfDay;
 				store.Set(sessionKey, session, expire, RunAsync);
@@ -79,11 +79,4 @@ namespace UnlockedStateProvider
 		}
 
 	}
-
-	public enum UnlockedStateUsage
-	{
-		Enabled,
-		Disabled
-	}
-
 }
