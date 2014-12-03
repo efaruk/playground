@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="ContextHelper.cs" />
     <Compile Include="IUnlockedStateStore.cs" />
+    <Compile Include="SessionHelper.cs" />
     <Compile Include="SettingsHelper.cs" />
     <Compile Include="StoreConfiguration.cs" />
     <Compile Include="UnlockedStateUsage.cs" />

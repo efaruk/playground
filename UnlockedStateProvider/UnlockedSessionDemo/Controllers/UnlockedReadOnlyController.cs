@@ -10,13 +10,12 @@ namespace UnlockedSessionDemo.Controllers
 {
 
 	[RedisUnlockedStateUsage(Order = 0, Usage = UnlockedStateUsage.Enabled)]
-	public class UnlockedController : Controller
+	public class UnlockedReadOnlyController : Controller
 	{
 		// GET: Home
 		public ActionResult Index()
 		{
 			var items = this.GetContextItems();
-			items["test"] = "test";
 			ViewBag.UnlockedItems = items;
 			return View();
 		}

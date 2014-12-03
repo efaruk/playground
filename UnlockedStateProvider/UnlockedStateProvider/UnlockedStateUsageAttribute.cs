@@ -16,6 +16,7 @@ namespace UnlockedStateProvider
 		public const string UNLOCKED_STATE_OBJECT_KEY = "UNLOCKED_STATE_OBJECT_KEY";
 		public const string UNLOCKED_STATE_STORE_KEY = "UNLOCKED_STATE_STORE_KEY";
 		public const string DEFAULT_COOKIE_NAME = "ASP.NET_SessionId";
+		public const string SESSION_STARTED_KEY = "UNLOCKED:started";
 		public const int DEFAULT_ITEM_COUNT = 15;
 
 		/// <summary>
@@ -34,7 +35,7 @@ namespace UnlockedStateProvider
 		public int Timeout { get; set; }
 
 		/// <summary>
-		/// If true, run set, get, delete, evaluates requests in async mode.
+		/// If true, runs set, delete, evaluates requests in async mode.
 		/// </summary>
 		public bool RunAsync { get; set; }
 
@@ -42,11 +43,11 @@ namespace UnlockedStateProvider
 
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
+			// filterContext.StartSessionIfNew();
 			var store = UnlockedStateStore;
-			var sessionId = filterContext.HttpContext.GetSessionId(CookieName);
-			var session = store.Get(GetSessionKey(sessionId)) ?? new Dictionary<string, object>(DEFAULT_ITEM_COUNT);
-			filterContext.HttpContext.SetContextItem(UNLOCKED_STATE_OBJECT_KEY, session);
-			filterContext.HttpContext.SetContextItem(UNLOCKED_STATE_STORE_KEY, store);
+			var session = store.Get(GetSessionKey()) ?? new Dictionary<string, object>(DEFAULT_ITEM_COUNT);
+			filterContext.SetContextItem(UNLOCKED_STATE_OBJECT_KEY, session);
+			filterContext.SetContextItem(UNLOCKED_STATE_STORE_KEY, store);
 			base.OnActionExecuting(filterContext);
 		}
 
@@ -65,18 +66,24 @@ namespace UnlockedStateProvider
 			var session = filterContext.HttpContext.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
 			if (session != null)
 			{
-				var store = (IUnlockedStateStore)filterContext.HttpContext.GetContextItem(UNLOCKED_STATE_STORE_KEY);
-				var sessionId = filterContext.HttpContext.GetSessionId(CookieName);
-				var sessionKey = GetSessionKey(sessionId);
+				var store = (IUnlockedStateStore)filterContext.GetContextItem(UNLOCKED_STATE_STORE_KEY);
+				store.UpdateContext();
 				var expire = DateTime.Now.AddMinutes(Timeout).TimeOfDay;
-				store.Set(sessionKey, session, expire, RunAsync);
+				store.Set(GetSessionKey(), session, expire, RunAsync);
 			}
 			base.OnResultExecuted(filterContext);
 		}
 
-		private string GetSessionKey(string sessionId)
+		private string GetSessionKey(string sessionId = "")
 		{
+			if (string.IsNullOrWhiteSpace(sessionId))
+				sessionId = HttpContext.Current.GetSessionId(CookieName);
 			return string.Format("{0}:{1}", "UNLOCKED", sessionId);
+		}
+
+		private void CopySessionCookie()
+		{
+			
 		}
 
 	}
