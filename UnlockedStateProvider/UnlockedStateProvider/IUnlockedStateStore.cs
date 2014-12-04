@@ -31,10 +31,10 @@ namespace UnlockedStateProvider {
 		/// </summary>
 		bool AsyncSupport { get; }
 
-		/// <summary>
-		///  Update context object with <see cref="Items" />
-		/// </summary>
-		void UpdateContext();
+		///// <summary>
+		/////  Update context object with <see cref="Items" />
+		///// </summary>
+		//void UpdateContext();
 
 		// Context shared items
 		Dictionary<string, object> Items { get; set; }

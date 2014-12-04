@@ -26,10 +26,10 @@ namespace UnlockedStateProvider.Redis
 			//	return new RedisUnlockedStateStore();
 			//}
 
-			public void UpdateContext()
-			{
-				SetContextItems(HttpContext.Current, _items);
-			}
+			//public void UpdateContext()
+			//{
+			//	SetContextItems(HttpContext.Current, _items);
+			//}
 
 			public bool AutoSlidingSupport
 			{

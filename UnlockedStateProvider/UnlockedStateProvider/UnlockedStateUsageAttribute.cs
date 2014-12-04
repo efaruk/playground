@@ -20,13 +20,27 @@ namespace UnlockedStateProvider
 		public const string SESSION_STARTED_KEY = "UNLOCKED:started";
 		public const int DEFAULT_ITEM_COUNT = 15;
 
+		protected UnlockedStateUsageAttribute()
+		{
+			// ReSharper disable DoNotCallOverridableMethodsInConstructor
+			if (UnlockedStateStore != null) _store = UnlockedStateStore;
+			// ReSharper restore DoNotCallOverridableMethodsInConstructor
+		}
+
+
+		private UnlockedStateUsage _usage = UnlockedStateUsage.Enabled;
 		/// <summary>
 		/// if disabled, not gets session objects from store on request begin and not push session objects to store on request end.
 		/// You have to get/set objects manually using <see cref="UnlockedStateProvider" />.
 		/// </summary>
-		public UnlockedStateUsage Usage { get; set; }
+		public UnlockedStateUsage Usage
+		{
+			get { return _usage; }
+			set { _usage = value; }
+		}
 
 		private string _cookieName = DEFAULT_COOKIE_NAME;
+
 		public string CookieName
 		{
 			get { return _cookieName; }
@@ -36,19 +50,24 @@ namespace UnlockedStateProvider
 		public int Timeout { get; set; }
 
 		/// <summary>
-		/// If true, runs set, delete, evaluates requests in async mode.
+		/// If true, runs set, delete, evaluate requests in async mode.
 		/// </summary>
 		public bool RunAsync { get; set; }
+
+		private readonly IUnlockedStateStore _store;
 
 		abstract protected IUnlockedStateStore UnlockedStateStore { get; }
 
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			// filterContext.StartSessionIfNew();
-			var store = UnlockedStateStore;
-			var session = store.Get(GetSessionKey()) ?? new Dictionary<string, object>(DEFAULT_ITEM_COUNT);
-			filterContext.SetContextItem(UNLOCKED_STATE_OBJECT_KEY, session);
-			filterContext.SetContextItem(UNLOCKED_STATE_STORE_KEY, store);
+			if (Usage == UnlockedStateUsage.Enabled)
+			{
+				// filterContext.StartSessionIfNew();
+				//var store = UnlockedStateStore;
+				var session = _store.Get(GetSessionKey()) ?? new Dictionary<string, object>(DEFAULT_ITEM_COUNT);
+				filterContext.SetContextItem(UNLOCKED_STATE_OBJECT_KEY, session);
+				filterContext.SetContextItem(UNLOCKED_STATE_STORE_KEY, _store);
+			}
 			base.OnActionExecuting(filterContext);
 		}
 
@@ -64,14 +83,17 @@ namespace UnlockedStateProvider
 
 		public override void OnResultExecuted(ResultExecutedContext filterContext)
 		{
-			var session = filterContext.HttpContext.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
-			if (session != null && ((ICollection)session).Count > 0)
+			if (Usage == UnlockedStateUsage.Enabled)
 			{
-				filterContext.StartSessionIfNew();
-				var store = (IUnlockedStateStore)filterContext.GetContextItem(UNLOCKED_STATE_STORE_KEY);
-				store.UpdateContext();
-				var expire = DateTime.Now.AddMinutes(Timeout).TimeOfDay;
-				store.Set(GetSessionKey(), session, expire, RunAsync);
+				//var session = filterContext.HttpContext.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
+				if (_store.Items.Count > 0)
+				{
+					filterContext.StartSessionIfNew();
+					//var store = (IUnlockedStateStore)filterContext.GetContextItem(UNLOCKED_STATE_STORE_KEY);
+					// store.UpdateContext();
+					var expire = DateTime.Now.AddMinutes(Timeout).TimeOfDay;
+					_store.Set(GetSessionKey(), _store.Items, expire, RunAsync);
+				}
 			}
 			base.OnResultExecuted(filterContext);
 		}
