@@ -22,7 +22,6 @@ namespace UnlockedSessionDemo.Controllers
 			items["double"] = 1123123.123m;
 			items["date"] = DateTime.Now;
 			items["custom"] = new CustomSessionObject() {Name = "Tamer"};
-			items["big"] = new BigSessionObject();
 			ViewBag.UnlockedItems = items;
 			return View();
 		}
