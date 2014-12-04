@@ -130,7 +130,7 @@ namespace UnlockedStateProvider
 		public static string GetSessionId(this HttpContext context, string cookieName)
 		{
 			string result = string.Empty;
-			if (context != null && context.Request.Cookies != null && context.Request.Cookies[cookieName] != null)
+			if (context != null && context.Request.Cookies[cookieName] != null)
 			{
 				result = context.Request.Cookies[cookieName].Value;
 			}
@@ -146,6 +146,36 @@ namespace UnlockedStateProvider
 				result = context.Request.Cookies[cookieName].Value;
 			}
 			return result;
+		}
+
+		public static bool SessionIsNew(this HttpContext context)
+		{
+			if (context != null && context.Session != null &&
+				context.Session.IsNewSession)
+			{
+				return true;
+			}
+			return false;
+		}
+
+		public static bool SessionIsNew(this ControllerContext context)
+		{
+			if (context != null && context.HttpContext != null && context.HttpContext.Session != null &&
+				context.HttpContext.Session.IsNewSession)
+			{
+				return true;
+			}
+			return false;
+		}
+
+		public static bool SessionIsNew(this Controller controller)
+		{
+			if (controller != null && controller.HttpContext != null && controller.HttpContext.Session != null &&
+				controller.HttpContext.Session.IsNewSession)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static void StartSessionIfNew(this HttpContext context)

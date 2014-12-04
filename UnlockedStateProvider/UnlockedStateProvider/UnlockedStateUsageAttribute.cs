@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
@@ -64,8 +65,9 @@ namespace UnlockedStateProvider
 		public override void OnResultExecuted(ResultExecutedContext filterContext)
 		{
 			var session = filterContext.HttpContext.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
-			if (session != null)
+			if (session != null && ((ICollection)session).Count > 0)
 			{
+				filterContext.StartSessionIfNew();
 				var store = (IUnlockedStateStore)filterContext.GetContextItem(UNLOCKED_STATE_STORE_KEY);
 				store.UpdateContext();
 				var expire = DateTime.Now.AddMinutes(Timeout).TimeOfDay;
@@ -79,11 +81,6 @@ namespace UnlockedStateProvider
 			if (string.IsNullOrWhiteSpace(sessionId))
 				sessionId = HttpContext.Current.GetSessionId(CookieName);
 			return string.Format("{0}:{1}", "UNLOCKED", sessionId);
-		}
-
-		private void CopySessionCookie()
-		{
-			
 		}
 
 	}

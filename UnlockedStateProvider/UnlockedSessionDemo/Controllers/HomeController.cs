@@ -12,7 +12,7 @@ namespace UnlockedSessionDemo.Controllers
 		// GET: Home
 		public ActionResult Index()
 		{
-			this.StartSessionIfNew();
+			//this.StartSessionIfNew();
 			return View();
 		}
 	}
