@@ -119,6 +119,11 @@ namespace UnlockedStateProvider.Redis
 				}
 			}
 
+			public void ClearItems()
+			{
+				Items.Clear();
+			}
+
 			public IUnlockedStateStore GetStoreFromContext(HttpContextBase controllerContext)
 			{
 				var store = (IUnlockedStateStore)controllerContext.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_STORE_KEY);

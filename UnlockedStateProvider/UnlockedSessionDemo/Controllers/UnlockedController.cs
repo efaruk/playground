@@ -11,7 +11,7 @@ namespace UnlockedSessionDemo.Controllers
 {
 
 	[SessionState(SessionStateBehavior.Disabled)]
-	[RedisUnlockedStateUsage(Order = 0, Usage = UnlockedStateUsage.ReadWrite, RunAsync = true)]
+	[RedisUnlockedStateUsage(Usage = UnlockedStateUsage.ReadWrite)]
 	public class UnlockedController : Controller
 	{
 		// GET: Home

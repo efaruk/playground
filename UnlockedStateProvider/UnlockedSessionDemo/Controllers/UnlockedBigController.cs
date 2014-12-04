@@ -10,13 +10,15 @@ using UnlockedStateProvider.Redis;
 namespace UnlockedSessionDemo.Controllers
 {
 	[SessionState(SessionStateBehavior.Disabled)]
-	[RedisUnlockedStateUsage(Order = 0, Usage = UnlockedStateUsage.ReadWrite, RunAsync = true)]
+	[RedisUnlockedStateUsage(Order = 0, Usage = UnlockedStateUsage.ReadWrite)]
 	public class UnlockedBigController : Controller
 	{
 		// GET: Home
 		public ActionResult Index()
 		{
 			var items = this.GetContextItems();
+			var store = this.GetStoreFromContext();
+			store["test"] = "test";
 			items["test"] = "test";
 			items["double"] = 1123123.123m;
 			items["date"] = DateTime.Now;

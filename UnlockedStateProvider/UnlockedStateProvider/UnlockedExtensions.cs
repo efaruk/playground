@@ -210,5 +210,12 @@ namespace UnlockedStateProvider
 			}
 		}
 
+		public static string GetSessionKey(string cookieName = UnlockedStateUsageAttribute.DEFAULT_COOKIE_NAME, string sessionId = "")
+		{
+			if (string.IsNullOrWhiteSpace(sessionId))
+				sessionId = HttpContext.Current.GetSessionId(cookieName);
+			return string.Format("{0}:{1}", "UNLOCKED", sessionId);
+		}
+
 	}
 }

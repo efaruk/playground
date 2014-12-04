@@ -65,7 +65,7 @@ namespace UnlockedStateProvider
 			{
 				// filterContext.StartSessionIfNew();
 				//var store = UnlockedStateStore;
-				var session = _store.Get(GetSessionKey()) ?? new Dictionary<string, object>(DEFAULT_ITEM_COUNT);
+				var session = _store.Get(UnlockedExtensions.GetSessionKey()) ?? new Dictionary<string, object>(DEFAULT_ITEM_COUNT);
 				filterContext.SetContextItem(UNLOCKED_STATE_OBJECT_KEY, session);
 				filterContext.SetContextItem(UNLOCKED_STATE_STORE_KEY, _store);
 			}
@@ -93,17 +93,10 @@ namespace UnlockedStateProvider
 					//var store = (IUnlockedStateStore)filterContext.GetContextItem(UNLOCKED_STATE_STORE_KEY);
 					// store.UpdateContext();
 					var expire = DateTime.Now.AddMinutes(Timeout).TimeOfDay;
-					_store.Set(GetSessionKey(), _store.Items, expire, RunAsync);
+					_store.Set(UnlockedExtensions.GetSessionKey(), _store.Items, expire, RunAsync);
 				}
 			}
 			base.OnResultExecuted(filterContext);
-		}
-
-		private string GetSessionKey(string sessionId = "")
-		{
-			if (string.IsNullOrWhiteSpace(sessionId))
-				sessionId = HttpContext.Current.GetSessionId(CookieName);
-			return string.Format("{0}:{1}", "UNLOCKED", sessionId);
 		}
 
 	}

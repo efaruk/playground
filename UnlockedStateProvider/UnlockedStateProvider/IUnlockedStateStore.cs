@@ -43,6 +43,11 @@ namespace UnlockedStateProvider {
 		object this[string name] { get; set; }
 
 		/// <summary>
+		/// Clear item collection not the custom state items
+		/// </summary>
+		void ClearItems();
+
+		/// <summary>
 		/// Returns object from store with specified key.
 		/// </summary>
 		/// <param name="key"></param>
