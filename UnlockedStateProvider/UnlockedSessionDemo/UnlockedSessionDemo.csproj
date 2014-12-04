@@ -121,6 +121,7 @@
     <Compile Include="Controllers\UnlockedReadOnlyController.cs" />
     <Compile Include="Controllers\UnlockedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="CustomSessionObject.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

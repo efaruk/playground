@@ -70,6 +70,29 @@ namespace UnlockedStateProvider.Redis
 				}
 			}
 
+			private Dictionary<string, object> _secondaryItems;
+
+			public Dictionary<string, object> SecondaryItems
+			{
+				get
+				{
+					if (_secondaryItems == null)
+					{
+						if (HttpContext.Current != null)
+						{
+							_secondaryItems = HttpContext.Current.GetContextItems();
+						}
+						// if (_items == null) _items = new Dictionary<string, object>(UnlockedStateUsageAttribute.DEFAULT_ITEM_COUNT);
+					}
+					return _secondaryItems;
+				}
+				set
+				{
+					_items = value;
+					// SetContextItems(HttpContext.Current, _items);
+				}
+			}
+
 			public object this[string name]
 			{
 				get
@@ -96,8 +119,6 @@ namespace UnlockedStateProvider.Redis
 				var store = (IUnlockedStateStore)controllerContext.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_STORE_KEY);
 				return store;
 			}
-
-			
 
 			public void SetContextItems(HttpContextBase controllerContext, Dictionary<string, object> items)
 			{

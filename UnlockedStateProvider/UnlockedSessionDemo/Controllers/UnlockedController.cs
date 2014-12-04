@@ -17,6 +17,9 @@ namespace UnlockedSessionDemo.Controllers
 		{
 			var items = this.GetContextItems();
 			items["test"] = "test";
+			items["double"] = 1123123.123m;
+			items["date"] = DateTime.Now;
+			items["custom"] = new CustomSessionObject() {Name = "Tamer"};
 			ViewBag.UnlockedItems = items;
 			return View();
 		}

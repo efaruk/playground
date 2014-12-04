@@ -15,6 +15,7 @@ namespace UnlockedStateProvider
 	public abstract class UnlockedStateUsageAttribute: ActionFilterAttribute
 	{
 		public const string UNLOCKED_STATE_OBJECT_KEY = "UNLOCKED_STATE_OBJECT_KEY";
+		public const string UNLOCKED_STATE_OBJECT_KEY_SECONDARY = "UNLOCKED_STATE_OBJECT_KEY_SECONDARY";
 		public const string UNLOCKED_STATE_STORE_KEY = "UNLOCKED_STATE_STORE_KEY";
 		public const string DEFAULT_COOKIE_NAME = "ASP.NET_SessionId";
 		public const string SESSION_STARTED_KEY = "UNLOCKED:started";

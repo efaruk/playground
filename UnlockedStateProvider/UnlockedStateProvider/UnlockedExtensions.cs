@@ -29,26 +29,30 @@ namespace UnlockedStateProvider
 			return store;
 		}
 
-		public static Dictionary<string, object> GetContextItems(this ControllerContext context)
+		public static Dictionary<string, object> GetContextItems(this ControllerContext context, string key = "")
 		{
+			if (string.IsNullOrWhiteSpace(key)) key = UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY;
 			var items = (Dictionary<string, object>)context.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
 			return items;
 		}
 
-		public static Dictionary<string, object> GetContextItems(this HttpContextBase context)
+		public static Dictionary<string, object> GetContextItems(this HttpContextBase context, string key = "")
 		{
+			if (string.IsNullOrWhiteSpace(key)) key = UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY;
 			var items = (Dictionary<string, object>)context.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
 			return items;
 		}
 
-		public static Dictionary<string, object> GetContextItems(this Controller controller)
+		public static Dictionary<string, object> GetContextItems(this Controller controller, string key = "")
 		{
+			if (string.IsNullOrWhiteSpace(key)) key = UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY;
 			var items = (Dictionary<string, object>)controller.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
 			return items;
 		}
 
-		public static Dictionary<string, object> GetContextItems(this HttpContext context)
+		public static Dictionary<string, object> GetContextItems(this HttpContext context, string key = "")
 		{
+			if (string.IsNullOrWhiteSpace(key)) key = UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY;
 			var items = (Dictionary<string, object>)context.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
 			return items;
 		}
