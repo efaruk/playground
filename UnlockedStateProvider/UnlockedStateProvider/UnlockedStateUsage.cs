@@ -2,7 +2,8 @@
 {
 	public enum UnlockedStateUsage
 	{
-		Enabled,
-		Disabled
+		ReadWrite,
+		Disabled,
+		ReadOnly
 	}
 }

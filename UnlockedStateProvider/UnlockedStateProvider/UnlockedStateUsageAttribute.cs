@@ -29,7 +29,7 @@ namespace UnlockedStateProvider
 		}
 
 
-		private UnlockedStateUsage _usage = UnlockedStateUsage.Enabled;
+		private UnlockedStateUsage _usage = UnlockedStateUsage.ReadWrite;
 		/// <summary>
 		/// if disabled, not gets session objects from store on request begin and not push session objects to store on request end.
 		/// You have to get/set objects manually using <see cref="UnlockedStateProvider" />.
@@ -61,7 +61,7 @@ namespace UnlockedStateProvider
 
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			if (Usage == UnlockedStateUsage.Enabled)
+			if (Usage != UnlockedStateUsage.Disabled)
 			{
 				// filterContext.StartSessionIfNew();
 				//var store = UnlockedStateStore;
@@ -84,7 +84,7 @@ namespace UnlockedStateProvider
 
 		public override void OnResultExecuted(ResultExecutedContext filterContext)
 		{
-			if (Usage == UnlockedStateUsage.Enabled)
+			if (Usage == UnlockedStateUsage.ReadWrite)
 			{
 				//var session = filterContext.HttpContext.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
 				if (_store.Items.Count > 0)

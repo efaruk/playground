@@ -9,7 +9,7 @@ using UnlockedStateProvider.Redis;
 namespace UnlockedSessionDemo.Controllers
 {
 
-	[RedisUnlockedStateUsage(Order = 0, Usage = UnlockedStateUsage.Enabled, RunAsync = true)]
+	[RedisUnlockedStateUsage(Order = 0, Usage = UnlockedStateUsage.ReadWrite, RunAsync = true)]
 	public class UnlockedController : Controller
 	{
 		// GET: Home
@@ -20,6 +20,7 @@ namespace UnlockedSessionDemo.Controllers
 			items["double"] = 1123123.123m;
 			items["date"] = DateTime.Now;
 			items["custom"] = new CustomSessionObject() {Name = "Tamer"};
+			items["big"] = new BigSessionObject();
 			ViewBag.UnlockedItems = items;
 			return View();
 		}

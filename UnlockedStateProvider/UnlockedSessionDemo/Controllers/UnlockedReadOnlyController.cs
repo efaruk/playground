@@ -9,7 +9,7 @@ using UnlockedStateProvider.Redis;
 namespace UnlockedSessionDemo.Controllers
 {
 
-	[RedisUnlockedStateUsage(Order = 0, Usage = UnlockedStateUsage.Enabled)]
+	[RedisUnlockedStateUsage(Order = 0, Usage = UnlockedStateUsage.ReadWrite)]
 	public class UnlockedReadOnlyController : Controller
 	{
 		// GET: Home

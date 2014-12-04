@@ -118,6 +118,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BigBytez.cs" />
+    <Compile Include="BigSessionObject.cs" />
+    <Compile Include="ContentText.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContentText.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\UnlockedBigReadonlyController.cs" />
+    <Compile Include="Controllers\UnlockedBigController.cs" />
     <Compile Include="Controllers\UnlockedReadOnlyController.cs" />
     <Compile Include="Controllers\UnlockedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -136,6 +145,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Unlocked\Index.cshtml" />
     <Content Include="Views\UnlockedReadOnly\Index.cshtml" />
+    <Content Include="Views\UnlockedBig\Index.cshtml" />
+    <Content Include="Views\UnlockedBigReadOnly\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -156,6 +167,12 @@
       <Project>{BC44438D-AAA6-43A3-A9A8-B6E20B7D3BB4}</Project>
       <Name>UnlockedStateProvider</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ContentText.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ContentText.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

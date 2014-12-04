@@ -13,6 +13,7 @@ namespace UnlockedSessionDemo.Controllers
 		public ActionResult Index()
 		{
 			//this.StartSessionIfNew();
+			BigBytez.Bytez.Length.ToString();
 			return View();
 		}
 	}
