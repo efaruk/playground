@@ -147,6 +147,7 @@
     <Content Include="Views\UnlockedReadOnly\Index.cshtml" />
     <Content Include="Views\UnlockedBig\Index.cshtml" />
     <Content Include="Views\UnlockedBigReadOnly\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\Desktop.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
