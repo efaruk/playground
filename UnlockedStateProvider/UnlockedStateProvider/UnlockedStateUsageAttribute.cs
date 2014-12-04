@@ -89,7 +89,7 @@ namespace UnlockedStateProvider
 				//var session = filterContext.HttpContext.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
 				if (_store.Items.Count > 0)
 				{
-					filterContext.StartSessionIfNew();
+					//filterContext.StartSessionIfNew();
 					//var store = (IUnlockedStateStore)filterContext.GetContextItem(UNLOCKED_STATE_STORE_KEY);
 					// store.UpdateContext();
 					var expire = DateTime.Now.AddMinutes(Timeout).TimeOfDay;

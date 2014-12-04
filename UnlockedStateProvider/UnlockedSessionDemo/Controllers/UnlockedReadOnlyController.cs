@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.SessionState;
 using UnlockedStateProvider;
 using UnlockedStateProvider.Redis;
 
 namespace UnlockedSessionDemo.Controllers
 {
-
-	[RedisUnlockedStateUsage(Order = 0, Usage = UnlockedStateUsage.ReadWrite)]
+	[SessionState(SessionStateBehavior.Disabled)]
+	[RedisUnlockedStateUsage(Order = 0, Usage = UnlockedStateUsage.ReadOnly)]
 	public class UnlockedReadOnlyController : Controller
 	{
 		// GET: Home
