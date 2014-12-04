@@ -17,7 +17,12 @@ namespace UnlockedStateProvider.Redis
 			
 			public RedisUnlockedStateStore()
 			{
-				_redisConnection = ConnectionMultiplexer.Connect(_configuration.Host);
+				var options = new ConfigurationOptions();
+				options.EndPoints.Add(_configuration.Host, _configuration.Port);
+				options.ConnectTimeout = _configuration.ConnectionTimeoutInMilliSec;
+				options.SyncTimeout = _configuration.OperationTimeoutInMilliSec;
+				options.ResolveDns = true;
+				_redisConnection = ConnectionMultiplexer.Connect(options);
 				_redisDatabase = _redisConnection.GetDatabase(int.Parse(_configuration.Database));
 			}
 
