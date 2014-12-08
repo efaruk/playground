@@ -14,17 +14,18 @@ namespace UnlockedStateProvider {
 		///// <returns></returns>
 		//IUnlockedStateStore UnlockedStore();
 
-		IUnlockedStateStore GetStoreFromContext(HttpContextBase controllerContext);
+		//IUnlockedStateStore GetStoreFromContext(HttpContextBase controllerContext);
 
-		//Dictionary<string, object> GetContextItems(HttpContextBase controllerContext);
+		////Dictionary<string, object> GetContextItems(HttpContextBase controllerContext);
 
-		void SetContextItems(HttpContextBase controllerContext, Dictionary<string, object> items);
+		//void SetContextItems(HttpContextBase controllerContext, Dictionary<string, object> items);
+
+		UnlockedStateStoreConfiguration Configuration { get; }
 
 		/// <summary>
 		/// Supports Auto sliding expiration or not.
 		/// </summary>
 		bool AutoSlidingSupport { get; }
-
 
 		/// <summary>
 		/// Supports asynchronous operations or not.
@@ -46,6 +47,11 @@ namespace UnlockedStateProvider {
 		/// Clear item collection not the custom state items
 		/// </summary>
 		void ClearItems();
+
+		/// <summary>
+		/// Clear item collection not the custom state items
+		/// </summary>
+		void ClearCustomItems(bool async = false);
 
 		/// <summary>
 		/// Returns object from store with specified key.
@@ -74,29 +80,29 @@ namespace UnlockedStateProvider {
 		/// <returns></returns>
 		bool Delete(string key, bool async = false);
 
-		/// <summary>
-		/// Evaluate script on store.
-		/// </summary>
-		/// <param name="script"></param>
-		/// <param name="async"></param>
-		/// <returns></returns>
-		object Eval(string script, bool async = false);
+		///// <summary>
+		///// Evaluate script on store.
+		///// </summary>
+		///// <param name="script"></param>
+		///// <param name="async"></param>
+		///// <returns></returns>
+		//object Eval(string script, bool async = false);
 
-		/// <summary>
-		/// Slide forward expire date as given expireTime for all object which has given prefix.
-		/// </summary>
-		/// <param name="prefix"></param>
-		/// <param name="expireTime"></param>
-		/// <param name="async"></param>
-		/// <returns></returns>
-		void Slide(string prefix, TimeSpan expireTime, bool async = false);
+		///// <summary>
+		///// Slide forward expire date as given expireTime for all object which has given prefix.
+		///// </summary>
+		///// <param name="prefix"></param>
+		///// <param name="expireTime"></param>
+		///// <param name="async"></param>
+		///// <returns></returns>
+		//void Slide(string prefix, TimeSpan expireTime, bool async = false);
 
-		/// <summary>
-		/// Delete all objects from store which has given prefix.
-		/// </summary>
-		/// <param name="prefix"></param>
-		/// <param name="async"></param>
-		void DeleteStartsWith(string prefix, bool async = false);
+		///// <summary>
+		///// Delete all objects from store which has given prefix.
+		///// </summary>
+		///// <param name="prefix"></param>
+		///// <param name="async"></param>
+		//void DeleteStartsWith(string prefix, bool async = false);
 
 
 	}

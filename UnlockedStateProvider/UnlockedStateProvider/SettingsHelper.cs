@@ -10,7 +10,7 @@ namespace UnlockedStateProvider
 {
 	public static class SettingsHelper
 	{
-		public static string GetAppSetting(string key, string defaultValue)
+		public static string GetAppSetting(string key, string defaultValue = "")
 		{
 			var value = ConfigurationManager.AppSettings.Get(key);
 			if (string.IsNullOrEmpty(value))

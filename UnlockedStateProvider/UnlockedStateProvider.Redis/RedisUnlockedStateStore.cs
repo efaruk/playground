@@ -13,7 +13,7 @@ namespace UnlockedStateProvider.Redis
 		{
 			private readonly IDatabase _redisDatabase;
 			private readonly ConnectionMultiplexer _redisConnection;
-			private readonly StoreConfiguration _configuration = StoreConfiguration.Instance;
+			private readonly UnlockedStateStoreConfiguration _configuration = UnlockedStateStoreConfiguration.Instance;
 			
 			public RedisUnlockedStateStore()
 			{
@@ -35,6 +35,8 @@ namespace UnlockedStateProvider.Redis
 			//{
 			//	SetContextItems(HttpContext.Current, _items);
 			//}
+
+			public UnlockedStateStoreConfiguration Configuration { get { return _configuration; } }
 
 			public bool AutoSlidingSupport
 			{
@@ -62,34 +64,13 @@ namespace UnlockedStateProvider.Redis
 					{
 						if (HttpContext.Current != null)
 						{
-							_items = HttpContext.Current.GetContextItems();
+							var store = HttpContext.Current.GetStoreFromContext();
+							if (store != null)
+								_items = store.Items;
 						}
 						// if (_items == null) _items = new Dictionary<string, object>(UnlockedStateUsageAttribute.DEFAULT_ITEM_COUNT);
 					}
 					return _items;
-				}
-				set
-				{
-					_items = value;
-					// SetContextItems(HttpContext.Current, _items);
-				}
-			}
-
-			private Dictionary<string, object> _secondaryItems;
-
-			public Dictionary<string, object> SecondaryItems
-			{
-				get
-				{
-					if (_secondaryItems == null)
-					{
-						if (HttpContext.Current != null)
-						{
-							_secondaryItems = HttpContext.Current.GetContextItems();
-						}
-						// if (_items == null) _items = new Dictionary<string, object>(UnlockedStateUsageAttribute.DEFAULT_ITEM_COUNT);
-					}
-					return _secondaryItems;
 				}
 				set
 				{
@@ -124,23 +105,37 @@ namespace UnlockedStateProvider.Redis
 				Items.Clear();
 			}
 
-			public IUnlockedStateStore GetStoreFromContext(HttpContextBase controllerContext)
+			public void ClearCustomItems(bool async = false)
 			{
-				var store = (IUnlockedStateStore)controllerContext.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_STORE_KEY);
-				return store;
+				string key = UnlockedExtensions.GetSessionKey(_configuration.CookieName);
+				DeleteStartsWith(key, async);
 			}
 
-			public void SetContextItems(HttpContextBase controllerContext, Dictionary<string, object> items)
-			{
-				controllerContext.SetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY, items);
-			}
+			//public IUnlockedStateStore GetStoreFromContext(HttpContextBase controllerContext)
+			//{
+			//	var store = (IUnlockedStateStore)controllerContext.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_STORE_KEY);
+			//	return store;
+			//}
 
-			public void SetContextItems(HttpContext controllerContext, Dictionary<string, object> items)
-			{
-				controllerContext.SetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY, items);
-			}
+			//public void SetContextItems(HttpContextBase controllerContext, Dictionary<string, object> items)
+			//{
+			//	controllerContext.SetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY, items);
+			//}
+
+			//public void SetContextItems(HttpContext controllerContext, Dictionary<string, object> items)
+			//{
+			//	controllerContext.SetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY, items);
+			//}
 
 			public object Get(string key, bool slide = true, bool slideAsync = true)
+			{
+				if (_configuration.ForceSlide) slide = true;
+				var redisKey = GetSessionItemKey(key);
+				var result = GetInternal(redisKey, slide, slideAsync);
+				return result;
+			}
+
+			protected object GetInternal(string key, bool slide = true, bool slideAsync = true)
 			{
 				var data = _redisDatabase.StringGet(key);
 				var result = StateBinarySerializer.Deserialize(data);
@@ -154,9 +149,16 @@ namespace UnlockedStateProvider.Redis
 
 			public bool Set(string key, object value, TimeSpan expireTime, bool async = false)
 			{
+				var redisKey = GetSessionItemKey(key);
+				var result = SetInternal(redisKey, value, expireTime, async);
+				return result;
+			}
+
+			protected bool SetInternal(string key, object value, TimeSpan expireTime, bool async = false)
+			{
 				bool result = false;
-				var data = (RedisValue) StateBinarySerializer.Serialize(value);
-				if(async)
+				var data = (RedisValue)StateBinarySerializer.Serialize(value);
+				if (async)
 					_redisDatabase.StringSetAsync(key, data, expireTime);
 				else
 					result = _redisDatabase.StringSet(key, data, expireTime);
@@ -164,16 +166,23 @@ namespace UnlockedStateProvider.Redis
 			}
 
 			public bool Delete(string key, bool async = false) {
-				bool result = false; 
+				
+				var redisKey = GetSessionItemKey(key);
+				bool result = DeleteInternal(redisKey, async);
+				return result;
+			}
+
+			protected bool DeleteInternal(string key, bool async = false)
+			{
+				bool result = false;
 				if (async)
 					_redisDatabase.KeyDeleteAsync(key);
 				else
 					result = _redisDatabase.KeyDelete(key);
-				
 				return result;
 			}
 
-			public object Eval(string script, bool async = false) {
+			protected object Eval(string script, bool async = false) {
 				object result = null; 
 				if (async)
 					_redisDatabase.ScriptEvaluateAsync(script);
@@ -181,8 +190,8 @@ namespace UnlockedStateProvider.Redis
 					result = _redisDatabase.ScriptEvaluate(script);
 				return result;
 			}
-		
-			public void Slide(string prefix, TimeSpan expireTime, bool async = false)
+
+			protected void Slide(string prefix, TimeSpan expireTime, bool async = false)
 			{
 				string script = string.Format("\"return redis.call('expire', unpack(redis.call('keys', ARGV[1])), ARGV[2])\" 2 {0}:* {1}", prefix, expireTime);
 				Eval(script, async);
@@ -194,10 +203,23 @@ namespace UnlockedStateProvider.Redis
 				Eval(script, async);
 			}
 
+			private string GetSessionItemKey(string keyName)
+			{
+				var redisKey = UnlockedExtensions.GetSessionItemKey(keyName, _configuration.CookieName);
+				return redisKey;
+			}
+
 			public void Dispose()
 			{
 				_redisConnection.Dispose();
+				//_disposed = true;
 			}
+
+			//private bool _disposed = false;
+			//public bool Disposed()
+			//{
+			//	return _disposed;
+			//}
 
 		}
 }

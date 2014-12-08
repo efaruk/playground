@@ -10,52 +10,64 @@ namespace UnlockedStateProvider
 {
 	public static class UnlockedExtensions
 	{
+		//public const string UNLOCKED_STATE_OBJECT_KEY = "UNLOCKED_STATE_OBJECT_KEY";
+		public const string UNLOCKED_STATE_STORE_KEY = "UNLOCKED_STATE_STORE_KEY";
+		public const string DEFAULT_COOKIE_NAME = "ASP.NET_SessionId";
+		public const string SESSION_STARTED_KEY = "UNLOCKED:started";
+		public const int DEFAULT_ITEM_COUNT = 15;
+		public const string UNLOCKED = "UNLOCKED";
+
+		public static IUnlockedStateStore GetStoreFromContext(this HttpContext context)
+		{
+			var store = (IUnlockedStateStore)context.GetContextItem(UNLOCKED_STATE_STORE_KEY);
+			return store;
+		}
 
 		public static IUnlockedStateStore GetStoreFromContext(this ControllerContext context)
 		{
-			var store = (IUnlockedStateStore)context.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_STORE_KEY);
+			var store = (IUnlockedStateStore)context.GetContextItem(UNLOCKED_STATE_STORE_KEY);
 			return store;
 		}
 
 		public static IUnlockedStateStore GetStoreFromContext(this HttpContextBase context)
 		{
-			var store = (IUnlockedStateStore)context.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_STORE_KEY);
+			var store = (IUnlockedStateStore)context.GetContextItem(UNLOCKED_STATE_STORE_KEY);
 			return store;
 		}
 
 		public static IUnlockedStateStore GetStoreFromContext(this Controller controller)
 		{
-			var store = (IUnlockedStateStore)controller.HttpContext.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_STORE_KEY);
+			var store = (IUnlockedStateStore)controller.HttpContext.GetContextItem(UNLOCKED_STATE_STORE_KEY);
 			return store;
 		}
 
-		public static Dictionary<string, object> GetContextItems(this ControllerContext context, string key = "")
-		{
-			if (string.IsNullOrWhiteSpace(key)) key = UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY;
-			var items = (Dictionary<string, object>)context.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
-			return items;
-		}
+		//public static Dictionary<string, object> GetContextItems(this ControllerContext context, string key = "")
+		//{
+		//	if (String.IsNullOrWhiteSpace(key)) key = UNLOCKED_STATE_OBJECT_KEY;
+		//	var items = (Dictionary<string, object>)context.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
+		//	return items;
+		//}
 
-		public static Dictionary<string, object> GetContextItems(this HttpContextBase context, string key = "")
-		{
-			if (string.IsNullOrWhiteSpace(key)) key = UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY;
-			var items = (Dictionary<string, object>)context.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
-			return items;
-		}
+		//public static Dictionary<string, object> GetContextItems(this HttpContextBase context, string key = "")
+		//{
+		//	if (String.IsNullOrWhiteSpace(key)) key = UNLOCKED_STATE_OBJECT_KEY;
+		//	var items = (Dictionary<string, object>)context.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
+		//	return items;
+		//}
 
-		public static Dictionary<string, object> GetContextItems(this Controller controller, string key = "")
-		{
-			if (string.IsNullOrWhiteSpace(key)) key = UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY;
-			var items = (Dictionary<string, object>)controller.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
-			return items;
-		}
+		//public static Dictionary<string, object> GetContextItems(this Controller controller, string key = "")
+		//{
+		//	if (String.IsNullOrWhiteSpace(key)) key = UNLOCKED_STATE_OBJECT_KEY;
+		//	var items = (Dictionary<string, object>)controller.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
+		//	return items;
+		//}
 
-		public static Dictionary<string, object> GetContextItems(this HttpContext context, string key = "")
-		{
-			if (string.IsNullOrWhiteSpace(key)) key = UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY;
-			var items = (Dictionary<string, object>)context.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY);
-			return items;
-		}
+		//public static Dictionary<string, object> GetContextItems(this HttpContext context, string key = "")
+		//{
+		//	if (String.IsNullOrWhiteSpace(key)) key = UNLOCKED_STATE_OBJECT_KEY;
+		//	var items = (Dictionary<string, object>)context.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
+		//	return items;
+		//}
 
 		public static object GetContextItem(this HttpContextBase context, string key)
 		{
@@ -111,47 +123,6 @@ namespace UnlockedStateProvider
 			context.Items[key] = value;
 		}
 
-		public static string GetSessionId(this HttpContextBase context, string cookieName)
-		{
-			string result = string.Empty;
-			if (context != null && context.Request.Cookies != null && context.Request.Cookies[cookieName] != null)
-			{
-				result = context.Request.Cookies[cookieName].Value;
-			}
-			return result;
-		}
-
-		public static string GetSessionId(this ControllerContext context, string cookieName)
-		{
-			string result = string.Empty;
-			if (context != null && context.HttpContext.Request.Cookies != null && context.HttpContext.Request.Cookies[cookieName] != null)
-			{
-				result = context.HttpContext.Request.Cookies[cookieName].Value;
-			}
-			return result;
-		}
-
-		public static string GetSessionId(this HttpContext context, string cookieName)
-		{
-			string result = string.Empty;
-			if (context != null && context.Request.Cookies[cookieName] != null)
-			{
-				result = context.Request.Cookies[cookieName].Value;
-			}
-			return result;
-		}
-
-		public static string GetSessionId(this Controller controller, string cookieName)
-		{
-			var context = controller.HttpContext;
-			string result = string.Empty;
-			if (context != null && context.Request.Cookies != null && context.Request.Cookies[cookieName] != null)
-			{
-				result = context.Request.Cookies[cookieName].Value;
-			}
-			return result;
-		}
-
 		public static bool SessionIsNew(this HttpContext context)
 		{
 			if (context != null && context.Session != null &&
@@ -187,7 +158,7 @@ namespace UnlockedStateProvider
 			if (context != null && context.Session != null &&
 				context.Session.IsNewSession && !context.Session.IsReadOnly)
 			{
-				context.Session[UnlockedStateUsageAttribute.SESSION_STARTED_KEY] = true;
+				context.Session[SESSION_STARTED_KEY] = true;
 			}
 		}
 
@@ -196,7 +167,7 @@ namespace UnlockedStateProvider
 			if (context != null && context.HttpContext != null && context.HttpContext.Session != null &&
 				context.HttpContext.Session.IsNewSession && !context.HttpContext.Session.IsReadOnly)
 			{
-				context.HttpContext.Session[UnlockedStateUsageAttribute.SESSION_STARTED_KEY] = true;
+				context.HttpContext.Session[SESSION_STARTED_KEY] = true;
 
 			}
 		}
@@ -206,16 +177,111 @@ namespace UnlockedStateProvider
 			if (controller != null && controller.HttpContext != null && controller.HttpContext.Session != null &&
 				controller.HttpContext.Session.IsNewSession && !controller.HttpContext.Session.IsReadOnly)
 			{
-				controller.HttpContext.Session[UnlockedStateUsageAttribute.SESSION_STARTED_KEY] = true;
+				controller.HttpContext.Session[SESSION_STARTED_KEY] = true;
 			}
 		}
 
-		public static string GetSessionKey(string cookieName = UnlockedStateUsageAttribute.DEFAULT_COOKIE_NAME, string sessionId = "")
+		public static string GetSessionId(this HttpContextBase context, string cookieName)
 		{
-			if (string.IsNullOrWhiteSpace(sessionId))
-				sessionId = HttpContext.Current.GetSessionId(cookieName);
-			return string.Format("{0}:{1}", "UNLOCKED", sessionId);
+			string result = String.Empty;
+			if (context != null && context.Request.Cookies != null && context.Request.Cookies[cookieName] != null)
+			{
+				result = context.Request.Cookies[cookieName].Value;
+			}
+			return result;
 		}
 
+		public static string GetSessionId(this ControllerContext context, string cookieName)
+		{
+			string result = String.Empty;
+			if (context != null && context.HttpContext.Request.Cookies != null && context.HttpContext.Request.Cookies[cookieName] != null)
+			{
+				result = context.HttpContext.Request.Cookies[cookieName].Value;
+			}
+			return result;
+		}
+
+		public static string GetSessionId(this HttpContext context, string cookieName)
+		{
+			string result = String.Empty;
+			if (context != null && context.Request.Cookies[cookieName] != null)
+			{
+				result = context.Request.Cookies[cookieName].Value;
+			}
+			return result;
+		}
+
+		public static string GetSessionId(this Controller controller, string cookieName)
+		{
+			var context = controller.HttpContext;
+			string result = String.Empty;
+			if (context != null && context.Request.Cookies != null && context.Request.Cookies[cookieName] != null)
+			{
+				result = context.Request.Cookies[cookieName].Value;
+			}
+			return result;
+		}
+
+		public static string GetSessionKey(string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
+		{
+			if (String.IsNullOrWhiteSpace(sessionId))
+				sessionId = HttpContext.Current.GetSessionId(cookieName);
+			return String.Format("{0}:{1}", UNLOCKED, sessionId);
+		}
+
+		public static string GetSessionKey(this HttpContext context, string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
+		{
+			if (String.IsNullOrWhiteSpace(sessionId))
+				sessionId = context.GetSessionId(cookieName);
+			return String.Format("{0}:{1}", UNLOCKED, sessionId);
+		}
+
+		public static string GetSessionKey(this HttpContextBase context, string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
+		{
+			if (String.IsNullOrWhiteSpace(sessionId))
+				sessionId = context.GetSessionId(cookieName);
+			return String.Format("{0}:{1}", UNLOCKED, sessionId);
+		}
+
+		public static string GetSessionKey(this ControllerContext context, string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
+		{
+			if (String.IsNullOrWhiteSpace(sessionId))
+				sessionId = context.GetSessionId(cookieName);
+			return String.Format("{0}:{1}", UNLOCKED, sessionId);
+		}
+
+		public static string GetSessionItemKey(string keyName, string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
+		{
+			if (String.IsNullOrWhiteSpace(sessionId))
+				sessionId = HttpContext.Current.GetSessionId(cookieName);
+			return String.Format("{0}:{1}:{2}", UNLOCKED, sessionId, keyName);
+		}
+
+		public static string GetSessionItemKey(this HttpContext context, string keyName, string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
+		{
+			if (String.IsNullOrWhiteSpace(sessionId))
+				sessionId = context.GetSessionId(cookieName);
+			return String.Format("{0}:{1}:{2}", UNLOCKED, sessionId, keyName);
+		}
+
+		public static string GetSessionItemKey(this HttpContextBase context, string keyName, string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
+		{
+			if (String.IsNullOrWhiteSpace(sessionId))
+				sessionId = context.GetSessionId(cookieName);
+			return String.Format("{0}:{1}:{2}", UNLOCKED, sessionId, keyName);
+		}
+
+		public static string GetSessionItemKey(this ControllerContext context, string keyName, string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
+		{
+			if (String.IsNullOrWhiteSpace(sessionId))
+				sessionId = context.GetSessionId(cookieName);
+			return String.Format("{0}:{1}:{2}", UNLOCKED, sessionId, keyName);
+		}
+
+		public static TimeSpan GetNextTimeout(int sessionTimeout = 20)
+		{
+			var timeSpan = DateTime.Now.AddMinutes(sessionTimeout).TimeOfDay;
+			return timeSpan;
+		}
 	}
 }

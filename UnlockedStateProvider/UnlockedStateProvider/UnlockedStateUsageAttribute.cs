@@ -14,17 +14,17 @@ namespace UnlockedStateProvider
 	[AttributeUsageAttribute(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
 	public abstract class UnlockedStateUsageAttribute: ActionFilterAttribute
 	{
-		public const string UNLOCKED_STATE_OBJECT_KEY = "UNLOCKED_STATE_OBJECT_KEY";
-		public const string UNLOCKED_STATE_OBJECT_KEY_SECONDARY = "UNLOCKED_STATE_OBJECT_KEY_SECONDARY";
-		public const string UNLOCKED_STATE_STORE_KEY = "UNLOCKED_STATE_STORE_KEY";
-		public const string DEFAULT_COOKIE_NAME = "ASP.NET_SessionId";
-		public const string SESSION_STARTED_KEY = "UNLOCKED:started";
-		public const int DEFAULT_ITEM_COUNT = 15;
-
 		protected UnlockedStateUsageAttribute()
 		{
 			// ReSharper disable DoNotCallOverridableMethodsInConstructor
-			if (UnlockedStateStore != null) _store = UnlockedStateStore;
+			//if (UnlockedStateStore != null)
+			//{
+			//	_store = UnlockedStateStore;
+			//	if (!string.IsNullOrWhiteSpace(CookieName))
+			//	{
+			//		_store.Configuration.CookieName = CookieName;
+			//	}
+			//}
 			// ReSharper restore DoNotCallOverridableMethodsInConstructor
 		}
 
@@ -40,22 +40,50 @@ namespace UnlockedStateProvider
 			set { _usage = value; }
 		}
 
-		private string _cookieName = DEFAULT_COOKIE_NAME;
-
+		private string _cookieName;
+		/// <summary>
+		/// Override configuration cookie or define by controller
+		/// </summary>
 		public string CookieName
 		{
-			get { return _cookieName; }
-			set { _cookieName = value; }
+			get
+			{
+				return _cookieName;
+			}
+			set
+			{
+				_cookieName = value;
+				//if (string.IsNullOrWhiteSpace(_cookieName) && UnlockedStateStore != null)
+				//{
+				//	UnlockedStateStore.Configuration.CookieName = _cookieName;
+				//}
+			}
 		}
 
-		public int Timeout { get; set; }
+		private int _operationOperationTimeout;
+		/// <summary>
+		/// Operation timeout as seconds.
+		/// </summary>
+		public int OperationTimeout
+		{
+			get { return _operationOperationTimeout; }
+			set
+			{
+				_operationOperationTimeout = value;
+				//if (_operationOperationTimeout != 0 && UnlockedStateStore != null)
+				//{
+				//	UnlockedStateStore.Configuration.OperationTimeout = _operationOperationTimeout;
+				//}
+			}
+		}
 
 		/// <summary>
 		/// If true, runs set, delete, evaluate requests in async mode.
 		/// </summary>
 		public bool RunAsync { get; set; }
 
-		private readonly IUnlockedStateStore _store;
+		//private readonly IUnlockedStateStore _store;
+
 
 		abstract protected IUnlockedStateStore UnlockedStateStore { get; }
 
@@ -65,9 +93,10 @@ namespace UnlockedStateProvider
 			{
 				// filterContext.StartSessionIfNew();
 				//var store = UnlockedStateStore;
-				var session = _store.Get(UnlockedExtensions.GetSessionKey()) ?? new Dictionary<string, object>(DEFAULT_ITEM_COUNT);
-				filterContext.SetContextItem(UNLOCKED_STATE_OBJECT_KEY, session);
-				filterContext.SetContextItem(UNLOCKED_STATE_STORE_KEY, _store);
+				var session = (Dictionary<string, object>)UnlockedStateStore.Get(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY) ?? new Dictionary<string, object>(UnlockedExtensions.DEFAULT_ITEM_COUNT);
+				UnlockedStateStore.Items = session;
+				//filterContext.SetContextItem(UnlockedExtensions.UNLOCKED_STATE_OBJECT_KEY, session);
+				filterContext.SetContextItem(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY, UnlockedStateStore);
 			}
 			base.OnActionExecuting(filterContext);
 		}
@@ -87,16 +116,17 @@ namespace UnlockedStateProvider
 			if (Usage == UnlockedStateUsage.ReadWrite)
 			{
 				//var session = filterContext.HttpContext.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
-				if (_store.Items.Count > 0)
+				if (UnlockedStateStore.Items.Count > 0)
 				{
 					//filterContext.StartSessionIfNew();
 					//var store = (IUnlockedStateStore)filterContext.GetContextItem(UNLOCKED_STATE_STORE_KEY);
 					// store.UpdateContext();
-					var expire = DateTime.Now.AddMinutes(Timeout).TimeOfDay;
-					_store.Set(UnlockedExtensions.GetSessionKey(), _store.Items, expire, RunAsync);
+					var expire = UnlockedExtensions.GetNextTimeout(UnlockedStateStore.Configuration.SessionTimeout);
+					UnlockedStateStore.Set(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY, UnlockedStateStore.Items, expire, RunAsync);
 				}
 			}
 			base.OnResultExecuted(filterContext);
+			UnlockedStateStore.Dispose();
 		}
 
 	}

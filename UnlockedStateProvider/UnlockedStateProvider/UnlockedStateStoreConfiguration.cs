@@ -7,33 +7,49 @@ using System.Web.Hosting;
 
 namespace UnlockedStateProvider
 {
-	public class StoreConfiguration
+	public class UnlockedStateStoreConfiguration
 	{
-		private static readonly StoreConfiguration instance = new StoreConfiguration();
+		private static readonly UnlockedStateStoreConfiguration instance = new UnlockedStateStoreConfiguration();
+		
 		private const string DEFAULT_HOST = "localhost";
 		private const int DEFAULT_PORT = 6379;
 		private const int DEFAULT_SESSION_TIMEOUT = 20;
-		private const int DEFAULT_REQUEST_TIMEOUT = 30;
+		private const int DEFAULT_REQUEST_TIMEOUT = 10;
 		private const string DEFAULT_DATABASE_ID = "3";
 
-		private StoreConfiguration()
+		private UnlockedStateStoreConfiguration()
 		{
 			Initialize();
 		}
 
-		public static StoreConfiguration Instance
+		public static UnlockedStateStoreConfiguration Instance
 		{
 			get { return instance; }
 		}
 
 		private void Initialize()
 		{
+			CookieName = SettingsHelper.GetAppSetting("Unlocked:CookieName", UnlockedExtensions.DEFAULT_COOKIE_NAME);
+			ForceSlide = SettingsHelper.GetBoolAppSetting("Unlocked:ForceSlide", true);
 			Host = SettingsHelper.GetAppSetting("Unlocked:Host", DEFAULT_HOST);
 			Port = SettingsHelper.GetIntAppSetting("Unlocked:Port", DEFAULT_PORT);
-			SessionTimeout = SettingsHelper.GetIntAppSetting("Unlocked:Timeout", DEFAULT_SESSION_TIMEOUT);
+			SessionTimeout = SettingsHelper.GetIntAppSetting("Unlocked:SessionTimeout", DEFAULT_SESSION_TIMEOUT);
 			Database = SettingsHelper.GetAppSetting("Unlocked:Database", DEFAULT_DATABASE_ID);
 			OperationTimeout = SettingsHelper.GetIntAppSetting("Unlocked:OperationTimeout", DEFAULT_REQUEST_TIMEOUT);
 			ConnectionTimeout = SettingsHelper.GetIntAppSetting("Unlocked:ConnectionTimeout", DEFAULT_REQUEST_TIMEOUT);
+		}
+
+		/// <summary>
+		/// Force store every hit to sliding expiration.
+		/// </summary>
+		public bool ForceSlide { get; set; }
+
+		private string _cookieName = "";
+
+		public string CookieName
+		{
+			get { return _cookieName; }
+			set { _cookieName = value; }
 		}
 
 		/// <summary>
