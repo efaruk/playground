@@ -14,19 +14,19 @@ namespace UnlockedStateProvider
 	[AttributeUsageAttribute(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
 	public abstract class UnlockedStateUsageAttribute: ActionFilterAttribute
 	{
-		protected UnlockedStateUsageAttribute()
-		{
-			// ReSharper disable DoNotCallOverridableMethodsInConstructor
-			//if (UnlockedStateStore != null)
-			//{
-			//	_store = UnlockedStateStore;
-			//	if (!string.IsNullOrWhiteSpace(CookieName))
-			//	{
-			//		_store.Configuration.CookieName = CookieName;
-			//	}
-			//}
-			// ReSharper restore DoNotCallOverridableMethodsInConstructor
-		}
+		//protected UnlockedStateUsageAttribute()
+		//{
+		//	// ReSharper disable DoNotCallOverridableMethodsInConstructor
+		//	//if (UnlockedStateStore != null)
+		//	//{
+		//	//	_store = UnlockedStateStore;
+		//	//	if (!string.IsNullOrWhiteSpace(CookieName))
+		//	//	{
+		//	//		_store.Configuration.CookieName = CookieName;
+		//	//	}
+		//	//}
+		//	// ReSharper restore DoNotCallOverridableMethodsInConstructor
+		//}
 
 
 		private UnlockedStateUsage _usage = UnlockedStateUsage.ReadWrite;
