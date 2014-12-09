@@ -18,10 +18,20 @@ namespace UnlockedStateProvider.Redis
 			public RedisUnlockedStateStore()
 			{
 				var options = new ConfigurationOptions();
+				options.ClientName = _configuration.ApplicationName;
 				options.EndPoints.Add(_configuration.Host, _configuration.Port);
 				options.ConnectTimeout = _configuration.ConnectionTimeoutInMilliSec;
 				options.SyncTimeout = _configuration.OperationTimeoutInMilliSec;
 				options.ResolveDns = true;
+				if (string.IsNullOrWhiteSpace(_configuration.AccessKey))
+					options.Password = _configuration.AccessKey;
+				if (_configuration.RetryCount > 0)
+					options.ConnectRetry = _configuration.RetryCount;
+				if (_configuration.UseSsl)
+				{
+					options.Ssl = _configuration.UseSsl;
+					options.SslHost = _configuration.Host;
+				}
 				_redisConnection = ConnectionMultiplexer.Connect(options);
 				_redisDatabase = _redisConnection.GetDatabase(int.Parse(_configuration.Database));
 			}

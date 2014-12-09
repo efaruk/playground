@@ -37,6 +37,10 @@ namespace UnlockedStateProvider
 			Database = SettingsHelper.GetAppSetting("Unlocked:Database", DEFAULT_DATABASE_ID);
 			OperationTimeout = SettingsHelper.GetIntAppSetting("Unlocked:OperationTimeout", DEFAULT_REQUEST_TIMEOUT);
 			ConnectionTimeout = SettingsHelper.GetIntAppSetting("Unlocked:ConnectionTimeout", DEFAULT_REQUEST_TIMEOUT);
+			AccessKey = SettingsHelper.GetAppSetting("Unlocked:AccessKey");
+			RetryCount = SettingsHelper.GetIntAppSetting("Unlocked:RetryCount", 0);
+			UseSsl = SettingsHelper.GetBoolAppSetting("Unlocked:ForceSlide", false);
+			ApplicationName = SettingsHelper.GetAppSetting("Unlocked:CookieName", UnlockedExtensions.DEFAULT_APPLICATION_NAME);
 		}
 
 		/// <summary>
@@ -78,14 +82,15 @@ namespace UnlockedStateProvider
 		/// </summary>
 		public string Host { get; set; }
 
+
 		public string AccessKey { get; set; }
 
 		public int RetryCount { get; set; }
 
-		/// <summary>
-		/// As Seconds
-		/// </summary>
-		public int RetryDelay { get; set; }
+		///// <summary>
+		///// As Seconds
+		///// </summary>
+		//public int RetryDelay { get; set; }
 
 		public bool ThrowOnError { get; set; }
 
@@ -95,6 +100,7 @@ namespace UnlockedStateProvider
 		/// Database identifier name or id
 		/// </summary>
 		public string Database { get; set; }
+
 
 		public string ApplicationName { get; set; }
 

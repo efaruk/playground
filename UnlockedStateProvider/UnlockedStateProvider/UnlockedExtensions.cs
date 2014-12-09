@@ -10,8 +10,9 @@ namespace UnlockedStateProvider
 {
 	public static class UnlockedExtensions
 	{
-		//public const string UNLOCKED_STATE_OBJECT_KEY = "UNLOCKED_STATE_OBJECT_KEY";
-		public const string UNLOCKED_STATE_STORE_KEY = "UNLOCKED_STATE_STORE_KEY";
+		public const string DEFAULT_APPLICATION_NAME = "UNLOCKED_STATE";
+		//public const string UNLOCKED_STATE_OBJECT_KEY = "UNLOCKED_STATE_OBJECT";
+		public const string UNLOCKED_STATE_STORE_KEY = "UNLOCKED_STATE_STORE";
 		public const string DEFAULT_COOKIE_NAME = "ASP.NET_SessionId";
 		public const string SESSION_STARTED_KEY = "UNLOCKED:started";
 		public const int DEFAULT_ITEM_COUNT = 15;
