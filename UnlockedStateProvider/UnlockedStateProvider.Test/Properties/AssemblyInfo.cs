@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("UnlockedStateProvider.Redis")]
-[assembly: AssemblyDescription("Unlocked State Store Client For Redis")]
+[assembly: AssemblyTitle("UnlockedStateProvider.Test")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("efaruk")]
-[assembly: AssemblyProduct("UnlockedStateProvider.Redis")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("UnlockedStateProvider.Test")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
-[assembly: AssemblyTrademark("efaruk")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("fe321e38-f816-441b-9d05-e8d5b306408f")]
+[assembly: Guid("89d892c9-6fe2-49b9-9651-3dc4502fc683")]
 
 // Version information for an assembly consists of the following four values:
 //
