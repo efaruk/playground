@@ -17,12 +17,10 @@ namespace UnlockedSessionDemo.Controllers
 		// GET: Home
 		public ActionResult Index()
 		{
-			var store = this.GetStoreFromContext();
-			store["test"] = "test";
-			store["double"] = 1123123.123m;
-			store["date"] = DateTime.Now;
-			store["custom"] = new CustomSessionObject() {Name = "Tamer"};
-			ViewBag.UnlockedStore = store;
+			SessionWrapper.Test = "test";
+			SessionWrapper.Double = 1123123.123;
+			SessionWrapper.Date = DateTime.Now;
+			SessionWrapper.CustomSessionObject = new CustomSessionObject() { Name = "Tamer" };
 			return View();
 		}
 	}

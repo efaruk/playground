@@ -4,9 +4,9 @@
 
 <div class="panel-title">Session Objects</div>
 <div class="tab-content">
-	<br />test = @Html.Raw(ViewBag.UnlockedStore["test"])
-	<br />double = @Html.Raw(ViewBag.UnlockedStore["double"])
-	<br />date = @Html.Raw(ViewBag.UnlockedStore["date"])
-	<br />custom.name = @Html.Raw(((CustomSessionObject)ViewBag.UnlockedStore["custom"]).Name)
+	<br />test = @Html.Raw(SessionWrapper.Test)
+	<br />double = @Html.Raw(SessionWrapper.Double)
+	<br />date = @Html.Raw(SessionWrapper.Date)
+	<br />custom.name = @Html.Raw(SessionWrapper.CustomSessionObject.Name)
 	<br />
 </div>

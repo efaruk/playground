@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using UnlockedStateProvider;
@@ -16,13 +13,11 @@ namespace UnlockedSessionDemo.Controllers
 		// GET: Home
 		public ActionResult Index()
 		{
-			var store = this.GetStoreFromContext();
-			store["test"] = "test";
-			store["double"] = 1123123.123m;
-			store["date"] = DateTime.Now;
-			store["custom"] = new CustomSessionObject() { Name = "Tamer" };
-			store["big"] = new BigSessionObject();
-			ViewBag.UnlockedStore = store;
+			SessionWrapper.Test = "test";
+			SessionWrapper.Double = 1123123.123;
+			SessionWrapper.Date = DateTime.Now;
+			SessionWrapper.CustomSessionObject = new CustomSessionObject() { Name = "Tamer" };
+			SessionWrapper.BigSessionObject = new BigSessionObject();
 			return View();
 		}
 	}

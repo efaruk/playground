@@ -12,10 +12,13 @@ namespace UnlockedSessionDemo
 	{
 		//private const int MAX_VALUE = 1000000;
 
-		public BigSessionObject()
+		public BigSessionObject(bool fillData = true)
 		{
-			Bytes = BigBytez.Bytez;
-			Content = ContentText.LoremIpsum;
+			if (fillData)
+			{
+				Bytes = BigBytez.Bytez;
+				Content = ContentText.LoremIpsum;
+			}
 		}
 
 		public byte[] Bytes { get; set; }
