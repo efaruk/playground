@@ -157,10 +157,11 @@ namespace UnlockedStateProvider.Redis
 				return result;
 			}
 
-			public bool Set(string key, object value, TimeSpan expireTime, bool async = false)
+			public bool Set(string key, object value, TimeSpan? expireTime = null, bool async = false)
 			{
+				var expire = expireTime.HasValue ? expireTime.Value : UnlockedExtensions.GetNextTimeout(_configuration.SessionTimeout);
 				var redisKey = GetSessionItemKey(key);
-				var result = SetInternal(redisKey, value, expireTime, async);
+				var result = SetInternal(redisKey, value, expire, async);
 				return result;
 			}
 

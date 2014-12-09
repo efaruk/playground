@@ -281,7 +281,7 @@ namespace UnlockedStateProvider
 
 		public static TimeSpan GetNextTimeout(int sessionTimeout = 20)
 		{
-			var timeSpan = DateTime.Now.AddMinutes(sessionTimeout).TimeOfDay;
+			var timeSpan = TimeSpan.FromMinutes(sessionTimeout);
 			return timeSpan;
 		}
 	}

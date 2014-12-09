@@ -70,7 +70,7 @@ namespace UnlockedStateProvider {
 		/// <param name="expireTime"></param>
 		/// <param name="async"></param>
 		/// <returns></returns>
-		bool Set(string key, object value, TimeSpan expireTime, bool async = false);
+		bool Set(string key, object value, TimeSpan? expireTime = null, bool async = false);
 
 		/// <summary>
 		/// Delete object from store with specified key.
