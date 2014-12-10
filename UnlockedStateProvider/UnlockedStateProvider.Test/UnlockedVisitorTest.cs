@@ -16,15 +16,15 @@ namespace UnlockedStateProvider.Test
 		public void VisitPagesSmokely()
 		{
 			var cookieContainer = new CookieContainer(3);
-			var response = WebHelper.MakeWebRequestAndTrackCookies(_siteUrl + "/Home", cookieContainer);
+			var response = WebHelper.MakeWebRequestAndTrackCookies((_siteUrl + "/"), cookieContainer);
 			Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-			response = WebHelper.MakeWebRequestAndTrackCookies(_siteUrl + "/Unlocked", cookieContainer);
+			response = WebHelper.MakeWebRequestAndTrackCookies((_siteUrl + "/Unlocked"), cookieContainer);
 			Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-			response = WebHelper.MakeWebRequestAndTrackCookies(_siteUrl + "/UnlockedReadOnly", cookieContainer);
+			response = WebHelper.MakeWebRequestAndTrackCookies((_siteUrl + "/UnlockedReadOnly"), cookieContainer);
 			Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-			response = WebHelper.MakeWebRequestAndTrackCookies(_siteUrl + "/UnlockedBig", cookieContainer);
+			response = WebHelper.MakeWebRequestAndTrackCookies((_siteUrl + "/UnlockedBig"), cookieContainer);
 			Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-			response = WebHelper.MakeWebRequestAndTrackCookies(_siteUrl + "/UnlockedBigReadOnly", cookieContainer);
+			response = WebHelper.MakeWebRequestAndTrackCookies((_siteUrl + "/UnlockedBigReadonly"), cookieContainer);
 			Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
 		}
 	}

@@ -12,28 +12,49 @@ namespace UnlockedStateProvider.Redis
 		public class RedisUnlockedStateStore : IUnlockedStateStore
 		{
 			private readonly IDatabase _redisDatabase;
-			private readonly ConnectionMultiplexer _redisConnection;
-			private readonly UnlockedStateStoreConfiguration _configuration = UnlockedStateStoreConfiguration.Instance;
+			private static Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(() =>
+			{
+				var connection = ConnectWithConfiguration();
+				return connection;
+			});
+
+			private static ConnectionMultiplexer _redisConnection
+			{
+				get { return lazyConnection.Value; }
+			}
+
+			private static readonly UnlockedStateStoreConfiguration configuration = UnlockedStateStoreConfiguration.Instance;
+
 			
+
 			public RedisUnlockedStateStore()
 			{
-				var options = new ConfigurationOptions();
-				options.ClientName = _configuration.ApplicationName;
-				options.EndPoints.Add(_configuration.Host, _configuration.Port);
-				options.ConnectTimeout = _configuration.ConnectionTimeoutInMilliSec;
-				options.SyncTimeout = _configuration.OperationTimeoutInMilliSec;
-				options.ResolveDns = true;
-				if (string.IsNullOrWhiteSpace(_configuration.AccessKey))
-					options.Password = _configuration.AccessKey;
-				if (_configuration.RetryCount > 0)
-					options.ConnectRetry = _configuration.RetryCount;
-				if (_configuration.UseSsl)
+				//_redisConnection = ConnectWithConfiguration();
+				_redisDatabase = _redisConnection.GetDatabase(int.Parse(configuration.Database));
+			}
+
+			private static ConnectionMultiplexer ConnectWithConfiguration()
+			{
+				var options = new ConfigurationOptions
 				{
-					options.Ssl = _configuration.UseSsl;
-					options.SslHost = _configuration.Host;
+					ClientName = configuration.ApplicationName,
+					ConnectTimeout = configuration.ConnectionTimeoutInMilliSec,
+					SyncTimeout = configuration.OperationTimeoutInMilliSec,
+					ResolveDns = true,
+					AbortOnConnectFail = false // Important for shared usage
+				};
+				if (string.IsNullOrWhiteSpace(configuration.AccessKey))
+					options.Password = configuration.AccessKey;
+				if (configuration.RetryCount > 0)
+					options.ConnectRetry = configuration.RetryCount;
+				if (configuration.UseSsl)
+				{
+					options.Ssl = configuration.UseSsl;
+					options.SslHost = configuration.Host;
 				}
-				_redisConnection = ConnectionMultiplexer.Connect(options);
-				_redisDatabase = _redisConnection.GetDatabase(int.Parse(_configuration.Database));
+				options.EndPoints.Add(configuration.Host, configuration.Port);
+				var redisConnection = ConnectionMultiplexer.Connect(options);
+				return redisConnection;
 			}
 
 			//public IUnlockedStateStore UnlockedStore()
@@ -46,7 +67,7 @@ namespace UnlockedStateProvider.Redis
 			//	SetContextItems(HttpContext.Current, _items);
 			//}
 
-			public UnlockedStateStoreConfiguration Configuration { get { return _configuration; } }
+			public UnlockedStateStoreConfiguration Configuration { get { return configuration; } }
 
 			public bool AutoSlidingSupport
 			{
@@ -117,7 +138,7 @@ namespace UnlockedStateProvider.Redis
 
 			public void ClearCustomItems(bool async = false)
 			{
-				string key = UnlockedExtensions.GetSessionKey(_configuration.CookieName);
+				string key = UnlockedExtensions.GetSessionKey(configuration.CookieName);
 				DeleteStartsWith(key, async);
 			}
 
@@ -139,7 +160,7 @@ namespace UnlockedStateProvider.Redis
 
 			public object Get(string key, bool slide = true, bool slideAsync = true)
 			{
-				if (_configuration.ForceSlide) slide = true;
+				if (configuration.ForceSlide) slide = true;
 				var redisKey = GetSessionItemKey(key);
 				var result = GetInternal(redisKey, slide, slideAsync);
 				return result;
@@ -151,7 +172,7 @@ namespace UnlockedStateProvider.Redis
 				var result = StateBinarySerializer.Deserialize(data);
 				if (slide)
 				{
-					var expire = DateTime.Now.AddMinutes(_configuration.SessionTimeout).TimeOfDay;
+					var expire = DateTime.Now.AddMinutes(configuration.SessionTimeout).TimeOfDay;
 					Slide(key, expire, slideAsync);
 				}
 				return result;
@@ -159,7 +180,7 @@ namespace UnlockedStateProvider.Redis
 
 			public bool Set(string key, object value, TimeSpan? expireTime = null, bool async = false)
 			{
-				var expire = expireTime.HasValue ? expireTime.Value : UnlockedExtensions.GetNextTimeout(_configuration.SessionTimeout);
+				var expire = expireTime.HasValue ? expireTime.Value : UnlockedExtensions.GetNextTimeout(configuration.SessionTimeout);
 				var redisKey = GetSessionItemKey(key);
 				var result = SetInternal(redisKey, value, expire, async);
 				return result;
@@ -216,13 +237,13 @@ namespace UnlockedStateProvider.Redis
 
 			private string GetSessionItemKey(string keyName)
 			{
-				var redisKey = UnlockedExtensions.GetSessionItemKey(keyName, _configuration.CookieName);
+				var redisKey = UnlockedExtensions.GetSessionItemKey(keyName, configuration.CookieName);
 				return redisKey;
 			}
 
 			public void Dispose()
 			{
-				_redisConnection.Dispose();
+				//_redisConnection.Dispose();
 				//_disposed = true;
 			}
 

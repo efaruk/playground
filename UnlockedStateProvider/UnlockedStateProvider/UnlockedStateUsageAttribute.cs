@@ -126,7 +126,7 @@ namespace UnlockedStateProvider
 				}
 			}
 			base.OnResultExecuted(filterContext);
-			UnlockedStateStore.Dispose();
+			//UnlockedStateStore.Dispose();
 		}
 
 	}

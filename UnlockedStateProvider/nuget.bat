@@ -1,1 +1,1 @@
-.nuget\nuget pack UnlockedStateProvider.Redis\UnlockedStateProvider.Redis.csproj -Prop Configuration=Release
+.nuget\nuget pack UnlockedStateProvider.Redis\UnlockedStateProvider.Redis.csproj -Prop Configuration=Release -IncludeReferencedProjects

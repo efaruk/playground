@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 
 namespace UnlockedStateProvider {
-	public interface IUnlockedStateStore : IDisposable
+	public interface IUnlockedStateStore //: IDisposable
 	{
 		///// <summary>
 		///// Public constructor.
