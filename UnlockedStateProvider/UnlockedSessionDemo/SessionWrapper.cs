@@ -8,12 +8,21 @@ namespace UnlockedSessionDemo
 {
 	public static class SessionWrapper
 	{
-		public static IUnlockedStateStore UnlockedItems
+		public static IUnlockedStateStore UnlockedStore
 		{
 			get
 			{
 				var store = HttpContext.Current.GetStoreFromContext();
 				return store;
+			}
+		}
+
+		public static Dictionary<string, object> UnlockedItems
+		{
+			get
+			{
+				var items = HttpContext.Current.GetStoreFromContext().Items;
+				return items;
 			}
 		}
 
