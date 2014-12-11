@@ -14,8 +14,9 @@ namespace UnlockedSessionDemo.Controllers
 		// GET: Home
 		public ActionResult Index()
 		{
-			this.StartSessionIfNew();
-			BigBytez.Bytez.Length.ToString(); // Initialize static for first request;
+			//UnlockedExtensions.StartSessionIfNew(); // Remove Custom cookie name from app settings and use default ASP.Net session cookie
+			UnlockedExtensions.StartSessionIfNewWithCustomCookie("UnlockedCookie"); // set this name to Unlocked:CookieName app setting and use custom cookie
+			
 			return View();
 		}
 	}

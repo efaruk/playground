@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -177,6 +180,18 @@ namespace UnlockedStateProvider
 			}
 		}
 
+		public static void StartSessionIfNewWithCustomCookie(string cookieName, string sessionId = "", bool useMd5 = true)
+		{
+			if (string.IsNullOrWhiteSpace(cookieName)) throw new ArgumentNullException("cookieName");
+			var context = HttpContext.Current;
+			if (context == null) return;
+			if (context.Request.Cookies.AllKeys.Contains(cookieName)) return;
+			if (string.IsNullOrWhiteSpace(sessionId)) sessionId = Guid.NewGuid().ToString();
+			if (useMd5) sessionId = sessionId.ToMd5();
+			var cookie = new HttpCookie(cookieName, sessionId);
+			context.Response.Cookies.Add(cookie);
+		}
+
 		//public static string GetSessionId(this HttpContextBase context, string cookieName)
 		//{
 		//	string result = String.Empty;
@@ -278,6 +293,15 @@ namespace UnlockedStateProvider
 		//		sessionId = context.GetSessionId(cookieName);
 		//	return String.Format("{0}:{1}:{2}", UNLOCKED, sessionId, keyName);
 		//}
+
+		public static string ToMd5(this string s)
+		{
+			MD5 md5 = new MD5CryptoServiceProvider();
+			byte[] inputBytes = Encoding.ASCII.GetBytes(s);
+			byte[] hash = md5.ComputeHash(inputBytes);
+			var r = BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant();
+			return r;
+		}
 
 		public static TimeSpan GetNextTimeout(int sessionTimeout = 20)
 		{

@@ -18,6 +18,9 @@ namespace UnlockedSessionDemo
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+			// Initialize static for first request;
+			BigBytez.Bytez.Length.ToString();
 		}
 
 		//protected void Application_Error(object sender, EventArgs e)
