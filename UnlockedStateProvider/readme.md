@@ -14,7 +14,7 @@ Features
 - Async/Sync set, slide, delete
 - Session like object trough IUnlockedStore.Items `Session["key"] is equal to IUnlockedStore["key"]`
 - Shared redis connection with `Lazy<T>`
-- Support custom Items using IUnlockedStore.Get/Set (When you have objects that you don't want to put them in main collection (Dictionary))
+- Support custom Items using IUnlockedStore.Get/Set (When you have objects that you don't want to put them in main collection (Dictionary<string, object>)) 
 
 Installation
 --
@@ -27,7 +27,7 @@ Configuration
 --
 
 AppSettings
--
+--
 
 	<add key="Unlocked:Host" value="localhost:6379,127.0.0.1:6379" />
 	<!-- <add key="Unlocked:CookieName" value="UnlockedCookie" /> --> <!-- Custom Cookie -->
@@ -37,7 +37,8 @@ AppSettings
 	<!--<add key="Unlocked:ConnectionTimeout" value="30" /> --><!-- As Seconds -->
 
 On Every Controller
--
+--
+
 Use our action filter attribute;
 
 	[RedisUnlockedStateUsage(Usage = UnlockedStateUsage.ReadWrite)]
@@ -68,6 +69,6 @@ You need a REDIS server as configured, you can download from nuget for x64 syste
 
 
 Questions and Contributions
----
+--
 
 If you think you have found a bug or have an idea, please [report an issue](https://github.com/StackExchange/StackExchange.Redis/issues?state=open), or if appropriate: submit a pull request. If you have a question, feel free to [contact me](https://github.com/efaruk).
