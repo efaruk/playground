@@ -33,11 +33,13 @@ namespace UnlockedStateProvider.Redis
 
 		public static byte[] Serialize(object value)
 		{
+			if (value == null) return null;
 			if (!value.GetType().IsSerializable) return null;
 			byte[] result;
 			using (var stream = new MemoryStream())
 			{
-				new BinaryFormatter().Serialize(stream, value);
+				var formatter = new BinaryFormatter();
+				formatter.Serialize(stream, value);
 				result = stream.ToArray();
 			}
 			return result;
@@ -49,9 +51,23 @@ namespace UnlockedStateProvider.Redis
 			object result;
 			using (var stream = new MemoryStream(value))
 			{
-				result = new BinaryFormatter().Deserialize(stream);
+				var formatter = new BinaryFormatter();
+				result = formatter.Deserialize(stream);
 			}
 			return result;
 		}
+
+		public static object Deserialize<T>(byte[] value)
+		{
+			if (value == null) return null;
+			T result;
+			using (var stream = new MemoryStream(value))
+			{
+				var formatter = new BinaryFormatter();
+				result = (T)formatter.Deserialize(stream);
+			}
+			return result;
+		}
+
 	}
 }

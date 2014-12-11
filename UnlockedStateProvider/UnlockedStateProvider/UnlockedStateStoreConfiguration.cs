@@ -12,7 +12,7 @@ namespace UnlockedStateProvider
 		private static readonly UnlockedStateStoreConfiguration instance = new UnlockedStateStoreConfiguration();
 		
 		private const string DEFAULT_HOST = "localhost";
-		private const int DEFAULT_PORT = 6379;
+		//private const int DEFAULT_PORT = 6379;
 		private const int DEFAULT_SESSION_TIMEOUT = 20;
 		private const int DEFAULT_REQUEST_TIMEOUT = 10;
 		private const string DEFAULT_DATABASE_ID = "3";
@@ -32,7 +32,7 @@ namespace UnlockedStateProvider
 			CookieName = SettingsHelper.GetAppSetting("Unlocked:CookieName", UnlockedExtensions.DEFAULT_COOKIE_NAME);
 			ForceSlide = SettingsHelper.GetBoolAppSetting("Unlocked:ForceSlide", true);
 			Host = SettingsHelper.GetAppSetting("Unlocked:Host", DEFAULT_HOST);
-			Port = SettingsHelper.GetIntAppSetting("Unlocked:Port", DEFAULT_PORT);
+			//Port = SettingsHelper.GetIntAppSetting("Unlocked:Port", DEFAULT_PORT);
 			SessionTimeout = SettingsHelper.GetIntAppSetting("Unlocked:SessionTimeout", DEFAULT_SESSION_TIMEOUT);
 			Database = SettingsHelper.GetAppSetting("Unlocked:Database", DEFAULT_DATABASE_ID);
 			OperationTimeout = SettingsHelper.GetIntAppSetting("Unlocked:OperationTimeout", DEFAULT_REQUEST_TIMEOUT);
@@ -71,10 +71,10 @@ namespace UnlockedStateProvider
 		/// </summary>
 		public int SessionTimeout { get; set; }
 
-		/// <summary>
-		/// Port number for remote store.
-		/// </summary>
-		public int Port { get; set; }
+		///// <summary>
+		///// Port number for remote store.
+		///// </summary>
+		//public int Port { get; set; }
 
 		/// <summary>
 		/// Hostname or ip address for remote store.

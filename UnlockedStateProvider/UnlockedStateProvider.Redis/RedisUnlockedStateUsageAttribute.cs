@@ -9,7 +9,11 @@ namespace UnlockedStateProvider.Redis
 {
 	public class RedisUnlockedStateUsageAttribute : UnlockedStateUsageAttribute
 	{
-		private IUnlockedStateStore _unlockedStateStore; // = new RedisUnlockedStateStore();
+		private static readonly Lazy<IUnlockedStateStore> unlockedStateStore = new Lazy<IUnlockedStateStore>(() =>
+		{
+			var store = new RedisUnlockedStateStore();
+			return store;
+		});
 
 		//public RedisUnlockedStateUsageAttribute()
 		//{
@@ -19,25 +23,25 @@ namespace UnlockedStateProvider.Redis
 		
 		protected override IUnlockedStateStore UnlockedStateStore
 		{
-			get { return _unlockedStateStore; }
+			get { return unlockedStateStore.Value; }
 		}
 
-		private RedisUnlockedStateStore OverrideConfig(RedisUnlockedStateStore store)
-		{
-			if (store == null) return null;
-			if (!string.IsNullOrWhiteSpace(CookieName))
-			{
-				store.Configuration.CookieName = CookieName;
-			}
-			if (OperationTimeout > 0) store.Configuration.OperationTimeout = OperationTimeout;
-			return store;
-		}
+		//private RedisUnlockedStateStore OverrideConfig(RedisUnlockedStateStore store)
+		//{
+		//	if (store == null) return null;
+		//	if (!string.IsNullOrWhiteSpace(CookieName))
+		//	{
+		//		store.Configuration.CookieName = CookieName;
+		//	}
+		//	if (OperationTimeout > 0) store.Configuration.OperationTimeout = OperationTimeout;
+		//	return store;
+		//}
 
-		public override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			_unlockedStateStore = OverrideConfig(new RedisUnlockedStateStore());
-			base.OnActionExecuting(filterContext);
-		}
+		//public override void OnActionExecuting(ActionExecutingContext filterContext)
+		//{
+		//	_unlockedStateStore = OverrideConfig(new RedisUnlockedStateStore());
+		//	base.OnActionExecuting(filterContext);
+		//}
 
 		//public override void OnResultExecuted(ResultExecutedContext filterContext)
 		//{

@@ -11,7 +11,7 @@ namespace UnlockedStateProvider
 	/// if disabled, not gets session objects from store on request begin and not push session objects to store on request end.
 	/// You have to get/set objects manually using <see cref="UnlockedStateProvider" />.
 	/// </summary>
-	[AttributeUsageAttribute(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
+	[AttributeUsageAttribute(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
 	public abstract class UnlockedStateUsageAttribute: ActionFilterAttribute
 	{
 		//protected UnlockedStateUsageAttribute()
@@ -40,50 +40,47 @@ namespace UnlockedStateProvider
 			set { _usage = value; }
 		}
 
-		private string _cookieName;
-		/// <summary>
-		/// Override configuration cookie or define by controller
-		/// </summary>
-		public string CookieName
-		{
-			get
-			{
-				return _cookieName;
-			}
-			set
-			{
-				_cookieName = value;
-				//if (string.IsNullOrWhiteSpace(_cookieName) && UnlockedStateStore != null)
-				//{
-				//	UnlockedStateStore.Configuration.CookieName = _cookieName;
-				//}
-			}
-		}
+		//private string _cookieName;
+		///// <summary>
+		///// Override configuration cookie or define by controller
+		///// </summary>
+		//public string CookieName
+		//{
+		//	get
+		//	{
+		//		return _cookieName;
+		//	}
+		//	set
+		//	{
+		//		_cookieName = value;
+		//		//if (string.IsNullOrWhiteSpace(_cookieName) && UnlockedStateStore != null)
+		//		//{
+		//		//	UnlockedStateStore.Configuration.CookieName = _cookieName;
+		//		//}
+		//	}
+		//}
 
-		private int _operationOperationTimeout;
-		/// <summary>
-		/// Operation timeout as seconds.
-		/// </summary>
-		public int OperationTimeout
-		{
-			get { return _operationOperationTimeout; }
-			set
-			{
-				_operationOperationTimeout = value;
-				//if (_operationOperationTimeout != 0 && UnlockedStateStore != null)
-				//{
-				//	UnlockedStateStore.Configuration.OperationTimeout = _operationOperationTimeout;
-				//}
-			}
-		}
+		//private int _operationOperationTimeout;
+		///// <summary>
+		///// Operation timeout as seconds.
+		///// </summary>
+		//public int OperationTimeout
+		//{
+		//	get { return _operationOperationTimeout; }
+		//	set
+		//	{
+		//		_operationOperationTimeout = value;
+		//		//if (_operationOperationTimeout != 0 && UnlockedStateStore != null)
+		//		//{
+		//		//	UnlockedStateStore.Configuration.OperationTimeout = _operationOperationTimeout;
+		//		//}
+		//	}
+		//}
 
 		/// <summary>
 		/// If true, runs set, delete, evaluate requests in async mode.
 		/// </summary>
 		public bool RunAsync { get; set; }
-
-		//private readonly IUnlockedStateStore _store;
-
 
 		abstract protected IUnlockedStateStore UnlockedStateStore { get; }
 

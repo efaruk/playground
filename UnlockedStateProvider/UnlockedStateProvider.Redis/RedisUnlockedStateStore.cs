@@ -1,37 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using System.Web.Mvc;
 using StackExchange.Redis;
 
 namespace UnlockedStateProvider.Redis
 {
 		public class RedisUnlockedStateStore : IUnlockedStateStore
 		{
-			private readonly IDatabase _redisDatabase;
-			private static Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(() =>
+			private const char SPLITTER = ',';
+			//private const int DEFAULT_PORT = 6379;
+			//private readonly IDatabase _redisDatabase;
+			private static readonly Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(() =>
 			{
 				var connection = ConnectWithConfiguration();
 				return connection;
 			});
 
-			private static ConnectionMultiplexer _redisConnection
+			private static ConnectionMultiplexer RedisConnection
 			{
 				get { return lazyConnection.Value; }
 			}
 
 			private static readonly UnlockedStateStoreConfiguration configuration = UnlockedStateStoreConfiguration.Instance;
 
-			
-
-			public RedisUnlockedStateStore()
-			{
-				//_redisConnection = ConnectWithConfiguration();
-				_redisDatabase = _redisConnection.GetDatabase(int.Parse(configuration.Database));
-			}
+			//public RedisUnlockedStateStore()
+			//{
+			//	//_redisConnection = ConnectWithConfiguration();
+			//	//_redisDatabase = RedisConnection.GetDatabase(int.Parse(configuration.Database));
+			//}
 
 			private static ConnectionMultiplexer ConnectWithConfiguration()
 			{
@@ -52,9 +48,20 @@ namespace UnlockedStateProvider.Redis
 					options.Ssl = configuration.UseSsl;
 					options.SslHost = configuration.Host;
 				}
-				options.EndPoints.Add(configuration.Host, configuration.Port);
+				var hosts = configuration.Host.Split(new[] { SPLITTER }, StringSplitOptions.RemoveEmptyEntries);
+				foreach (var host in hosts)
+				{
+					options.EndPoints.Add(host);
+				}
+				//options.EndPoints.Add(configuration.Host, configuration.Port);
 				var redisConnection = ConnectionMultiplexer.Connect(options);
 				return redisConnection;
+			}
+
+			private IDatabase GetRedisDatabase()
+			{
+				var database = RedisConnection.GetDatabase(int.Parse(configuration.Database));
+				return database;
 			}
 
 			//public IUnlockedStateStore UnlockedStore()
@@ -168,7 +175,8 @@ namespace UnlockedStateProvider.Redis
 
 			protected object GetInternal(string key, bool slide = true, bool slideAsync = true)
 			{
-				var data = _redisDatabase.StringGet(key);
+				var redisDatabase = GetRedisDatabase();
+				var data = redisDatabase.StringGet(key);
 				var result = StateBinarySerializer.Deserialize(data);
 				if (slide)
 				{
@@ -190,10 +198,11 @@ namespace UnlockedStateProvider.Redis
 			{
 				bool result = false;
 				var data = (RedisValue)StateBinarySerializer.Serialize(value);
+				var redisDatabase = GetRedisDatabase();
 				if (async)
-					_redisDatabase.StringSetAsync(key, data, expireTime);
+					redisDatabase.StringSetAsync(key, data, expireTime);
 				else
-					result = _redisDatabase.StringSet(key, data, expireTime);
+					result = redisDatabase.StringSet(key, data, expireTime);
 				return result;
 			}
 
@@ -207,19 +216,21 @@ namespace UnlockedStateProvider.Redis
 			protected bool DeleteInternal(string key, bool async = false)
 			{
 				bool result = false;
+				var redisDatabase = GetRedisDatabase();
 				if (async)
-					_redisDatabase.KeyDeleteAsync(key);
+					redisDatabase.KeyDeleteAsync(key);
 				else
-					result = _redisDatabase.KeyDelete(key);
+					result = redisDatabase.KeyDelete(key);
 				return result;
 			}
 
 			protected object Eval(string script, bool async = false) {
-				object result = null; 
+				object result = null;
+				var redisDatabase = GetRedisDatabase();
 				if (async)
-					_redisDatabase.ScriptEvaluateAsync(script);
+					redisDatabase.ScriptEvaluateAsync(script);
 				else
-					result = _redisDatabase.ScriptEvaluate(script);
+					result = redisDatabase.ScriptEvaluate(script);
 				return result;
 			}
 
@@ -235,9 +246,10 @@ namespace UnlockedStateProvider.Redis
 				Eval(script, async);
 			}
 
-			private string GetSessionItemKey(string keyName)
+			private string GetSessionItemKey(string keyName, string cookieName = "")
 			{
-				var redisKey = UnlockedExtensions.GetSessionItemKey(keyName, configuration.CookieName);
+				if (string.IsNullOrWhiteSpace(cookieName)) cookieName = configuration.CookieName;
+				var redisKey = UnlockedExtensions.GetSessionItemKey(keyName, cookieName);
 				return redisKey;
 			}
 
