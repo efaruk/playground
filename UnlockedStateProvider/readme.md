@@ -12,8 +12,7 @@ Features
 - Supports custom cookie. (You just need set your cookie with value which is unique imponderable id for client tracking).
 - Async/Sync set, slide, delete
 - Session like object trough IUnlockedStore.Items (Session["key"], IUnlockedStore["key"])
-- Shared redis connection with
-	Lazy<T>
+- Shared redis connection with 'Lazy<T>'
 - Support custom Items using IUnlockedStore.Get/Set (When you have objects that you don't want to put them in main collection (Dictionary))
 
 Installation
