@@ -120,6 +120,10 @@ namespace UnlockedStateProvider
 					UnlockedStateStore.Set(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY, UnlockedStateStore.Items, expire, RunAsync);
 				}
 			}
+			if (Usage != UnlockedStateUsage.Disabled)
+			{
+				
+			}
 			base.OnResultExecuted(filterContext);
 			//UnlockedStateStore.Dispose();
 		}

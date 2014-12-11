@@ -188,7 +188,26 @@ namespace UnlockedStateProvider
 			if (context.Request.Cookies.AllKeys.Contains(cookieName)) return;
 			if (string.IsNullOrWhiteSpace(sessionId)) sessionId = Guid.NewGuid().ToString();
 			if (useMd5) sessionId = sessionId.ToMd5();
-			var cookie = new HttpCookie(cookieName, sessionId);
+			var cookie = new HttpCookie(cookieName, sessionId)
+			{
+				Domain = context.Request.ServerVariables["HTTP_HOST"],
+				Path = "/",
+				HttpOnly = true
+			};
+			context.Response.Cookies.Add(cookie);
+		}
+
+		public static void EndSessionWithCustomCookie(string cookieName)
+		{
+			var context = HttpContext.Current;
+			if (context == null) return;
+			var cookie = new HttpCookie(cookieName)
+			{
+				Domain = context.Request.ServerVariables["HTTP_HOST"],
+				Path = "/",
+				HttpOnly = true,
+				Expires = DateTime.Now.AddYears(-1)
+			};
 			context.Response.Cookies.Add(cookie);
 		}
 
@@ -238,12 +257,12 @@ namespace UnlockedStateProvider
 		//	return result;
 		//}
 
-		public static string GetSessionKey(string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
-		{
-			if (String.IsNullOrWhiteSpace(sessionId))
-				sessionId = HttpContext.Current.GetSessionId(cookieName);
-			return String.Format("{0}:{1}", UNLOCKED, sessionId);
-		}
+		//public static string GetSessionKey(string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
+		//{
+		//	if (String.IsNullOrWhiteSpace(sessionId))
+		//		sessionId = HttpContext.Current.GetSessionId(cookieName);
+		//	return String.Format("{0}:{1}", UNLOCKED, sessionId);
+		//}
 
 		//public static string GetSessionKey(this HttpContext context, string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
 		//{
@@ -270,7 +289,16 @@ namespace UnlockedStateProvider
 		{
 			if (String.IsNullOrWhiteSpace(sessionId))
 				sessionId = HttpContext.Current.GetSessionId(cookieName);
-			return String.Format("{0}:{1}:{2}", UNLOCKED, sessionId, keyName);
+			var r = String.Format("{0}:{1}:{2}", UNLOCKED, sessionId, keyName);
+			return r;
+		}
+
+		public static string GetSessionItemPrefix(string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
+		{
+			if (String.IsNullOrWhiteSpace(sessionId))
+				sessionId = HttpContext.Current.GetSessionId(cookieName);
+			var r = String.Format("{0}:{1}", UNLOCKED, sessionId);
+			return r;
 		}
 
 		//public static string GetSessionItemKey(this HttpContext context, string keyName, string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")

@@ -10,7 +10,7 @@ namespace UnlockedStateProvider.Redis
 			private const char SPLITTER = ',';
 			//private const int DEFAULT_PORT = 6379;
 			//private readonly IDatabase _redisDatabase;
-			private static readonly Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(() =>
+			private static readonly Lazy<ConnectionMultiplexer> LazyConnection = new Lazy<ConnectionMultiplexer>(() =>
 			{
 				var connection = ConnectWithConfiguration();
 				return connection;
@@ -18,7 +18,7 @@ namespace UnlockedStateProvider.Redis
 
 			private static ConnectionMultiplexer RedisConnection
 			{
-				get { return lazyConnection.Value; }
+				get { return LazyConnection.Value; }
 			}
 
 			private static readonly UnlockedStateStoreConfiguration configuration = UnlockedStateStoreConfiguration.Instance;
@@ -138,15 +138,23 @@ namespace UnlockedStateProvider.Redis
 				}
 			}
 
+			public void Abondon(bool async = false)
+			{
+				var prefix = GetSessionItemKey(string.Empty);
+				DeleteStartsWith(prefix, async);
+				UnlockedExtensions.EndSessionWithCustomCookie(configuration.CookieName);
+			}
+
 			public void ClearItems()
 			{
 				Items.Clear();
 			}
 
-			public void ClearCustomItems(bool async = false)
+			public void ClearAllItems(bool async = false)
 			{
-				string key = UnlockedExtensions.GetSessionKey(configuration.CookieName);
-				DeleteStartsWith(key, async);
+				Items.Clear();
+				var prefix = UnlockedExtensions.GetSessionItemPrefix(configuration.CookieName);
+				DeleteStartsWith(prefix, async);
 			}
 
 			//public IUnlockedStateStore GetStoreFromContext(HttpContextBase controllerContext)
@@ -181,7 +189,8 @@ namespace UnlockedStateProvider.Redis
 				if (slide)
 				{
 					var expire = DateTime.Now.AddMinutes(configuration.SessionTimeout).TimeOfDay;
-					Slide(key, expire, slideAsync);
+					var prefix = GetSessionItemPrefix();
+					SlideInternal(prefix, expire, slideAsync);
 				}
 				return result;
 			}
@@ -234,7 +243,14 @@ namespace UnlockedStateProvider.Redis
 				return result;
 			}
 
-			protected void Slide(string prefix, TimeSpan expireTime, bool async = false)
+			public void Slide(bool async = false)
+			{
+				var prefix = GetSessionItemPrefix();
+				var expire = TimeSpan.FromMinutes(configuration.SessionTimeout);
+				SlideInternal(prefix, expire, async);
+			}
+
+			protected void SlideInternal(string prefix, TimeSpan expireTime, bool async = false)
 			{
 				string script = string.Format("\"return redis.call('expire', unpack(redis.call('keys', ARGV[1])), ARGV[2])\" 2 {0}:* {1}", prefix, expireTime);
 				Eval(script, async);
@@ -246,18 +262,25 @@ namespace UnlockedStateProvider.Redis
 				Eval(script, async);
 			}
 
-			private string GetSessionItemKey(string keyName, string cookieName = "")
+			protected string GetSessionItemKey(string keyName)
 			{
-				if (string.IsNullOrWhiteSpace(cookieName)) cookieName = configuration.CookieName;
+				var cookieName = configuration.CookieName;
 				var redisKey = UnlockedExtensions.GetSessionItemKey(keyName, cookieName);
 				return redisKey;
 			}
 
-			public void Dispose()
+			protected string GetSessionItemPrefix()
 			{
-				//_redisConnection.Dispose();
-				//_disposed = true;
+				var cookieName = configuration.CookieName;
+				var prefix = UnlockedExtensions.GetSessionItemPrefix(cookieName);
+				return prefix;
 			}
+
+			//public void Dispose()
+			//{
+			//	//_redisConnection.Dispose();
+			//	//_disposed = true;
+			//}
 
 			//private bool _disposed = false;
 			//public bool Disposed()

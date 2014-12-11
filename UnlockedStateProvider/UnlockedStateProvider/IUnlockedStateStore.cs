@@ -39,6 +39,8 @@ namespace UnlockedStateProvider {
 		// Context shared items
 		object this[string name] { get; set; }
 
+		void Abondon(bool async = false);
+
 		/// <summary>
 		/// Clear item collection not the custom state items
 		/// </summary>
@@ -47,7 +49,7 @@ namespace UnlockedStateProvider {
 		/// <summary>
 		/// Clear item collection not the custom state items
 		/// </summary>
-		void ClearCustomItems(bool async = false);
+		void ClearAllItems(bool async = false);
 
 		/// <summary>
 		/// Returns object from store with specified key.
@@ -75,6 +77,12 @@ namespace UnlockedStateProvider {
 		/// <param name="async"></param>
 		/// <returns></returns>
 		bool Delete(string key, bool async = false);
+
+		/// <summary>
+		/// Slide forward expire as given expireTime for all object related the session.
+		/// </summary>
+		/// <param name="async">run as asynchronously</param>
+		void Slide(bool async = false);
 
 		///// <summary>
 		///// Evaluate script on store.

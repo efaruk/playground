@@ -1,14 +1,8 @@
-﻿using System;
-
-namespace UnlockedStateProvider.Redis
+﻿namespace UnlockedStateProvider.Redis
 {
 	public class RedisUnlockedStateUsageAttribute : UnlockedStateUsageAttribute
 	{
-		private static readonly Lazy<IUnlockedStateStore> unlockedStateStore = new Lazy<IUnlockedStateStore>(() =>
-		{
-			var store = new RedisUnlockedStateStore();
-			return store;
-		});
+		private readonly IUnlockedStateStore _unlockedStateStore = new RedisUnlockedStateStore();
 
 		//public RedisUnlockedStateUsageAttribute()
 		//{
@@ -18,7 +12,7 @@ namespace UnlockedStateProvider.Redis
 		
 		protected override IUnlockedStateStore UnlockedStateStore
 		{
-			get { return unlockedStateStore.Value; }
+			get { return _unlockedStateStore; }
 		}
 
 		//private RedisUnlockedStateStore OverrideConfig(RedisUnlockedStateStore store)
