@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.Diagnostics;
-using System.Web.Configuration;
-using System.Web.Hosting;
-
-namespace UnlockedStateProvider
+﻿namespace UnlockedStateProvider
 {
 	public class UnlockedStateStoreConfiguration
 	{
@@ -14,7 +7,7 @@ namespace UnlockedStateProvider
 		private const string DEFAULT_HOST = "localhost";
 		//private const int DEFAULT_PORT = 6379;
 		private const int DEFAULT_SESSION_TIMEOUT = 20;
-		private const int DEFAULT_REQUEST_TIMEOUT = 10;
+		private const int DEFAULT_OPERATION_TIMEOUT = 10;
 		private const string DEFAULT_DATABASE_ID = "3";
 
 		private UnlockedStateStoreConfiguration()
@@ -35,8 +28,8 @@ namespace UnlockedStateProvider
 			//Port = SettingsHelper.GetIntAppSetting("Unlocked:Port", DEFAULT_PORT);
 			SessionTimeout = SettingsHelper.GetIntAppSetting("Unlocked:SessionTimeout", DEFAULT_SESSION_TIMEOUT);
 			Database = SettingsHelper.GetAppSetting("Unlocked:Database", DEFAULT_DATABASE_ID);
-			OperationTimeout = SettingsHelper.GetIntAppSetting("Unlocked:OperationTimeout", DEFAULT_REQUEST_TIMEOUT);
-			ConnectionTimeout = SettingsHelper.GetIntAppSetting("Unlocked:ConnectionTimeout", DEFAULT_REQUEST_TIMEOUT);
+			OperationTimeout = SettingsHelper.GetIntAppSetting("Unlocked:OperationTimeout", DEFAULT_OPERATION_TIMEOUT);
+			ConnectionTimeout = SettingsHelper.GetIntAppSetting("Unlocked:ConnectionTimeout", DEFAULT_OPERATION_TIMEOUT);
 			AccessKey = SettingsHelper.GetAppSetting("Unlocked:AccessKey");
 			RetryCount = SettingsHelper.GetIntAppSetting("Unlocked:RetryCount", 0);
 			UseSsl = SettingsHelper.GetBoolAppSetting("Unlocked:ForceSlide", false);
