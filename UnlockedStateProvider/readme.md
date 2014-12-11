@@ -11,14 +11,14 @@ Features
 - Cookie based client tracking.
 - Supports custom cookie. (You just need set your cookie with value which is unique imponderable id for client tracking).
 - Async/Sync set, slide, delete
-- Session like object trough IUnlockedStore.Items (Session["key"], IUnlockedStore["key"])
-- Shared redis connection with 'Lazy<T>'
+- Session like object trough IUnlockedStore.Items `Session["key"] is equal to IUnlockedStore["key"]`
+- Shared redis connection with `Lazy<T>`
 - Support custom Items using IUnlockedStore.Get/Set (When you have objects that you don't want to put them in main collection (Dictionary))
 
 Installation
 --
 
-Unlocked can be installed via the nuget UI (as [UnlockedStateProvider.Redis](https://www.nuget.org/packages/UnlockedStateProvider.Redis/)), or via the nuget package manager console:
+color{REDUnlocked can be installed via the nuget UI (as [UnlockedStateProvider.Redis](https://www.nuget.org/packages/UnlockedStateProvider.Redis/)), or via the nuget package manager console:
 
 	PM> Install-Package UnlockedStateProvider.Redis
 
@@ -59,4 +59,4 @@ Real World Example / Demo Application
 
 Demo application will guide you, just clone the repository and press F5. 
 
-You need a REDIS server as configured, you can download from nuget for x64 system [redis-64](https://www.nuget.org/packages/Redis-64/), x86 [redis32](https://www.nuget.org/packages/Redis-32/)
+You need a REDIS server as configured, you can download from nuget for x64 system [redis-64](https://www.nuget.org/packages/Redis-64/), for x86 system [redis32](https://www.nuget.org/packages/Redis-32/) from MSOpenTech
