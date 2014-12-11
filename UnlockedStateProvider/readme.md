@@ -1,7 +1,7 @@
 UnlockedStateProvider.Redis [aka Unlocked]
 ===================
 
-Unlocked uses [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis), which is a high performance general purpose redis client for .NET and designed to support only MVC web applications. 
+Unlocked designed to support only MVC web applications and uses [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis), which is a high performance general purpose redis client for .NET. 
 It works like a charm with only few lines of configuration.
 
 Features
