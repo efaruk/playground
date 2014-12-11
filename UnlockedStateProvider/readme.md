@@ -60,3 +60,9 @@ Real World Example / Demo Application
 Demo application will guide you, just clone the repository and press F5. 
 
 You need a REDIS server as configured, you can download from nuget for x64 system [redis-64](https://www.nuget.org/packages/Redis-64/), for x86 system [redis32](https://www.nuget.org/packages/Redis-32/) from MSOpenTech
+
+
+Questions and Contributions
+---
+
+If you think you have found a bug or have an idea, please [report an issue](https://github.com/StackExchange/StackExchange.Redis/issues?state=open), or if appropriate: submit a pull request. If you have a question, feel free to [contact me](https://github.com/efaruk).
