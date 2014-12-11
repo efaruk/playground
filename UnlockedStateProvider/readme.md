@@ -40,6 +40,10 @@ On Every Controller
 Use our action filter attribute;
 
 	[RedisUnlockedStateUsage(Usage = UnlockedStateUsage.ReadWrite)]
+	public class UnlockedController : Controller
+	{
+		...
+	}
 
 For using with standard ASP.Net session, you should be started user session before using unlocked. Because unlocked use cookie to identify and track user. ASP.Net session use same method for standard session.
 
