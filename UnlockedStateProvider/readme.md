@@ -7,6 +7,7 @@ It works like a charm with only few lines of configuration.
 Features
 --
 
+- No Locking!
 - Designed for advanced usage, you can use both standard session and Unlocked at the same time.
 - Cookie based client tracking.
 - Supports custom cookie. (You just need set your cookie with value which is unique imponderable id for client tracking).
@@ -18,7 +19,7 @@ Features
 Installation
 --
 
-color{REDUnlocked can be installed via the nuget UI (as [UnlockedStateProvider.Redis](https://www.nuget.org/packages/UnlockedStateProvider.Redis/)), or via the nuget package manager console:
+Unlocked can be installed via the nuget UI (as [UnlockedStateProvider.Redis](https://www.nuget.org/packages/UnlockedStateProvider.Redis/)), or via the nuget package manager console:
 
 	PM> Install-Package UnlockedStateProvider.Redis
 
