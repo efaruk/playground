@@ -87,7 +87,10 @@ namespace UnlockedStateProvider
 			if (Usage != UnlockedStateUsage.Disabled)
 			{
 				// filterContext.StartSessionIfNew();
-				//var store = UnlockedStateStore;
+				if (UnlockedStateStore.Configuration.AutoManageSessionCookie)
+				{
+					UnlockedExtensions.StartSessionIfNewWithCustomCookie(UnlockedStateStore.Configuration.CookieName);
+				}
 				var session = (Dictionary<string, object>)UnlockedStateStore.Get(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY) ?? new Dictionary<string, object>(UnlockedExtensions.DEFAULT_ITEM_COUNT);
 				UnlockedStateStore.Items = session;
 				//filterContext.SetContextItem(UnlockedExtensions.UNLOCKED_STATE_OBJECT_KEY, session);

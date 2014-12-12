@@ -7,12 +7,12 @@
     <authors>$author$</authors>
     <owners>$author$</owners>
     <licenseUrl>http://www.gnu.org/copyleft/gpl.html</licenseUrl>
-    <projectUrl>http://efaruk.github.io/playground</projectUrl>
-    <!-- <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl> -->
+    <projectUrl>https://github.com/efaruk/playground</projectUrl>
+    <iconUrl>https://cdn1.iconfinder.com/data/icons/hawcons/32/699349-icon-76-document-unlocked-32.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>Unlocked State Store Client For Redis</description>
     <releaseNotes>Brand new state store ;)</releaseNotes>
-    <copyright>Copyleft 2014</copyright>
-    <tags>Session State Lock Redis Unlocked</tags>
+    <copyright>Copyright ©  2014</copyright>
+    <tags>Session State NoLock Redis Unlocked</tags>
   </metadata>
 </package>

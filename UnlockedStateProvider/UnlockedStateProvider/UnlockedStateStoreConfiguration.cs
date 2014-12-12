@@ -22,6 +22,7 @@
 
 		private void Initialize()
 		{
+			AutoManageSessionCookie = SettingsHelper.GetBoolAppSetting("Unlocked:Auto", true);
 			CookieName = SettingsHelper.GetAppSetting("Unlocked:CookieName", UnlockedExtensions.DEFAULT_COOKIE_NAME);
 			ForceSlide = SettingsHelper.GetBoolAppSetting("Unlocked:ForceSlide", true);
 			Host = SettingsHelper.GetAppSetting("Unlocked:Host", DEFAULT_HOST);
@@ -36,12 +37,23 @@
 			ApplicationName = SettingsHelper.GetAppSetting("Unlocked:CookieName", UnlockedExtensions.DEFAULT_APPLICATION_NAME);
 		}
 
+		private bool _autoManageSessionCookie = true;
+		/// <summary>
+		/// Auto manage session cookie and id
+		/// </summary>
+		public bool AutoManageSessionCookie
+		{
+			get { return _autoManageSessionCookie; }
+			set { _autoManageSessionCookie = value; }
+		}
+
 		/// <summary>
 		/// Force store every hit to sliding expiration.
 		/// </summary>
 		public bool ForceSlide { get; set; }
 
 		private string _cookieName = "";
+		
 
 		public string CookieName
 		{

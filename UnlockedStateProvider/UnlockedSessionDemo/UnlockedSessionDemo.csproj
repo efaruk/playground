@@ -125,8 +125,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ContentText.resx</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\UnlockedBigReadonlyController.cs" />
     <Compile Include="Controllers\UnlockedBigController.cs" />
+    <Compile Include="Controllers\UnlockedCustomController.cs" />
     <Compile Include="Controllers\UnlockedReadOnlyController.cs" />
     <Compile Include="Controllers\UnlockedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -149,6 +151,8 @@
     <Content Include="Views\UnlockedBig\Index.cshtml" />
     <Content Include="Views\UnlockedBigReadOnly\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Desktop.pubxml" />
+    <Content Include="Views\Logout\Index.cshtml" />
+    <Content Include="Views\UnlockedCustom\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

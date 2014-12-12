@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Mvc;
 
 namespace UnlockedStateProvider
@@ -38,6 +39,13 @@ namespace UnlockedStateProvider
 		public static IUnlockedStateStore GetStoreFromContext(this Controller controller)
 		{
 			var store = (IUnlockedStateStore)controller.HttpContext.GetContextItem(UNLOCKED_STATE_STORE_KEY);
+			return store;
+		}
+
+		public static IUnlockedStateStore GetStoreFromCache(this HttpContext context, string cookieName)
+		{
+			var key = GetSessionId(context, cookieName);
+			var store = (IUnlockedStateStore)context.GetCacheItem(key);
 			return store;
 		}
 
@@ -122,6 +130,28 @@ namespace UnlockedStateProvider
 			if (context == null) return;
 			context.Items[key] = value;
 		}
+		public static object GetCacheItem(this HttpContext context, string key)
+		{
+			if (context == null) return null;
+			object result = context.Cache.Get(key);
+			return result;
+		}
+
+		public static void SetCacheItem(this HttpContext context, string key, object value, int sessionTimeout)
+		{
+			if (context == null) return;
+			var expire = GetNextTimeout(sessionTimeout);
+			if (context.Cache.Get(key) == null)
+				context.Cache.Insert(key, value, null, Cache.NoAbsoluteExpiration, expire);
+			else
+				context.Cache[key] = value;
+		}
+
+		public static void RemoveCacheItem(this HttpContext context, string key)
+		{
+			if (context == null) return;
+			context.Cache.Remove(key);
+		}
 
 		public static bool SessionIsNew(this HttpContext context)
 		{
@@ -180,21 +210,22 @@ namespace UnlockedStateProvider
 			}
 		}
 
-		public static void StartSessionIfNewWithCustomCookie(string cookieName, string sessionId = "", bool useMd5 = true)
+		public static string StartSessionIfNewWithCustomCookie(string cookieName, string sessionId = "", bool useMd5 = true)
 		{
 			if (string.IsNullOrWhiteSpace(cookieName)) throw new ArgumentNullException("cookieName");
 			var context = HttpContext.Current;
-			if (context == null) return;
-			if (context.Request.Cookies.AllKeys.Contains(cookieName)) return;
+			if (context == null) return null;
+			if (context.Request.Cookies.AllKeys.Contains(cookieName)) return null;
+			if (context.Response.Cookies.AllKeys.Contains(cookieName)) return null;
 			if (string.IsNullOrWhiteSpace(sessionId)) sessionId = Guid.NewGuid().ToString();
 			if (useMd5) sessionId = sessionId.ToMd5();
 			var cookie = new HttpCookie(cookieName, sessionId)
 			{
-				Domain = context.Request.ServerVariables["HTTP_HOST"],
 				Path = "/",
 				HttpOnly = true
 			};
 			context.Response.Cookies.Add(cookie);
+			return sessionId;
 		}
 
 		public static void EndSessionWithCustomCookie(string cookieName)
@@ -203,7 +234,6 @@ namespace UnlockedStateProvider
 			if (context == null) return;
 			var cookie = new HttpCookie(cookieName)
 			{
-				Domain = context.Request.ServerVariables["HTTP_HOST"],
 				Path = "/",
 				HttpOnly = true,
 				Expires = DateTime.Now.AddYears(-1)
@@ -287,19 +317,23 @@ namespace UnlockedStateProvider
 
 		public static string GetSessionItemKey(string keyName, string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
 		{
-			if (String.IsNullOrWhiteSpace(sessionId))
+			if (string.IsNullOrWhiteSpace(sessionId))
 				sessionId = HttpContext.Current.GetSessionId(cookieName);
+			//if (string.IsNullOrWhiteSpace(sessionId))
+			//{
+			//	sessionId = StartSessionIfNewWithCustomCookie(cookieName); // AutoSetCookie if it is not seted yet
+			//}
 			var r = String.Format("{0}:{1}:{2}", UNLOCKED, sessionId, keyName);
 			return r;
 		}
 
-		public static string GetSessionItemPrefix(string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
-		{
-			if (String.IsNullOrWhiteSpace(sessionId))
-				sessionId = HttpContext.Current.GetSessionId(cookieName);
-			var r = String.Format("{0}:{1}", UNLOCKED, sessionId);
-			return r;
-		}
+		//public static string GetSessionItemPrefix(string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
+		//{
+		//	if (String.IsNullOrWhiteSpace(sessionId))
+		//		sessionId = HttpContext.Current.GetSessionId(cookieName);
+		//	var r = String.Format("{0}:{1}", UNLOCKED, sessionId);
+		//	return r;
+		//}
 
 		//public static string GetSessionItemKey(this HttpContext context, string keyName, string cookieName = DEFAULT_COOKIE_NAME, string sessionId = "")
 		//{

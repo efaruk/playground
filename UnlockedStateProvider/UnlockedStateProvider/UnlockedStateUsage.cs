@@ -4,6 +4,7 @@
 	{
 		ReadWrite,
 		Disabled,
-		ReadOnly
+		ReadOnly,
+		CustomOnly
 	}
 }

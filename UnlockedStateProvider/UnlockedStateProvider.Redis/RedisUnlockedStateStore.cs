@@ -140,7 +140,7 @@ namespace UnlockedStateProvider.Redis
 
 			public void Abondon(bool async = false)
 			{
-				var prefix = GetSessionItemKey(string.Empty);
+				var prefix = GetSessionItemPrefix();
 				DeleteStartsWith(prefix, async);
 				UnlockedExtensions.EndSessionWithCustomCookie(configuration.CookieName);
 			}
@@ -153,7 +153,7 @@ namespace UnlockedStateProvider.Redis
 			public void ClearAllItems(bool async = false)
 			{
 				Items.Clear();
-				var prefix = UnlockedExtensions.GetSessionItemPrefix(configuration.CookieName);
+				var prefix = GetSessionItemPrefix();
 				DeleteStartsWith(prefix, async);
 			}
 
@@ -188,7 +188,7 @@ namespace UnlockedStateProvider.Redis
 				var result = StateBinarySerializer.Deserialize(data);
 				if (slide)
 				{
-					var expire = DateTime.Now.AddMinutes(configuration.SessionTimeout).TimeOfDay;
+					var expire = UnlockedExtensions.GetNextTimeout(configuration.SessionTimeout);
 					var prefix = GetSessionItemPrefix();
 					SlideInternal(prefix, expire, slideAsync);
 				}
@@ -233,46 +233,44 @@ namespace UnlockedStateProvider.Redis
 				return result;
 			}
 
-			protected object Eval(string script, bool async = false) {
+			protected object Eval(string script, bool async = false, CommandFlags flags = CommandFlags.FireAndForget) {
 				object result = null;
 				var redisDatabase = GetRedisDatabase();
 				if (async)
 					redisDatabase.ScriptEvaluateAsync(script);
 				else
-					result = redisDatabase.ScriptEvaluate(script);
+					result = redisDatabase.ScriptEvaluate(script, null, null, flags);
 				return result;
 			}
 
 			public void Slide(bool async = false)
 			{
-				var prefix = GetSessionItemPrefix();
-				var expire = TimeSpan.FromMinutes(configuration.SessionTimeout);
+				var prefix = GetSessionItemKey(string.Empty);
+				var expire = UnlockedExtensions.GetNextTimeout(configuration.SessionTimeout);
 				SlideInternal(prefix, expire, async);
 			}
 
 			protected void SlideInternal(string prefix, TimeSpan expireTime, bool async = false)
 			{
-				string script = string.Format("\"return redis.call('expire', unpack(redis.call('keys', ARGV[1])), ARGV[2])\" 2 {0}:* {1}", prefix, expireTime);
+				string script = string.Format("return redis.call('expire', unpack(redis.call('keys', '{0}*')), {1})", prefix, Math.Ceiling(expireTime.TotalSeconds));
 				Eval(script, async);
 			}
 
 			public void DeleteStartsWith(string prefix, bool async = false)
 			{
-				string script = string.Format("\"return redis.call('del', unpack(redis.call('keys', ARGV[1])))\" 1 {0}:*", prefix);
+				string script = string.Format("return redis.call('del', unpack(redis.call('keys', '{0}*')))", prefix);
 				Eval(script, async);
 			}
 
 			protected string GetSessionItemKey(string keyName)
 			{
-				var cookieName = configuration.CookieName;
-				var redisKey = UnlockedExtensions.GetSessionItemKey(keyName, cookieName);
+				var redisKey = UnlockedExtensions.GetSessionItemKey(keyName, configuration.CookieName);
 				return redisKey;
 			}
 
 			protected string GetSessionItemPrefix()
 			{
-				var cookieName = configuration.CookieName;
-				var prefix = UnlockedExtensions.GetSessionItemPrefix(cookieName);
+				var prefix = UnlockedExtensions.GetSessionItemKey(string.Empty, configuration.CookieName);
 				return prefix;
 			}
 

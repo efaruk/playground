@@ -17,6 +17,11 @@ namespace UnlockedSessionDemo
 			}
 		}
 
+		public static void Abondon()
+		{
+			UnlockedStore.Abondon();
+		}
+
 		public static Dictionary<string, object> UnlockedItems
 		{
 			get
@@ -74,6 +79,17 @@ namespace UnlockedSessionDemo
 				return (BigSessionObject) item;
 			}
 			set { UnlockedItems["big"] = value; }
+		}
+
+		public static void SetCustom(string key, object value, TimeSpan? expire = null, bool async = true)
+		{
+			UnlockedStore.Set(key, value, expire, async);
+		}
+
+		public static object GetCustom(string key, bool slide = true, bool slideAsync = true)
+		{
+			var value = UnlockedStore.Get(key, slide, slideAsync);
+			return value;
 		}
 
 	}
