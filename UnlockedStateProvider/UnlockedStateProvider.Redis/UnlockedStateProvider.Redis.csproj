@@ -65,6 +65,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="1418392700_698589-icon-76-document-unlocked-128.png" />
+    <Content Include="1418428720_699349-icon-76-document-unlocked-128.png" />
     <Content Include="web.config.transform">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

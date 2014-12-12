@@ -8,7 +8,7 @@
     <owners>$author$</owners>
     <licenseUrl>http://www.gnu.org/copyleft/gpl.html</licenseUrl>
     <projectUrl>https://github.com/efaruk/playground</projectUrl>
-    <iconUrl>https://cdn1.iconfinder.com/data/icons/hawcons/32/699349-icon-76-document-unlocked-32.png</iconUrl>
+    <iconUrl>https://cdn1.iconfinder.com/data/icons/hawcons/32/699349-icon-76-document-unlocked-128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Unlocked State Store Client For Redis</description>
     <releaseNotes>Brand new state store ;)</releaseNotes>
