@@ -1,6 +1,6 @@
 ﻿namespace Sifu.Dialogs
 {
-	partial class DialogConnectServer
+	partial class ConnectServerDialog
 	{
 		/// <summary>
 		/// Required designer variable.

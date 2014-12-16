@@ -11,14 +11,14 @@ using StackExchange.Redis;
 
 namespace Sifu.Dialogs
 {
-	public partial class DialogConnectServer : Form
+	public partial class ConnectServerDialog : Form
 	{
-		public DialogConnectServer()
+		public ConnectServerDialog()
 		{
 			InitializeComponent();
 		}
 
-		private SharedConnection sharedConnection = SharedConnection.Instance; 
+		private readonly SharedConnection _sharedConnection = SharedConnection.Instance; 
 
 		private void DialogConnectServer_Load(object sender, EventArgs e)
 		{
@@ -33,7 +33,7 @@ namespace Sifu.Dialogs
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			sharedConnection.Connect(tbAddress.Text);
+			_sharedConnection.Connect(tbAddress.Text);
 			this.DialogResult = DialogResult.OK;
 			this.Hide();
 		}

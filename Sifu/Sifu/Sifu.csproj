@@ -48,11 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dialogs\DialogConnectServer.cs">
+    <Compile Include="Dialogs\ConnectServerDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\DialogConnectServer.Designer.cs">
-      <DependentUpon>DialogConnectServer.cs</DependentUpon>
+    <Compile Include="Dialogs\ConnectServerDialog.Designer.cs">
+      <DependentUpon>ConnectServerDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
@@ -63,8 +63,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharedConnection.cs" />
-    <EmbeddedResource Include="Dialogs\DialogConnectServer.resx">
-      <DependentUpon>DialogConnectServer.cs</DependentUpon>
+    <EmbeddedResource Include="Dialogs\ConnectServerDialog.resx">
+      <DependentUpon>ConnectServerDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>

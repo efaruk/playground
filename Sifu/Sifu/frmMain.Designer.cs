@@ -67,13 +67,14 @@
 			// tsmiConnect
 			// 
 			this.tsmiConnect.Name = "tsmiConnect";
-			this.tsmiConnect.Size = new System.Drawing.Size(126, 22);
+			this.tsmiConnect.Size = new System.Drawing.Size(152, 22);
 			this.tsmiConnect.Text = "&Connect";
+			this.tsmiConnect.Click += new System.EventHandler(this.tsmiConnect_Click);
 			// 
 			// tsmiDisconnect
 			// 
 			this.tsmiDisconnect.Name = "tsmiDisconnect";
-			this.tsmiDisconnect.Size = new System.Drawing.Size(126, 22);
+			this.tsmiDisconnect.Size = new System.Drawing.Size(152, 22);
 			this.tsmiDisconnect.Text = "&Disconnect";
 			// 
 			// ssMain
@@ -138,6 +139,7 @@
 			this.MainMenuStrip = this.msMain;
 			this.Name = "frmMain";
 			this.Text = "Sifu";
+			this.Load += new System.EventHandler(this.frmMain_Load);
 			this.msMain.ResumeLayout(false);
 			this.msMain.PerformLayout();
 			this.ssMain.ResumeLayout(false);
