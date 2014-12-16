@@ -140,8 +140,8 @@ namespace UnlockedStateProvider.Redis
 
 			public void Abondon(bool async = false)
 			{
-				var key = GetSessionItemKey(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY); //GetSessionItemPrefix();
-				Delete(key, async);
+				var key = GetSessionItemPrefix();
+				DeleteStartsWith(key, async);
 				UnlockedExtensions.EndSessionWithCustomCookie(configuration.CookieName);
 			}
 
@@ -153,8 +153,8 @@ namespace UnlockedStateProvider.Redis
 			public void ClearAllItems(bool async = false)
 			{
 				Items.Clear();
-				var key = GetSessionItemKey(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY); //GetSessionItemPrefix();
-				Delete(key, async);
+				var key = GetSessionItemPrefix();
+				DeleteStartsWith(key, async);
 			}
 
 			//public IUnlockedStateStore GetStoreFromContext(HttpContextBase controllerContext)
@@ -189,7 +189,7 @@ namespace UnlockedStateProvider.Redis
 				if (slide)
 				{
 					var expire = UnlockedExtensions.GetNextTimeout(configuration.SessionTimeout);
-					var prefix = key; //GetSessionItemPrefix(); // sliding with prefix is not working lua script, we are investigating the case
+					var prefix = GetSessionItemPrefix();
 					SlideInternal(prefix, expire, slideAsync);
 				}
 				return result;
@@ -252,13 +252,17 @@ namespace UnlockedStateProvider.Redis
 
 			protected void SlideInternal(string prefix, TimeSpan expireTime, bool async = false)
 			{
-				string script = string.Format("redis.call('expire', unpack(redis.call('keys', '{0}*')), {1})", prefix, Math.Ceiling(expireTime.TotalSeconds));
+				if (!prefix.StartsWith(UnlockedExtensions.UNLOCKED + ":")) return;
+				// local k=0;local karr=redis.call('KEYS', 'bar*'); for i, name in ipairs(karr) do redis.call('EXPIRE', name, 86400); k=i; end return k;
+				string script = string.Format("local k=0;local karr=redis.call('KEYS', '{0}*'); for i, name in ipairs(karr) do redis.call('EXPIRE', name, {1}); k=i; end return k;)", prefix, Math.Ceiling(expireTime.TotalSeconds));
 				Eval(script, async);
 			}
 
 			public void DeleteStartsWith(string prefix, bool async = false)
 			{
-				string script = string.Format("redis.call('del', unpack(redis.call('keys', '{0}*')))", prefix);
+				if (!prefix.StartsWith(UnlockedExtensions.UNLOCKED + ":")) return;
+				// local k=0;local karr=redis.call('KEYS', '*'); for i, name in ipairs(karr) do redis.call('del', name); k=i; end return k;
+				string script = string.Format("local karr=redis.call('KEYS', '{0}*'); for i, name in ipairs(karr) do redis.call('del', name); end", prefix);
 				Eval(script, async);
 			}
 
