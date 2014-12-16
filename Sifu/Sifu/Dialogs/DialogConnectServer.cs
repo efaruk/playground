@@ -18,7 +18,7 @@ namespace Sifu.Dialogs
 			InitializeComponent();
 		}
 
-		private ConnectionMultiplexer _redisConnection;
+		private SharedConnection sharedConnection = SharedConnection.Instance; 
 
 		private void DialogConnectServer_Load(object sender, EventArgs e)
 		{
@@ -33,7 +33,9 @@ namespace Sifu.Dialogs
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-
+			sharedConnection.Connect(tbAddress.Text);
+			this.DialogResult = DialogResult.OK;
+			this.Hide();
 		}
 	}
 }
