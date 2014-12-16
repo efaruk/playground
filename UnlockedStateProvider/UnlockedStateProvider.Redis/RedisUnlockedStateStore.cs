@@ -140,8 +140,8 @@ namespace UnlockedStateProvider.Redis
 
 			public void Abondon(bool async = false)
 			{
-				var prefix = GetSessionItemPrefix();
-				DeleteStartsWith(prefix, async);
+				var key = GetSessionItemKey(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY); //GetSessionItemPrefix();
+				Delete(key, async);
 				UnlockedExtensions.EndSessionWithCustomCookie(configuration.CookieName);
 			}
 
@@ -153,8 +153,8 @@ namespace UnlockedStateProvider.Redis
 			public void ClearAllItems(bool async = false)
 			{
 				Items.Clear();
-				var prefix = GetSessionItemPrefix();
-				DeleteStartsWith(prefix, async);
+				var key = GetSessionItemKey(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY); //GetSessionItemPrefix();
+				Delete(key, async);
 			}
 
 			//public IUnlockedStateStore GetStoreFromContext(HttpContextBase controllerContext)
@@ -189,7 +189,7 @@ namespace UnlockedStateProvider.Redis
 				if (slide)
 				{
 					var expire = UnlockedExtensions.GetNextTimeout(configuration.SessionTimeout);
-					var prefix = GetSessionItemPrefix();
+					var prefix = key; //GetSessionItemPrefix(); // sliding with prefix is not working lua script, we are investigating the case
 					SlideInternal(prefix, expire, slideAsync);
 				}
 				return result;
@@ -252,13 +252,13 @@ namespace UnlockedStateProvider.Redis
 
 			protected void SlideInternal(string prefix, TimeSpan expireTime, bool async = false)
 			{
-				string script = string.Format("return redis.call('expire', unpack(redis.call('keys', '{0}*')), {1})", prefix, Math.Ceiling(expireTime.TotalSeconds));
+				string script = string.Format("redis.call('expire', unpack(redis.call('keys', '{0}*')), {1})", prefix, Math.Ceiling(expireTime.TotalSeconds));
 				Eval(script, async);
 			}
 
 			public void DeleteStartsWith(string prefix, bool async = false)
 			{
-				string script = string.Format("return redis.call('del', unpack(redis.call('keys', '{0}*')))", prefix);
+				string script = string.Format("redis.call('del', unpack(redis.call('keys', '{0}*')))", prefix);
 				Eval(script, async);
 			}
 
