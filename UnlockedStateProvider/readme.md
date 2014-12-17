@@ -30,7 +30,8 @@ AppSettings
 --
 
 	<add key="Unlocked:Host" value="localhost:6379,127.0.0.1:6379" />
-	<!-- <add key="Unlocked:CookieName" value="UnlockedCookie" /> --> <!-- Custom Cookie -->
+	<add key="Unlocked:Auto" value="true" /> <!-- Default is true, manage session cookie automatically -->
+	<add key="Unlocked:CookieName" value="UnlockedState" /> <!-- to use custom cookie name if needed -->
 	<add key="Unlocked:SessionTimeout" value="20" /> <!-- As Minutes -->
 	<add key="Unlocked:Database" value="3" /> <!-- For REDIS Database Id -->
 	<add key="Unlocked:OperationTimeout" value="30" /> <!-- As Seconds -->
@@ -55,17 +56,12 @@ If you want to use only Unlocked without any locking first you need to disable s
 
 	<sessionState mode="Off" />
 
-and set a custom Cookie with unique value or just use our helper
-
-	UnlockedExtensions.StartSessionIfNewWithCustomCookie("UnlockedCookie");
-
-
 Real World Example / Demo Application
 --
 
 Demo application will guide you, just clone the repository and press F5. 
 
-You need a REDIS server as configured, you can download from nuget for x64 system [redis-64](https://www.nuget.org/packages/Redis-64/), for x86 system [redis32](https://www.nuget.org/packages/Redis-32/) from MSOpenTech
+You need a REDIS server as configured, you can download from nuget for x64 system [redis-64](https://www.nuget.org/packages/Redis-64/), for x86 system [redis-32](https://www.nuget.org/packages/Redis-32/) from MSOpenTech
 
 
 Questions and Contributions

@@ -23,7 +23,7 @@
 		private void Initialize()
 		{
 			AutoManageSessionCookie = SettingsHelper.GetBoolAppSetting("Unlocked:Auto", true);
-			CookieName = SettingsHelper.GetAppSetting("Unlocked:CookieName", UnlockedExtensions.DEFAULT_COOKIE_NAME);
+			CookieName = SettingsHelper.GetAppSetting("Unlocked:CookieName", UnlockedExtensions.CUSTOM_COOKIE_NAME);
 			ForceSlide = SettingsHelper.GetBoolAppSetting("Unlocked:ForceSlide", true);
 			Host = SettingsHelper.GetAppSetting("Unlocked:Host", DEFAULT_HOST);
 			//Port = SettingsHelper.GetIntAppSetting("Unlocked:Port", DEFAULT_PORT);
@@ -33,8 +33,8 @@
 			ConnectionTimeout = SettingsHelper.GetIntAppSetting("Unlocked:ConnectionTimeout", DEFAULT_OPERATION_TIMEOUT);
 			AccessKey = SettingsHelper.GetAppSetting("Unlocked:AccessKey");
 			RetryCount = SettingsHelper.GetIntAppSetting("Unlocked:RetryCount", 0);
-			UseSsl = SettingsHelper.GetBoolAppSetting("Unlocked:ForceSlide", false);
-			ApplicationName = SettingsHelper.GetAppSetting("Unlocked:CookieName", UnlockedExtensions.DEFAULT_APPLICATION_NAME);
+			UseSsl = SettingsHelper.GetBoolAppSetting("Unlocked:UseSsl", false);
+			ApplicationName = SettingsHelper.GetAppSetting("Unlocked:Application", UnlockedExtensions.DEFAULT_APPLICATION_NAME);
 		}
 
 		private bool _autoManageSessionCookie = true;
@@ -48,7 +48,7 @@
 		}
 
 		/// <summary>
-		/// Force store every hit to sliding expiration.
+		/// Force store to slide expiration for every hit by get to forward.
 		/// </summary>
 		public bool ForceSlide { get; set; }
 

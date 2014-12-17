@@ -14,6 +14,7 @@ namespace UnlockedStateProvider
 		//public const string UNLOCKED_STATE_OBJECT_KEY = "UNLOCKED_STATE_OBJECT";
 		public const string UNLOCKED_STATE_STORE_KEY = "UNLOCKED_STATE_STORE";
 		public const string DEFAULT_COOKIE_NAME = "ASP.NET_SessionId";
+		public const string CUSTOM_COOKIE_NAME = "UnlockedState";
 		public const string SESSION_STARTED_KEY = "UNLOCKED:started";
 		public const int DEFAULT_ITEM_COUNT = 15;
 		public const string UNLOCKED = "UNLOCKED";
