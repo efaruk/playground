@@ -11,7 +11,7 @@ namespace UnlockedSessionDemo.Controllers
 {
 
 	[RedisUnlockedStateUsage(Usage = UnlockedStateUsage.ReadWrite)]
-	public class LogoutController : Controller
+	public class LogoutController : BaseController
 	{
 		// GET: Home
 		public ActionResult Index()

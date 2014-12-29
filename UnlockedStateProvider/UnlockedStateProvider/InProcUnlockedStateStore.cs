@@ -58,7 +58,7 @@ namespace UnlockedStateProvider
 
 		public void ClearItems()
 		{
-			throw new NotImplementedException();
+			Items.Clear();
 		}
 
 		public void ClearAllItems(bool async = false)
@@ -68,7 +68,23 @@ namespace UnlockedStateProvider
 
 		public object Get(string key, bool slide = true, bool slideAsync = true)
 		{
-			throw new NotImplementedException();
+			if (configuration.ForceSlide) slide = true;
+			var redisKey = GetSessionItemKey(key);
+			var result = GetInternal(redisKey, slide, slideAsync);
+			return result;
+		}
+
+		protected object GetInternal(string key, bool slide = true, bool slideAsync = true)
+		{
+			var data = HttpContext.Current.GetCacheItem(key);
+			var result = data;
+			if (slide)
+			{
+				var expire = UnlockedExtensions.GetNextTimeout(configuration.SessionTimeout);
+				var prefix = GetSessionItemPrefix();
+				SlideInternal(prefix, (int)expire.TotalSeconds, slideAsync);
+			}
+			return result;
 		}
 
 		public bool Set(string key, object value, TimeSpan? expireTime = null, bool async = false)
@@ -84,6 +100,26 @@ namespace UnlockedStateProvider
 		public void Slide(bool async = false)
 		{
 			throw new NotImplementedException();
+		}
+
+		protected void SlideInternal(string prefix, int expireTime, bool async = false)
+		{
+			if (!prefix.StartsWith(UnlockedExtensions.UNLOCKED + ":")) return;
+			var cache = HttpContext.Current.Cache.AsQueryable();
+			
+			
+		}
+
+		protected string GetSessionItemKey(string keyName)
+		{
+			var redisKey = UnlockedExtensions.GetSessionItemKey(keyName, configuration.CookieName);
+			return redisKey;
+		}
+
+		protected string GetSessionItemPrefix()
+		{
+			var prefix = UnlockedExtensions.GetSessionItemKey(string.Empty, configuration.CookieName);
+			return prefix;
 		}
 	}
 }

@@ -49,6 +49,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StateBinarySerializer.cs" />
+    <Compile Include="UnlockedCookieTempDataProvider.cs" />
     <Compile Include="UnlockedExtensions.cs" />
     <Compile Include="IUnlockedStateStore.cs" />
     <Compile Include="SettingsHelper.cs" />

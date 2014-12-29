@@ -56,7 +56,7 @@
     <Compile Include="RedisUnlockedStateStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedisUnlockedStateUsageAttribute.cs" />
-    <Compile Include="StateBinarySerializer.cs" />
+    <Compile Include="RedisUnlockedTempDataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UnlockedStateProvider\UnlockedStateProvider.csproj">

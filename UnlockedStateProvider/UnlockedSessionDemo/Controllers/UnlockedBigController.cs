@@ -8,7 +8,7 @@ namespace UnlockedSessionDemo.Controllers
 {
 	[SessionState(SessionStateBehavior.Disabled)]
 	[RedisUnlockedStateUsage(Order = 0, Usage = UnlockedStateUsage.ReadWrite)]
-	public class UnlockedBigController : Controller
+	public class UnlockedBigController : BaseController
 	{
 		// GET: Home
 		public ActionResult Index()

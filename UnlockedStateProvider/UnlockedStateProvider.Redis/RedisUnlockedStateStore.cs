@@ -8,9 +8,7 @@ namespace UnlockedStateProvider.Redis
 		public class RedisUnlockedStateStore : IUnlockedStateStore
 		{
 			private const char SPLITTER = ',';
-			//private const int DEFAULT_PORT = 6379;
-			//private readonly IDatabase _redisDatabase;
-			private static readonly Lazy<ConnectionMultiplexer> LazyConnection = new Lazy<ConnectionMultiplexer>(() =>
+			private static readonly Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(() =>
 			{
 				var connection = ConnectWithConfiguration();
 				return connection;
@@ -18,16 +16,11 @@ namespace UnlockedStateProvider.Redis
 
 			private static ConnectionMultiplexer RedisConnection
 			{
-				get { return LazyConnection.Value; }
+				get { return lazyConnection.Value; }
 			}
 
 			private static readonly UnlockedStateStoreConfiguration configuration = UnlockedStateStoreConfiguration.Instance;
 
-			//public RedisUnlockedStateStore()
-			//{
-			//	//_redisConnection = ConnectWithConfiguration();
-			//	//_redisDatabase = RedisConnection.GetDatabase(int.Parse(configuration.Database));
-			//}
 
 			private static ConnectionMultiplexer ConnectWithConfiguration()
 			{
@@ -53,7 +46,6 @@ namespace UnlockedStateProvider.Redis
 				{
 					options.EndPoints.Add(host);
 				}
-				//options.EndPoints.Add(configuration.Host, configuration.Port);
 				var redisConnection = ConnectionMultiplexer.Connect(options);
 				return redisConnection;
 			}
@@ -63,16 +55,6 @@ namespace UnlockedStateProvider.Redis
 				var database = RedisConnection.GetDatabase(int.Parse(configuration.Database));
 				return database;
 			}
-
-			//public IUnlockedStateStore UnlockedStore()
-			//{
-			//	return new RedisUnlockedStateStore();
-			//}
-
-			//public void UpdateContext()
-			//{
-			//	SetContextItems(HttpContext.Current, _items);
-			//}
 
 			public UnlockedStateStoreConfiguration Configuration { get { return configuration; } }
 
@@ -100,20 +82,16 @@ namespace UnlockedStateProvider.Redis
 				{
 					if (_items == null)
 					{
-						if (HttpContext.Current != null)
-						{
-							var store = HttpContext.Current.GetStoreFromContext();
-							if (store != null)
-								_items = store.Items;
-						}
-						// if (_items == null) _items = new Dictionary<string, object>(UnlockedStateUsageAttribute.DEFAULT_ITEM_COUNT);
+						if (HttpContext.Current == null) return _items;
+						var store = HttpContext.Current.GetStoreFromContext();
+						if (store != null)
+							_items = store.Items;
 					}
 					return _items;
 				}
 				set
 				{
 					_items = value;
-					// SetContextItems(HttpContext.Current, _items);
 				}
 			}
 
@@ -126,14 +104,6 @@ namespace UnlockedStateProvider.Redis
 				}
 				set
 				{
-					//if (Items != null)
-					//{
-					//	Items[name] = value;
-					//	//if (Items.ContainsKey(name))
-					//	//	Items[name] = value;
-					//	//else
-					//	//	Items.Add(name, value);
-					//}
 					Items[name] = value;
 				}
 			}
@@ -156,22 +126,6 @@ namespace UnlockedStateProvider.Redis
 				var key = GetSessionItemPrefix();
 				DeleteStartsWith(key, async);
 			}
-
-			//public IUnlockedStateStore GetStoreFromContext(HttpContextBase controllerContext)
-			//{
-			//	var store = (IUnlockedStateStore)controllerContext.GetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_STORE_KEY);
-			//	return store;
-			//}
-
-			//public void SetContextItems(HttpContextBase controllerContext, Dictionary<string, object> items)
-			//{
-			//	controllerContext.SetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY, items);
-			//}
-
-			//public void SetContextItems(HttpContext controllerContext, Dictionary<string, object> items)
-			//{
-			//	controllerContext.SetContextItem(UnlockedStateUsageAttribute.UNLOCKED_STATE_OBJECT_KEY, items);
-			//}
 
 			public object Get(string key, bool slide = true, bool slideAsync = true)
 			{
@@ -253,7 +207,6 @@ namespace UnlockedStateProvider.Redis
 			protected void SlideInternal(string prefix, TimeSpan expireTime, bool async = false)
 			{
 				if (!prefix.StartsWith(UnlockedExtensions.UNLOCKED + ":")) return;
-				// local k=0;local karr=redis.call('KEYS', 'bar*'); for i, name in ipairs(karr) do redis.call('EXPIRE', name, 86400); k=i; end return k;
 				string script = string.Format("local k=0;local karr=redis.call('KEYS', '{0}*'); for i, name in ipairs(karr) do redis.call('EXPIRE', name, {1}); k=i; end return k;)", prefix, Math.Ceiling(expireTime.TotalSeconds));
 				Eval(script, async);
 			}
@@ -261,7 +214,6 @@ namespace UnlockedStateProvider.Redis
 			public void DeleteStartsWith(string prefix, bool async = false)
 			{
 				if (!prefix.StartsWith(UnlockedExtensions.UNLOCKED + ":")) return;
-				// local k=0;local karr=redis.call('KEYS', '*'); for i, name in ipairs(karr) do redis.call('del', name); k=i; end return k;
 				string script = string.Format("local karr=redis.call('KEYS', '{0}*'); for i, name in ipairs(karr) do redis.call('del', name); end", prefix);
 				Eval(script, async);
 			}
@@ -277,18 +229,6 @@ namespace UnlockedStateProvider.Redis
 				var prefix = UnlockedExtensions.GetSessionItemKey(string.Empty, configuration.CookieName);
 				return prefix;
 			}
-
-			//public void Dispose()
-			//{
-			//	//_redisConnection.Dispose();
-			//	//_disposed = true;
-			//}
-
-			//private bool _disposed = false;
-			//public bool Disposed()
-			//{
-			//	return _disposed;
-			//}
 
 		}
 }

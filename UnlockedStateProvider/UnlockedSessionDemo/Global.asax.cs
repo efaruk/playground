@@ -30,12 +30,12 @@ namespace UnlockedSessionDemo
 
 		protected void Application_BeginRequest()
 		{
-			MiniProfiler.Start();
+			//MiniProfiler.Start();
 		}
 
 		protected void Application_EndRequest()
 		{
-			MiniProfiler.Stop();
+			//MiniProfiler.Stop();
 		}
 
 	}

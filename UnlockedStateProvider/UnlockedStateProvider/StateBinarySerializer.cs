@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace UnlockedStateProvider.Redis
+namespace UnlockedStateProvider
 {
-	internal static class StateBinarySerializer
+	public static class StateBinarySerializer
 	{
 		//// Old Code #Protobuf-net
 		//internal static byte[] Serialize(object value)
