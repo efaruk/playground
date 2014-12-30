@@ -8,6 +8,14 @@ namespace UnlockedStateProvider
 	public class UnlockedCookieTempDataProvider : ITempDataProvider
 	{
 		const string UNLOCKED_TEMP_DATA_COOKIE_NAME = "Unlocked.TempData";
+
+		public UnlockedCookieTempDataProvider(bool autoRemove = true)
+		{
+			AutoRemove = autoRemove;
+		}
+
+		public bool AutoRemove { get; set; }
+
 		public IDictionary<string, object> LoadTempData(ControllerContext controllerContext)
 		{
 			var cookie = controllerContext.GetCookie(UNLOCKED_TEMP_DATA_COOKIE_NAME);
@@ -20,6 +28,10 @@ namespace UnlockedStateProvider
 				var bytes = Convert.FromBase64String(cookieValue);
 				var data = MachineKey.Unprotect(bytes);
 				tempData = (Dictionary<string, object>)StateBinarySerializer.Deserialize<Dictionary<string, object>>(data);
+				if (AutoRemove)
+				{
+					controllerContext.ExpireCookie(UNLOCKED_TEMP_DATA_COOKIE_NAME);
+				}
 			}
 			// ReSharper disable once EmptyGeneralCatchClause
 			catch { } // Omit cookie manipulations.

@@ -321,6 +321,16 @@ namespace UnlockedStateProvider
 			return false;
 		}
 
+		public static void ExpireCookie(this HttpContextBase context, string cookieName)
+		{
+			context.SetCookie(cookieName, "", true, "/", false, DateTime.Now.AddYears(-1));
+		}
+
+		public static void ExpireCookie(this ControllerContext context, string cookieName)
+		{
+			context.HttpContext.SetCookie(cookieName, "", true, "/", false, DateTime.Now.AddYears(-1));
+		}
+
 		public static void SetCookie(this HttpContextBase context, string cookieName, string value, bool httpOnly = true, string path = "/", bool isSecure = false, DateTime? expires = null)
 		{
 			var cookie = new HttpCookie(cookieName, value)

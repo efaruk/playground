@@ -9,7 +9,7 @@ namespace UnlockedSessionDemo.Controllers
 
 		protected override ITempDataProvider CreateTempDataProvider()
 		{
-			var provider = new InternalCookieTempDataProvider();
+			var provider = new RedisUnlockedTempDataProvider();
 			return provider;
 		}
 	}
