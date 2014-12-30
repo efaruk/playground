@@ -1,17 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration>
 	<appSettings>
-		<add key="Unlocked:Host" value="localhost" />
-		<add key="Unlocked:Port" value="6379" />
+		<!-- Unlocked Started-->
+		<add key="Unlocked:Host" value="localhost:6379,127.0.0.1:6379" />
+		<add key="Unlocked:Auto" value="true" /> <!-- Auto manage cookie, default is true -->
+		<add key="Unlocked:CookieName" value="UnlockedState" />
 		<!-- <add key="Unlocked:CookieName" value="ASP.NET_SessionId" /> -->
-		<!-- to use custom cookie name if needed -->
-		<add key="Unlocked:SessionTimeout" value="20" />
-		<!-- As Minutes -->
-		<add key="Unlocked:Database" value="3" />
-		<!-- For REDIS Database Id -->
-		<add key="Unlocked:OperationTimeout" value="30" />
-		<!-- As Seconds -->
-		<!--<add key="Unlocked:ConnectionTimeout" value="30" /> -->
-		<!-- As Seconds -->
+		<add key="Unlocked:SessionTimeout" value="20" /> <!-- As Minutes -->
+		<add key="Unlocked:Database" value="3" /> <!-- For REDIS Database Id -->
+		<add key="Unlocked:OperationTimeout" value="30" /> <!-- As Seconds -->
+		<!--<add key="Unlocked:ConnectionTimeout" value="30" /> --> <!-- As Seconds -->
+		<!-- Unlocked End-->
 	</appSettings>
 </configuration>
