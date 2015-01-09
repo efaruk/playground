@@ -22,6 +22,7 @@
 
 		private void Initialize()
 		{
+			Disabled = SettingsHelper.GetBoolAppSetting("Unlocked:Disabled", false);
 			AutoManageSessionCookie = SettingsHelper.GetBoolAppSetting("Unlocked:Auto", true);
 			CookieName = SettingsHelper.GetAppSetting("Unlocked:CookieName", UnlockedExtensions.CUSTOM_COOKIE_NAME);
 			ForceSlide = SettingsHelper.GetBoolAppSetting("Unlocked:ForceSlide", true);
@@ -36,6 +37,9 @@
 			UseSsl = SettingsHelper.GetBoolAppSetting("Unlocked:UseSsl", false);
 			ApplicationName = SettingsHelper.GetAppSetting("Unlocked:Application", UnlockedExtensions.DEFAULT_APPLICATION_NAME);
 		}
+
+
+		public bool Disabled { get; set; }
 
 		private bool _autoManageSessionCookie = true;
 		/// <summary>

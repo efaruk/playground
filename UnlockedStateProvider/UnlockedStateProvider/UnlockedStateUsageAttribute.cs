@@ -84,6 +84,7 @@ namespace UnlockedStateProvider
 
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
+			if (UnlockedStateStoreConfiguration.Instance.Disabled) return;
 			if (Usage != UnlockedStateUsage.Disabled)
 			{
 				// filterContext.StartSessionIfNew();
@@ -111,6 +112,7 @@ namespace UnlockedStateProvider
 
 		public override void OnResultExecuted(ResultExecutedContext filterContext)
 		{
+			if (UnlockedStateStoreConfiguration.Instance.Disabled) return;
 			if (Usage == UnlockedStateUsage.ReadWrite)
 			{
 				//var session = filterContext.HttpContext.GetContextItem(UNLOCKED_STATE_OBJECT_KEY);
@@ -122,10 +124,6 @@ namespace UnlockedStateProvider
 					var expire = UnlockedExtensions.GetNextTimeout(UnlockedStateStore.Configuration.SessionTimeout);
 					UnlockedStateStore.Set(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY, UnlockedStateStore.Items, expire, RunAsync);
 				}
-			}
-			if (Usage != UnlockedStateUsage.Disabled)
-			{
-				
 			}
 			base.OnResultExecuted(filterContext);
 			//UnlockedStateStore.Dispose();

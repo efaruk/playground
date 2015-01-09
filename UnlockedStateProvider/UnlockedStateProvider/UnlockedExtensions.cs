@@ -211,7 +211,7 @@ namespace UnlockedStateProvider
 			if (!CookieExists(context, cookieName)) return;
 			var cookie = new HttpCookie(cookieName)
 			{
-				Expires = DateTime.Now.AddDays(-1)
+				Expires = DateTime.Now.AddYears(-1)
 			};
 			context.Response.Cookies.Add(cookie);
 		}
