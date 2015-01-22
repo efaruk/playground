@@ -19,6 +19,27 @@ namespace UnlockedStateProvider
 		public const int DEFAULT_ITEM_COUNT = 15;
 		public const string UNLOCKED = "UNLOCKED";
 
+
+		/// <summary>
+		/// <see cref="IUnlockedStateStore.SaveSession" />
+		/// </summary>
+		/// <param name="context"></param>
+		public static void SaveSession(this HttpContext context)
+		{
+			var store = context.GetStoreFromContext();
+			store.SaveSession();
+		}
+
+		/// <summary>
+		/// <see cref="IUnlockedStateStore.SaveSession" />
+		/// </summary>
+		/// <param name="context"></param>
+		public static void SaveSession(this ControllerContext context)
+		{
+			var store = context.GetStoreFromContext();
+			store.SaveSession();
+		}
+
 		public static IUnlockedStateStore GetStoreFromContext(this HttpContext context)
 		{
 			var store = (IUnlockedStateStore)context.GetContextItem(UNLOCKED_STATE_STORE_KEY);

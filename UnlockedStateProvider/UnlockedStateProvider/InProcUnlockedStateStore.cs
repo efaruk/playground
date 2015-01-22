@@ -66,6 +66,11 @@ namespace UnlockedStateProvider
 			throw new NotImplementedException();
 		}
 
+		public void SaveSession()
+		{
+			Set(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY, Items);
+		}
+
 		public object Get(string key, bool slide = true, bool slideAsync = true)
 		{
 			if (configuration.ForceSlide) slide = true;

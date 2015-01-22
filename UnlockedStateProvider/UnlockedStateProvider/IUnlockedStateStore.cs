@@ -52,6 +52,11 @@ namespace UnlockedStateProvider {
 		void ClearAllItems(bool async = false);
 
 		/// <summary>
+		/// If you are accessing unlocked session another views' controller, before first view render done, you should save your session for accessing it on another controller. (Partial view calling with ajax request).
+		/// </summary>
+		void SaveSession();
+
+		/// <summary>
 		/// Returns object from store with specified key.
 		/// </summary>
 		/// <param name="key"></param>
