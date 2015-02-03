@@ -26,7 +26,8 @@
 			AutoManageSessionCookie = SettingsHelper.GetBoolAppSetting("Unlocked:Auto", true);
 			CookieName = SettingsHelper.GetAppSetting("Unlocked:CookieName", UnlockedExtensions.CUSTOM_COOKIE_NAME);
 			ForceSlide = SettingsHelper.GetBoolAppSetting("Unlocked:ForceSlide", true);
-			Host = SettingsHelper.GetAppSetting("Unlocked:Host", DEFAULT_HOST);
+			HostConfigName = SettingsHelper.GetAppSetting("Unlocked:HostConfigName");
+			Host = SettingsHelper.GetAppSetting((!string.IsNullOrWhiteSpace(HostConfigName) ? HostConfigName : "Unlocked:Host"), DEFAULT_HOST);
 			//Port = SettingsHelper.GetIntAppSetting("Unlocked:Port", DEFAULT_PORT);
 			SessionTimeout = SettingsHelper.GetIntAppSetting("Unlocked:SessionTimeout", DEFAULT_SESSION_TIMEOUT);
 			Database = SettingsHelper.GetAppSetting("Unlocked:Database", DEFAULT_DATABASE_ID);
@@ -37,6 +38,8 @@
 			UseSsl = SettingsHelper.GetBoolAppSetting("Unlocked:UseSsl", false);
 			ApplicationName = SettingsHelper.GetAppSetting("Unlocked:Application", UnlockedExtensions.DEFAULT_APPLICATION_NAME);
 		}
+
+		
 
 
 		public bool Disabled { get; set; }
@@ -79,6 +82,11 @@
 		/// As minutes
 		/// </summary>
 		public int SessionTimeout { get; set; }
+
+		/// <summary>
+		/// AppSettings key name for Host addresses...
+		/// </summary>
+		public string HostConfigName { get; set; }
 
 		///// <summary>
 		///// Port number for remote store.
