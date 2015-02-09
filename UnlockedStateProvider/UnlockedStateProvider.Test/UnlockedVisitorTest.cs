@@ -6,13 +6,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnlockedStateProvider.Test
 {
+#if DEBUG
 	[TestClass]
+#endif
 	public class UnlockedVisitorTest
 	{
 		private readonly string _siteUrl = ConfigurationManager.AppSettings.Get("SiteUrl");
-		
 
+#if DEBUG
 		[TestMethod]
+#endif
 		public void VisitPagesSmokely()
 		{
 			var cookieContainer = new CookieContainer(3);
