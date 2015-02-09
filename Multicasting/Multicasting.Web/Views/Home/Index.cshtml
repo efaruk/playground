@@ -1,0 +1,20 @@
+﻿@{
+	ViewBag.Title = "Home";
+}
+@section featured {
+	<section>
+			<div>
+				<hgroup>
+					<h1>@ViewBag.Title</h1>
+					<h2>@ViewBag.Message</h2>
+				</hgroup>
+			</div>
+			<br />
+			@Html.FormatValue(Session.SessionID, "Session ID: {0}")
+			<br/>
+			@foreach (string v in Session) {
+				<br />
+				@(string.Format("{0} : {1}", v, Session[v]))
+			}
+	</section>
+}
