@@ -10,12 +10,17 @@
 				</hgroup>
 			</div>
 		<br />
-		@{@Html.BeginForm("Index", "Home", FormMethod.Post, null);}
-		<div>
-			@Html.Label("", "Message"):@Html.TextBox("message", "")
-		</div>
-		<div style="align-content: flex-end"><input type="submit" value="Send"/> </div>
-		@{Html.EndForm();}
+		@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+		{
+			<span style="vertical-align: top; display: block;">Message :</span>
+			<div style="display: block">
+				<textarea name="message" cols="100" rows="10"></textarea>
+			</div>
+			
+			<br /> 
+			<div><input type="submit" value="Send" style="float: right; clear: right; display: block; " /> </div>
+		}
+		<br /> 
 		<div>
 			<span>Received Message:</span> @Html.Raw(ViewBag.ReceivedMessage)
 		</div>
