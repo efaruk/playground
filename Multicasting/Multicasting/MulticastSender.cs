@@ -1,18 +1,49 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Multicasting
 {
-	public class MulticastSender
+	public static class MulticastSender
 	{
-		private IPAddress _ipAddress = IPAddress.Parse("224.0.0.1");
+		private static readonly IPAddress multicastAddress = IPAddress.Parse(GlobalConstants.MULTICAST_ADDRESS);
+		
+		private static readonly IPEndPoint remoteEndpoint = new IPEndPoint(multicastAddress, GlobalConstants.MULTICAST_PORT_NUMBER);
 
-		void Test()
+		private static UdpClient _udpClient;
+
+		private static void SetupUdpClient()
 		{
-			var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-			var client = new UdpClient(AddressFamily.InterNetwork);
-			client.JoinMulticastGroup(_ipAddress, 1);
-			
+			if (_udpClient == null)
+			{
+				_udpClient = new UdpClient();
+				_udpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+				_udpClient.Client.ExclusiveAddressUse = false;
+				//_udpClient.Client.Bind(remoteEndpoint);
+				_udpClient.JoinMulticastGroup(multicastAddress, 2);
+			}
 		}
+
+		public static void SendMessage(string message)
+		{
+
+			SetupUdpClient();
+			
+			message = string.Format("{0}{2}{1}", GlobalConstants.MESSAGE_START, GlobalConstants.MESSAGE_END, message);
+			var bytes = GlobalConstants.DefaultEncoding.GetBytes(message);
+
+			_udpClient.BeginSend(bytes, bytes.Length, remoteEndpoint, SendCallback, null);
+		}
+
+		private static void SendCallback(IAsyncResult ar)
+		{
+			var sendBytes = _udpClient.EndSend(ar);
+			//_udpClient.Close();
+		}
+
 	}
 }
