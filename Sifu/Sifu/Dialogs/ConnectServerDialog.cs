@@ -33,7 +33,7 @@ namespace Sifu.Dialogs
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			_sharedConnection.Connect(tbAddress.Text);
+			_sharedConnection.Connect(tbAddress.Text, cbAutoRefresh.Checked, (int)nudInterval.Value);
 			this.DialogResult = DialogResult.OK;
 			this.Hide();
 		}
