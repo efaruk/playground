@@ -132,18 +132,20 @@ namespace UnlockedStateProvider.Redis
 				Set(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY, Items);
 			}
 
-			public object Get(string key, bool slide = true, bool slideAsync = true)
+			public object Get(string key, bool slide = true, bool slideAsync = true, bool preferSlave = true)
 			{
 				if (configuration.ForceSlide) slide = true;
 				var redisKey = GetSessionItemKey(key);
-				var result = GetInternal(redisKey, slide, slideAsync);
+				var result = GetInternal(redisKey, slide, slideAsync, preferSlave);
 				return result;
 			}
 
-			protected object GetInternal(string key, bool slide = true, bool slideAsync = true)
+			protected object GetInternal(string key, bool slide = true, bool slideAsync = true, bool preferSlave = true)
 			{
 				var redisDatabase = GetRedisDatabase();
-				var data = redisDatabase.StringGet(key);
+				var flag = CommandFlags.None;
+				if (preferSlave) flag = CommandFlags.PreferSlave;
+				var data = redisDatabase.StringGet(key, flag);
 				var result = StateBinarySerializer.Deserialize(data);
 				if (slide)
 				{

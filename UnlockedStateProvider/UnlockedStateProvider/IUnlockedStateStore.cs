@@ -62,8 +62,9 @@ namespace UnlockedStateProvider {
 		/// <param name="key"></param>
 		/// <param name="slide"></param>
 		/// <param name="slideAsync"></param>
+		/// <param name="preferSlave"></param>
 		/// <returns></returns>
-		object Get(string key, bool slide = true, bool slideAsync = true);
+		object Get(string key, bool slide = true, bool slideAsync = true, bool preferSlave = true);
 
 		/// <summary>
 		/// Set or add object to store with specified key and expireTime.

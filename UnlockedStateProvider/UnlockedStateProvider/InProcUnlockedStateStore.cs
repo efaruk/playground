@@ -71,7 +71,7 @@ namespace UnlockedStateProvider
 			Set(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY, Items);
 		}
 
-		public object Get(string key, bool slide = true, bool slideAsync = true)
+		public object Get(string key, bool slide = true, bool slideAsync = true, bool preferSlave = true)
 		{
 			if (configuration.ForceSlide) slide = true;
 			var redisKey = GetSessionItemKey(key);

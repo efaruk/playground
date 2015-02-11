@@ -37,6 +37,7 @@
 			RetryCount = SettingsHelper.GetIntAppSetting("Unlocked:RetryCount", 0);
 			UseSsl = SettingsHelper.GetBoolAppSetting("Unlocked:UseSsl", false);
 			ApplicationName = SettingsHelper.GetAppSetting("Unlocked:Application", UnlockedExtensions.DEFAULT_APPLICATION_NAME);
+			PreferSlaveForRead = SettingsHelper.GetBoolAppSetting("Unlocked:PreferSlave", true);
 		}
 
 		
@@ -132,6 +133,8 @@
 			get { return OperationTimeout * 1000; }
 			set { OperationTimeout = value / 1000; }
 		}
+
+		public bool PreferSlaveForRead { get; set; }
 
 	}
 }
