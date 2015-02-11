@@ -24,29 +24,37 @@ namespace UnlockedStateProvider.Redis
 
 			private static ConnectionMultiplexer ConnectWithConfiguration()
 			{
-				var options = new ConfigurationOptions
+				ConnectionMultiplexer redisConnection;
+				if (string.IsNullOrWhiteSpace(configuration.ConnectionString))
 				{
-					ClientName = configuration.ApplicationName,
-					ConnectTimeout = configuration.ConnectionTimeoutInMilliSec,
-					SyncTimeout = configuration.OperationTimeoutInMilliSec,
-					ResolveDns = true,
-					AbortOnConnectFail = false // Important for shared usage
-				};
-				if (string.IsNullOrWhiteSpace(configuration.AccessKey))
-					options.Password = configuration.AccessKey;
-				if (configuration.RetryCount > 0)
-					options.ConnectRetry = configuration.RetryCount;
-				if (configuration.UseSsl)
-				{
-					options.Ssl = configuration.UseSsl;
-					options.SslHost = configuration.Host;
+					var options = new ConfigurationOptions
+					{
+						ClientName = configuration.ApplicationName,
+						ConnectTimeout = configuration.ConnectionTimeoutInMilliSec,
+						SyncTimeout = configuration.OperationTimeoutInMilliSec,
+						ResolveDns = true,
+						AbortOnConnectFail = false // Important for shared usage
+					};
+					if (string.IsNullOrWhiteSpace(configuration.AccessKey))
+						options.Password = configuration.AccessKey;
+					if (configuration.RetryCount > 0)
+						options.ConnectRetry = configuration.RetryCount;
+					if (configuration.UseSsl)
+					{
+						options.Ssl = configuration.UseSsl;
+						options.SslHost = configuration.Host;
+					}
+					var hosts = configuration.Host.Split(new[] {SPLITTER}, StringSplitOptions.RemoveEmptyEntries);
+					foreach (var host in hosts)
+					{
+						options.EndPoints.Add(host);
+					}
+					redisConnection = ConnectionMultiplexer.Connect(options);
 				}
-				var hosts = configuration.Host.Split(new[] { SPLITTER }, StringSplitOptions.RemoveEmptyEntries);
-				foreach (var host in hosts)
+				else
 				{
-					options.EndPoints.Add(host);
+					redisConnection = ConnectionMultiplexer.Connect(configuration.ConnectionString);
 				}
-				var redisConnection = ConnectionMultiplexer.Connect(options);
 				return redisConnection;
 			}
 

@@ -38,6 +38,7 @@
 			UseSsl = SettingsHelper.GetBoolAppSetting("Unlocked:UseSsl", false);
 			ApplicationName = SettingsHelper.GetAppSetting("Unlocked:Application", UnlockedExtensions.DEFAULT_APPLICATION_NAME);
 			PreferSlaveForRead = SettingsHelper.GetBoolAppSetting("Unlocked:PreferSlave", true);
+			ConnectionString = SettingsHelper.GetAppSetting("Unlocked:ConnectionString");
 		}
 
 		
@@ -136,5 +137,6 @@
 
 		public bool PreferSlaveForRead { get; set; }
 
+		public string ConnectionString { get; set; }
 	}
 }
