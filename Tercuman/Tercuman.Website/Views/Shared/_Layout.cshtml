@@ -1,0 +1,30 @@
+﻿@using System.Web.Optimization
+@*@using StackExchange.Profiling;*@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>@ViewBag.Title - My ASP.NET Application</title>
+		@Styles.Render("~/Content/css")
+		@Scripts.Render("~/bundles/modernizr")
+	</head>
+	<body>
+		<div class="container-fluid" style="margin-top: 30px">
+			<ul style="margin-left: 100px;">
+				<li>@Html.ActionLink("Home", "Index", "Home")</li>
+			</ul>
+			<br />&nbsp;
+			<br />&nbsp;
+			<br />&nbsp;
+			<br />&nbsp;
+			<div id="body" style="margin-left: 150px;">
+				@RenderBody()
+			</div>
+			<br />&nbsp;
+		</div>
+		@Scripts.Render("~/bundles/jquery")
+		@Scripts.Render("~/bundles/bootstrap")
+		@RenderSection("scripts", required: false)
+		@*@MiniProfiler.RenderIncludes()*@
+	</body>
+</html>
