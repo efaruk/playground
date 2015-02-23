@@ -15,8 +15,11 @@ namespace Tercuman.Website
 
 		public bool RightToLeft { get; set; }
 
-		public Theme(string basePath, string name, bool rightToLeft = false)
+		public string LanguageCode { get; set; }
+
+		public Theme(string basePath, string name, string languageCode = "", bool rightToLeft = false)
 		{
+			LanguageCode = languageCode;
 			RightToLeft = rightToLeft;
 			Name = name;
 			BasePath = basePath;

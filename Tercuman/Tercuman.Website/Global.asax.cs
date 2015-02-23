@@ -25,9 +25,9 @@ namespace Tercuman.Website
 			var basePath = ConfigurationManager.AppSettings["ThemeBasePath"];
 			var themeName = ConfigurationManager.AppSettings["ThemeName"];
 
-			var theme = new Theme(basePath, themeName, false);
+			var theme = new Theme(basePath, themeName, "TR", false);
 
-			var themeableRazorViewEngine = new ThemedRazorViewEngine(theme);
+			var themeableRazorViewEngine = new CustomRazorViewEngine(theme);
 
 			viewEngines.Add(themeableRazorViewEngine);
 		}
