@@ -1,1 +1,0 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Tercuman.Website.MvcApplication" Language="C#" %>

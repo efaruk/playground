@@ -14,7 +14,7 @@ namespace Multicasting
 		public const string MESSAGE_END = "|%€|";
 
 		public const string MULTICAST_ADDRESS = "224.0.0.1";
-		public const int MULTICAST_PORT_NUMBER = 3333;
+		public const int MULTICAST_PORT_NUMBER = 3000;
 
 		public static Encoding DefaultEncoding = Encoding.UTF8;
 
