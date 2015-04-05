@@ -11,7 +11,6 @@ namespace Multicasting.Web.Controllers {
 				var message = Request.Form.Get("message");
 				MulticastSender.SendMessage(message);
 			}
-
 			Thread.Sleep(100);
 			var module = GlobalModule.Instance;
 			ViewBag.Title = "UDP Multi-casting Demo";
