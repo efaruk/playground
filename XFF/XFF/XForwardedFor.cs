@@ -49,7 +49,7 @@ namespace XFF
                 var parameters = new object[] {SettingsWrapper.HEADER_REMOTE_ADDR, clientIp};
                 setOnDemand.Invoke(request.ServerVariables, parameters);
                 //Make ReadOnly Again
-                makeReadOnly.Invoke(request.ServerVariables, null);
+                //makeReadOnly.Invoke(request.ServerVariables, null);
             }
         }
 
