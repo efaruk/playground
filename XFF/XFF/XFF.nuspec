@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://www.gnu.org/copyleft/gpl.html</licenseUrl>
+    <projectUrl>https://github.com/efaruk/playground</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/efaruk/playground/master/XFF/logo/dark.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Client IP replacer for websites which are working behind load balancers</description>
+    <releaseNotes>X Forwarded For</releaseNotes>
+    <copyright>Copyright ©  2015</copyright>
+    <tags>Load Balancer X-Forwarded-For F5 Netscaler Nginx</tags>
+  </metadata>
+</package>

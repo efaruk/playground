@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<appSettings>
+    <!-- XFF Started-->
+    <add key="X-Forwarded-Header" value="HTTP_X_FORWARDED_FOR"/>
+    <add key="X-Forwarded-Ip-Separator" value="," />
+    <add key="X-Forwarded-ClientIp-Index" value="0" />
+    <!-- XFF End-->
+	</appSettings>
+</configuration>
