@@ -1,0 +1,23 @@
+﻿@using Energetic.Data.Entities
+@model Customer
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+
+</div>
+<div class="row">
+    @if (Model != null)
+    {
+        <span>
+            @Model.Id
+        </span>
+        <span>
+            @Model.FirstName
+        </span>
+        <span>
+            @Model.LastName
+        </span>
+    }
+</div>
