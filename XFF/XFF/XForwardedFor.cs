@@ -38,8 +38,8 @@ namespace XFF
                 makeReadWrite.Invoke(request.ServerVariables, null);
                 //Get Forwarded
                 var forwarded = request.ServerVariables[SettingsWrapper.ForwardedHeader];
-                string clientIp = forwarded;
                 //Take RealIp
+                string clientIp = forwarded;
                 if (forwarded.Contains(SettingsWrapper.Separator))
                 {
                     var ips = forwarded.Split(new[] {SettingsWrapper.Separator}, StringSplitOptions.RemoveEmptyEntries);

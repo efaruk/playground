@@ -35,7 +35,7 @@ namespace UnlockedStateProvider.Redis
 						ResolveDns = true,
 						AbortOnConnectFail = false // Important for shared usage
 					};
-					if (string.IsNullOrWhiteSpace(configuration.AccessKey))
+					if (!string.IsNullOrWhiteSpace(configuration.AccessKey))
 						options.Password = configuration.AccessKey;
 					if (configuration.RetryCount > 0)
 						options.ConnectRetry = configuration.RetryCount;

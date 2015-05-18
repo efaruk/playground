@@ -1,4 +1,9 @@
-﻿namespace UnlockedStateProvider
+﻿using System;
+using System.Collections.Specialized;
+using System.Diagnostics;
+using System.Web.Hosting;
+
+namespace UnlockedStateProvider
 {
 	public class UnlockedStateStoreConfiguration
 	{
@@ -20,7 +25,7 @@
 			get { return instance; }
 		}
 
-		private void Initialize()
+        private void Initialize()
 		{
 			Disabled = SettingsHelper.GetBoolAppSetting("Unlocked:Disabled", false);
 			AutoManageSessionCookie = SettingsHelper.GetBoolAppSetting("Unlocked:Auto", true);
@@ -29,8 +34,8 @@
 			HostConfigName = SettingsHelper.GetAppSetting("Unlocked:HostConfigName");
 			Host = SettingsHelper.GetAppSetting((!string.IsNullOrWhiteSpace(HostConfigName) ? HostConfigName : "Unlocked:Host"), DEFAULT_HOST);
 			//Port = SettingsHelper.GetIntAppSetting("Unlocked:Port", DEFAULT_PORT);
+            Database = SettingsHelper.GetAppSetting("Unlocked:Database", DEFAULT_DATABASE_ID);
 			SessionTimeout = SettingsHelper.GetIntAppSetting("Unlocked:SessionTimeout", DEFAULT_SESSION_TIMEOUT);
-			Database = SettingsHelper.GetAppSetting("Unlocked:Database", DEFAULT_DATABASE_ID);
 			OperationTimeout = SettingsHelper.GetIntAppSetting("Unlocked:OperationTimeout", DEFAULT_OPERATION_TIMEOUT);
 			ConnectionTimeout = SettingsHelper.GetIntAppSetting("Unlocked:ConnectionTimeout", DEFAULT_OPERATION_TIMEOUT);
 			AccessKey = SettingsHelper.GetAppSetting("Unlocked:AccessKey");
@@ -41,7 +46,52 @@
 			ConnectionString = SettingsHelper.GetAppSetting("Unlocked:ConnectionString");
 		}
 
-		
+	    public void ConfigureAsSdandardProvider(NameValueCollection config)
+	    {
+            Disabled = SettingsHelper.GetBoolAppSetting("disabled", false);
+            AutoManageSessionCookie = SettingsHelper.GetBoolAppSetting("auto", true);
+            CookieName = SettingsHelper.GetAppSetting("cookieName", UnlockedExtensions.CUSTOM_COOKIE_NAME);
+            ForceSlide = SettingsHelper.GetBoolAppSetting("forceSlide", true);
+            HostConfigName = SettingsHelper.GetAppSetting("hostConfigName");
+            //
+            Host = SettingsHelper.GetStringSettings(config, "host", DEFAULT_HOST);
+            //this.Port = SettingsHelper.GetIntSettings(config, "port", 0);
+            Database = SettingsHelper.GetStringSettings(config, "databaseId", DEFAULT_DATABASE_ID);
+            SessionTimeout = SettingsHelper.GetIntAppSetting("sessionTimeout", DEFAULT_SESSION_TIMEOUT);
+            OperationTimeout = SettingsHelper.GetIntAppSetting("operationTimeout", DEFAULT_OPERATION_TIMEOUT);
+	        ConnectionTimeout = SettingsHelper.GetIntAppSetting("connectionTimeout", DEFAULT_OPERATION_TIMEOUT);
+            AccessKey = SettingsHelper.GetStringSettings(config, "accessKey", "");
+            RetryCount = SettingsHelper.GetIntAppSetting("retryCount", 0);
+            UseSsl = SettingsHelper.GetBoolSettings(config, "ssl", true);
+            ApplicationName = SettingsHelper.GetStringSettings(config, "applicationName", "");
+            PreferSlaveForRead = SettingsHelper.GetBoolAppSetting("preferSlave", true);
+            ConnectionString = SettingsHelper.GetStringSettings(config, "connectionString", "");
+            
+            if (this.ApplicationName == null)
+            {
+                try
+                {
+                    this.ApplicationName = HostingEnvironment.ApplicationVirtualPath;
+                    if (string.IsNullOrEmpty(this.ApplicationName))
+                    {
+                        this.ApplicationName = Process.GetCurrentProcess().MainModule.ModuleName;
+                        int startIndex = this.ApplicationName.IndexOf('.');
+                        if (startIndex != -1)
+                            this.ApplicationName = this.ApplicationName.Remove(startIndex);
+                    }
+                    if (string.IsNullOrEmpty(this.ApplicationName))
+                        this.ApplicationName = "/";
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+	        ConfiguredAsStandardProvider = true;
+	    }
+
+
+	    public object ConfigurationCreationLock = new object();
+	    public bool ConfiguredAsStandardProvider { get; set; }
 
 
 		public bool Disabled { get; set; }
@@ -138,5 +188,8 @@
 		public bool PreferSlaveForRead { get; set; }
 
 		public string ConnectionString { get; set; }
+
+
+        
 	}
 }

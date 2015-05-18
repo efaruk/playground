@@ -2,7 +2,7 @@
 {
 	public class RedisUnlockedStateUsageAttribute : UnlockedStateUsageAttribute
 	{
-		private readonly IUnlockedStateStore _unlockedStateStore = new RedisUnlockedStateStore();
+		private static readonly IUnlockedStateStore _unlockedStateStore = new RedisUnlockedStateStore();
 
 		//public RedisUnlockedStateUsageAttribute()
 		//{

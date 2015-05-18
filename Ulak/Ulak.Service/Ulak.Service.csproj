@@ -7,14 +7,16 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B5F5D409-FAEB-40B4-A2BD-892096E3E78B}</ProjectGuid>
+    <ProjectGuid>{4D85CC6C-765F-4894-A8BB-D2E95C88F42B}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XFF.Demo</RootNamespace>
-    <AssemblyName>XFF.Demo</AssemblyName>
+    <RootNamespace>Ulak</RootNamespace>
+    <AssemblyName>Ulak</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -42,22 +44,35 @@
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\Desktop.pubxml" />
+    <Content Include="UlakService.svc" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UlakService.svc.cs">
+      <DependentUpon>UlakService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -66,25 +81,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Global.asax" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\XFF\XFF.csproj">
-      <Project>{713f500b-f7ee-4f7a-b5dc-6809ef704404}</Project>
-      <Name>XFF</Name>
+    <ProjectReference Include="..\Ulak.Contract\Ulak.Contract.csproj">
+      <Project>{00296012-6773-467d-9dfe-591064fdcd77}</Project>
+      <Name>Ulak.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ulak.Implementation\Ulak.Implementation.csproj">
+      <Project>{9bb701ff-3ce8-4f9d-b69a-07255e995295}</Project>
+      <Name>Ulak.Implementation</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -100,9 +103,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>7301</DevelopmentServerPort>
+          <DevelopmentServerPort>5141</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/XFF.Demo</IISUrl>
+          <IISUrl>http://localhost:5141/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

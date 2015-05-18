@@ -1,13 +1,16 @@
-﻿using Energetic.Data.Entities;
+﻿using System.Collections.Generic;
+using Energetic.Data.Entities;
 
 namespace Energetic.DataAccess.Repository
 {
     public interface ICustomerRepository
     {
-        Customer GetCustomer(string id);
+        List<Customer> GetAll();
 
-        void SaveCustomer(Customer customer);
+        Customer Get(string id);
 
-        void CreateTables();
+        void Save(Customer customer);
+
+        void CreateTable();
     }
 }

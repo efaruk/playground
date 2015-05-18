@@ -22,7 +22,7 @@ namespace Energetic.Web.Controllers
             Customer customer = null;
             using (var repository = new CustomerRepository(ConnectionString))
             {
-                customer = repository.GetCustomer("C0A453A2-CAED-47DB-9A87-4E57A68C247C");
+                customer = repository.Get("C0A453A2-CAED-47DB-9A87-4E57A68C247C");
             }
             return View(customer);
         }

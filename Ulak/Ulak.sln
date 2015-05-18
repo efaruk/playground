@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ulak.Service", "Ulak.Service\Ulak.Service.csproj", "{4D85CC6C-765F-4894-A8BB-D2E95C88F42B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ulak.Test", "Ulak.Test\Ulak.Test.csproj", "{A818B2AE-2728-47FB-A73B-9A5AE2BEC172}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ulak.Contract", "Ulak.Contract\Ulak.Contract.csproj", "{00296012-6773-467D-9DFE-591064FDCD77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ulak.Implementation", "Ulak.Implementation\Ulak.Implementation.csproj", "{9BB701FF-3CE8-4F9D-B69A-07255E995295}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D85CC6C-765F-4894-A8BB-D2E95C88F42B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D85CC6C-765F-4894-A8BB-D2E95C88F42B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D85CC6C-765F-4894-A8BB-D2E95C88F42B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D85CC6C-765F-4894-A8BB-D2E95C88F42B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A818B2AE-2728-47FB-A73B-9A5AE2BEC172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A818B2AE-2728-47FB-A73B-9A5AE2BEC172}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A818B2AE-2728-47FB-A73B-9A5AE2BEC172}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A818B2AE-2728-47FB-A73B-9A5AE2BEC172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00296012-6773-467D-9DFE-591064FDCD77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00296012-6773-467D-9DFE-591064FDCD77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00296012-6773-467D-9DFE-591064FDCD77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00296012-6773-467D-9DFE-591064FDCD77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BB701FF-3CE8-4F9D-B69A-07255E995295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BB701FF-3CE8-4F9D-B69A-07255E995295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BB701FF-3CE8-4F9D-B69A-07255E995295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BB701FF-3CE8-4F9D-B69A-07255E995295}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
