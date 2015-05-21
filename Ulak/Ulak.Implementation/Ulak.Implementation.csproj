@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RabbitMQ\QueueParameters.cs" />
     <Compile Include="Seralizers\SimpleSerializer.cs" />
     <Compile Include="Seralizers\IMessageSerializer.cs" />
     <Compile Include="Seralizers\JsonNetSerializer.cs" />
