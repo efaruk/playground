@@ -22,11 +22,7 @@ namespace Ulak.Test
         private readonly IMessageSerializer _serializer = new JsonNetSerializer();
         private readonly ConnectionFactory factory = new ConnectionFactory
         {
-            UserName = "guest",
-            Password = "guest",
-            VirtualHost = "/",
-            HostName = "localhost",
-            Port = 5672
+            Uri = "amqp://guest:guest@localhost:5672/"
         };
 
 
