@@ -9,7 +9,10 @@ namespace Multicasting.Web.Controllers {
 			if (Request.Form.AllKeys.Contains("message"))
 			{
 				var message = Request.Form.Get("message");
-				MulticastSender.SendMessage(message);
+                using (var sender = new MulticastSender(GlobalModule.MulticastPortNumber))
+			    {
+			        sender.SendMessage(message);
+			    }
 			}
 			Thread.Sleep(100);
 			var module = GlobalModule.Instance;
