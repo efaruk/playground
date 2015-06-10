@@ -21,6 +21,7 @@ namespace Multicasting
         private static int _portNumber = 5000;
         private static Timer _syncTimer = new Timer(HeartBeatInverval);
         private static int _failoverInterval = 60;
+        private static int _failoverIntervalCounter;
         private static bool _isMaster;
         private static string _machineName;
         private static string _serviceName;
@@ -29,6 +30,7 @@ namespace Multicasting
         private static bool _running;
         private static int _maxHandshakeRetry = 10;
         private static bool _handshaking;
+        private static bool _abortHandshake;
         private static Random _random = new Random();
         private static int _randomMax = 1000;
         private static int _luck;
@@ -48,26 +50,6 @@ namespace Multicasting
             _sender = new MulticastSender(_portNumber);
             _receiver = new MulticastReceiver(_portNumber);
             _receiver.MessageReceived += ReceiverOnMessageReceived;
-        }
-
-        private static int _failoverIntervalCounter;
-        private static void SyncTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            WriteTrace("Heartbeat!!!");
-            if (_handshaking) return;
-            _failoverIntervalCounter++;
-            if (_failoverIntervalCounter > FailoverInterval)
-            {
-                if (_isMaster)
-                {
-                    _failoverIntervalCounter = 0;
-                }
-                else
-                {
-                    Handshake();
-                }
-            }
-            BroadCastMasterSlave();
         }
 
         public static void Start()
@@ -113,8 +95,7 @@ namespace Multicasting
                 _portNumber = value;
             }
         }
-
-
+        
         /// <summary>
         /// Set fail over interval as seconds
         /// </summary>
@@ -179,6 +160,25 @@ namespace Multicasting
             _traceWriter = traceWriter;
         }
 
+        private static void SyncTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            WriteTrace("Heartbeat!!!");
+            if (_handshaking) return;
+            if (!_isMaster) _failoverIntervalCounter++;
+            if (_failoverIntervalCounter > FailoverInterval)
+            {
+                if (_isMaster)
+                {
+                    _failoverIntervalCounter = 0;
+                }
+                else
+                {
+                    Handshake();
+                }
+            }
+            BroadCastMasterSlave();
+        }
+
         private static void ReceiverOnMessageReceived(string message)
         {
             if (!_running) return;
@@ -237,7 +237,19 @@ namespace Multicasting
             if (m.ServiceName != ServiceName) return;
             if (m.ServiceName == ServiceName && m.MachineName != MachineName)
             {
-                if (m.Master) _failoverIntervalCounter = 0;
+                if (m.Master)
+                {
+                    _abortHandshake = true;
+                    _handshaking = false;
+                    if (_isMaster)
+                    {
+                        _isMaster = false;
+                        RaiseFailover();
+                    }
+                    {
+                        _failoverIntervalCounter = 0;
+                    }
+                }
                 lock (_syncLock)
                 {
                     m.ReceivedAt = DateTime.Now;
@@ -277,15 +289,21 @@ namespace Multicasting
         private static void Handshake()
         {
             if (_handshaking) return;
-            var diffMiliseconds = HeartBeatInverval * MaxHandshakeRetry * 10;
-            _luck = 0;
             try
             {
+                _abortHandshake = false;
+                lock (_handshakeLock)
+                {
+                    _lastReceivedHandshakeMessage = null;
+                }
+                _handshaking = true;
+                var diffMiliseconds = HeartBeatInverval * MaxHandshakeRetry * 10;
+                _luck = 0;
+                _handshakeRetryCount = 0;
                 WriteTrace("Handshake started...");
                 WishLuck();
-                _handshaking = true;
                 Thread.Sleep(HeartBeatInverval * 5);
-                while (true)
+                while (!_abortHandshake)
                 {
                     WriteTrace(string.Format("Handshake retry: {0}", _handshakeRetryCount));
                     var message = new ServiceSyncMasterSlaveHandshakeMessage()
@@ -346,6 +364,7 @@ namespace Multicasting
 
         private static void RaiseFailover()
         {
+            _failoverIntervalCounter = 0;
             if (OnFailover != null) OnFailover(_isMaster);
         }
 
