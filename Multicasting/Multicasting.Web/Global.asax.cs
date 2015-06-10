@@ -15,9 +15,6 @@ namespace Multicasting.Web
 			AreaRegistration.RegisterAllAreas();
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			GlobalModule module = GlobalModule.Instance;
-			MulticastReceiver.MessageReceived += module.MulticastReceiver_MessageReceived;
-			
-			ThreadPool.QueueUserWorkItem(t => MulticastReceiver.Start());
 		}
 	}
 }

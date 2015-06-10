@@ -28,15 +28,15 @@ namespace Energetic.DataAccess.Mapping
 
         private void Initalize()
         {
-            var assembly = typeof (EnergeticDataEntityBase).Assembly;
-            var types = assembly.GetTypes();
-            foreach (var t in types)
-            {
-                SqlMapper.SetTypeMap(typeof(Customer), new CustomPropertyTypeMap(t,
-                (type, columnName) => type.GetProperties().FirstOrDefault(prop => prop.GetCustomAttributes(false)
-                .OfType<ColumnAttribute>()
-                .Any(attr => attr.Name == columnName))));
-            }
+            //var assembly = typeof (EnergeticDataEntityBase).Assembly;
+            //var types = assembly.GetTypes();
+            //foreach (var t in types)
+            //{
+            //    SqlMapper.SetTypeMap(typeof(Customer), new CustomPropertyTypeMap(t,
+            //    (type, columnName) => type.GetProperties().FirstOrDefault(prop => prop.GetCustomAttributes(false)
+            //    .OfType<ColumnAttribute>()
+            //    .Any(attr => attr.Name == columnName))));
+            //}
             
         }
     }

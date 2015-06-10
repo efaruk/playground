@@ -2,9 +2,12 @@
 
 namespace Multicasting.Web
 {
-	public sealed class GlobalModule
+	public sealed class GlobalModule: IDisposable
 	{
-		private static readonly Lazy<GlobalModule> instance = new Lazy<GlobalModule>(() => new GlobalModule());
+	    public const int MulticastPortNumber = 3000;
+        // ReSharper disable once InconsistentNaming
+		private static readonly Lazy<GlobalModule> instance = new Lazy<GlobalModule>(() => new GlobalModule(), true);
+        private static readonly MulticastReceiver Receiver = new MulticastReceiver(MulticastPortNumber);
 
 		private GlobalModule()
 		{
@@ -13,14 +16,15 @@ namespace Multicasting.Web
 
 		private void InitializeGlobalModule()
 		{
-			
+            Receiver.MessageReceived += Receiver_MessageReceived;
+            Receiver.Start();
 		}
 
-		internal void MulticastReceiver_MessageReceived(string message)
-		{
-			ReceivedMessageCount++;
-			LastReceivedMessage = message;
-		}
+        private void Receiver_MessageReceived(string message)
+        {
+            ReceivedMessageCount++;
+            LastReceivedMessage = message;
+        }
 
 		public static GlobalModule Instance
 		{
@@ -35,6 +39,9 @@ namespace Multicasting.Web
 
 		public string LastReceivedMessage { get; set; }
 
-
+	    public void Dispose()
+	    {
+	        Receiver.Stop();
+	    }
 	}
 }
