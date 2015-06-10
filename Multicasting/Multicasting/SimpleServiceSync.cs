@@ -27,10 +27,11 @@ namespace Multicasting
         private static MulticastSender _sender;
         private static MulticastReceiver _receiver;
         private static bool _running;
-        private static int _maxHandshakeRetry = 1000;
+        private static int _maxHandshakeRetry = 10;
         private static bool _handshaking;
         private static Random _random = new Random();
         private static int _randomMax = 1000;
+        private static int _luck;
         private static ServiceSyncMasterSlaveHandshakeMessage _lastReceivedHandshakeMessage;
         private static ServiceSyncMasterSlaveMessage _lastReceivedSyncMessage;
         private static ITraceWriter _traceWriter = new StandartTraceWriter();
@@ -52,8 +53,9 @@ namespace Multicasting
         private static int _failoverIntervalCounter;
         private static void SyncTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            _failoverIntervalCounter++;
             WriteTrace("Heartbeat!!!");
+            if (_handshaking) return;
+            _failoverIntervalCounter++;
             if (_failoverIntervalCounter > FailoverInterval)
             {
                 if (_isMaster)
@@ -65,7 +67,6 @@ namespace Multicasting
                     Handshake();
                 }
             }
-            if (_handshaking) return;
             BroadCastMasterSlave();
         }
 
@@ -181,7 +182,7 @@ namespace Multicasting
         private static void ReceiverOnMessageReceived(string message)
         {
             if (!_running) return;
-            WriteTrace("Received Message: " + message);
+            // WriteTrace("#Not Processed Message : " + message);
             var t = CheckIncomingMessage(message);
             switch (t)
             {
@@ -276,37 +277,46 @@ namespace Multicasting
         private static void Handshake()
         {
             if (_handshaking) return;
+            var diffMiliseconds = HeartBeatInverval * MaxHandshakeRetry * 10;
+            _luck = 0;
             try
             {
                 WriteTrace("Handshake started...");
+                WishLuck();
                 _handshaking = true;
                 Thread.Sleep(HeartBeatInverval * 5);
                 while (true)
                 {
                     WriteTrace(string.Format("Handshake retry: {0}", _handshakeRetryCount));
-                    var n = _random.Next(1, _randomMax);
                     var message = new ServiceSyncMasterSlaveHandshakeMessage()
                     {
-                        Luck = n,
+                        Luck = _luck,
                         MachineName = MachineName,
                         ServiceName = ServiceName,
                         SentOn = DateTime.Now
                     };
                     var msg = Serialize(message);
                     _sender.SendMessage(msg);
-                    Thread.Sleep(HeartBeatInverval);
-                    if (_lastReceivedHandshakeMessage != null && _lastReceivedHandshakeMessage.SentOn > DateTime.Now.AddMinutes(-1))
+                    Thread.Sleep(HeartBeatInverval * 5);
+
+                    if (_lastReceivedHandshakeMessage != null && _lastReceivedHandshakeMessage.SentOn > DateTime.Now.AddMilliseconds(-diffMiliseconds))
                     {
-                        if (_lastReceivedHandshakeMessage.Luck < n)
+                        if (_lastReceivedHandshakeMessage.Luck == _luck)
                         {
-                            WriteTrace(string.Format("Decided as MASTER by Luck (Received: {0} < Sended: {1})", _lastReceivedHandshakeMessage.Luck, n));
+                            WriteTrace(string.Format("CAN NOT Decide we are EQUAL (Received: {0} == Sended: {1})", _lastReceivedHandshakeMessage.Luck, _luck));
+                            WishLuck();
+                            continue;
+                        }
+                        if (_lastReceivedHandshakeMessage.Luck < _luck)
+                        {
+                            WriteTrace(string.Format("Decided as MASTER by Luck (Received: {0} < Sended: {1})", _lastReceivedHandshakeMessage.Luck, _luck));
                             _isMaster = true;
                             RaiseFailover();
                             break;
                         }
-                        if (_lastReceivedHandshakeMessage.Luck > n)
+                        if (_lastReceivedHandshakeMessage.Luck > _luck)
                         {
-                            WriteTrace(string.Format("Decided as SLAVE by Luck (Received: {0} > Sended: {1})", _lastReceivedHandshakeMessage.Luck, n));
+                            WriteTrace(string.Format("Decided as SLAVE by Luck (Received: {0} > Sended: {1})", _lastReceivedHandshakeMessage.Luck, _luck));
                             _isMaster = false;
                             RaiseFailover();
                             break;
@@ -327,6 +337,11 @@ namespace Multicasting
                 _handshaking = false;
             }
             WriteTrace("Handshake ended...");
+        }
+
+        private static void WishLuck()
+        {
+            _luck = _random.Next(1, _randomMax);
         }
 
         private static void RaiseFailover()
