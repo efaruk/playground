@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitMQ.Client.Framing;
 using Ulak.Contract;
 using Ulak.Implementation.Seralizers;
 
@@ -33,7 +34,7 @@ namespace Ulak.Test
         
 
         [TestMethod]
-        public void TestMethod1()
+        public void Check_RabbitMQ_Server()
         {
             //SetupExchangeAndQueues();
 
@@ -78,6 +79,7 @@ namespace Ulak.Test
                         receivedMessage.Message = t.ToString(CultureInfo.InvariantCulture);
                         var newBytez = serializer.Serialize(receivedMessage);
                         channel.BasicPublish(exchangeName, routingKey, null, newBytez);
+                        
                     }
                 }
             }
