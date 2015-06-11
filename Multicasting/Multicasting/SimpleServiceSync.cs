@@ -57,7 +57,7 @@ namespace Multicasting
             if (_running) return;
             _lastReceivedHandshakeMessage = null;
             _lastReceivedSyncMessage = null;
-            _isMaster = false;
+            IsMaster = false;
             _handshaking = false;
             _handshakeRetryCount = 0;
             _failoverIntervalCounter = 0;
@@ -72,7 +72,7 @@ namespace Multicasting
         {
             if (!_running) return;
             _running = false;
-            _isMaster = false;
+            IsMaster = false;
             _handshaking = false;
             _syncTimer.Stop();
             _receiver.Stop();
@@ -139,7 +139,18 @@ namespace Multicasting
         /// <summary>
         /// Get or set current sync is master or not, by default false
         /// </summary>
-        public static bool IsMaster { get { return _isMaster; } set { _isMaster = value; }}
+        public static bool IsMaster {
+            get
+            {
+                return _isMaster;
+            }
+            set
+            {
+                if (value == _isMaster) return;
+                _isMaster = value;
+                RaiseFailover();
+            }
+        }
 
         public static int MaxHandshakeRetry
         {
@@ -164,10 +175,10 @@ namespace Multicasting
         {
             WriteTrace("Heartbeat!!!");
             if (_handshaking) return;
-            if (!_isMaster) _failoverIntervalCounter++;
+            if (!IsMaster) _failoverIntervalCounter++;
             if (_failoverIntervalCounter > FailoverInterval)
             {
-                if (_isMaster)
+                if (IsMaster)
                 {
                     _failoverIntervalCounter = 0;
                 }
@@ -241,10 +252,9 @@ namespace Multicasting
                 {
                     _abortHandshake = true;
                     _handshaking = false;
-                    if (_isMaster)
+                    if (IsMaster)
                     {
-                        _isMaster = false;
-                        RaiseFailover();
+                        IsMaster = false;
                     }
                     {
                         _failoverIntervalCounter = 0;
@@ -278,7 +288,7 @@ namespace Multicasting
             {
                 MachineName = _machineName,
                 ServiceName = ServiceName,
-                Master = _isMaster,
+                Master = IsMaster,
                 SentOn = DateTime.Now
             };
             var msg = Serialize(message);
@@ -316,7 +326,6 @@ namespace Multicasting
                     var msg = Serialize(message);
                     _sender.SendMessage(msg);
                     Thread.Sleep(HeartBeatInverval * 5);
-
                     if (_lastReceivedHandshakeMessage != null && _lastReceivedHandshakeMessage.SentOn > DateTime.Now.AddMilliseconds(-diffMiliseconds))
                     {
                         if (_lastReceivedHandshakeMessage.Luck == _luck)
@@ -328,23 +337,20 @@ namespace Multicasting
                         if (_lastReceivedHandshakeMessage.Luck < _luck)
                         {
                             WriteTrace(string.Format("Decided as MASTER by Luck (Received: {0} < Sended: {1})", _lastReceivedHandshakeMessage.Luck, _luck));
-                            _isMaster = true;
-                            RaiseFailover();
+                            IsMaster = true;
                             break;
                         }
                         if (_lastReceivedHandshakeMessage.Luck > _luck)
                         {
                             WriteTrace(string.Format("Decided as SLAVE by Luck (Received: {0} > Sended: {1})", _lastReceivedHandshakeMessage.Luck, _luck));
-                            _isMaster = false;
-                            RaiseFailover();
+                            IsMaster = false;                            
                             break;
                         }
                     }
                     if (_handshakeRetryCount > _maxHandshakeRetry)
                     {
                         WriteTrace("Decided as MASTER by RETRY");
-                        _isMaster = true;
-                        RaiseFailover();
+                        IsMaster = true;
                         break;
                     }
                     _handshakeRetryCount++;
@@ -365,7 +371,7 @@ namespace Multicasting
         private static void RaiseFailover()
         {
             _failoverIntervalCounter = 0;
-            if (OnFailover != null) OnFailover(_isMaster);
+            if (OnFailover != null) OnFailover(IsMaster);
         }
 
         private static T Deserialize<T>(string message)

@@ -83,13 +83,13 @@
             // 
             this.cbMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbMaster.AutoSize = true;
-            this.cbMaster.Enabled = false;
             this.cbMaster.Location = new System.Drawing.Point(12, 377);
             this.cbMaster.Name = "cbMaster";
             this.cbMaster.Size = new System.Drawing.Size(115, 17);
             this.cbMaster.TabIndex = 4;
             this.cbMaster.Text = "Running as Master";
             this.cbMaster.UseVisualStyleBackColor = true;
+            this.cbMaster.CheckedChanged += new System.EventHandler(this.cbMaster_CheckedChanged);
             // 
             // tbLog
             // 

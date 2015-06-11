@@ -90,6 +90,11 @@ namespace MulticastServiceSyncTest
             tbLog.Clear();
         }
 
+        private void cbMaster_CheckedChanged(object sender, EventArgs e)
+        {
+            SimpleServiceSync.IsMaster = cbMaster.Checked;
+        }
+
         
     }
 }
