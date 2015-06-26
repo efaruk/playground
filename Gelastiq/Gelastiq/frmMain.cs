@@ -30,7 +30,7 @@ namespace Gelastiq
         private void btnTest_Click(object sender, EventArgs e)
         {
             var context = new LogEventContext(elasticHost);
-            var query = context.Query<LogEvent>();
+            var query = context.Query<LogEvent>().Where(q => q.LogType == "E");
             var list = query.ToList();
             foreach (var logEvent in list)
             {
