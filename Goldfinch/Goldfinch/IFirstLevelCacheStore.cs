@@ -24,28 +24,37 @@ namespace Goldfinch
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        TEntity Get(string key);
+        TEntity Get(object key);
 
         /// <summary>
         /// Delete an item from store
         /// </summary>
         /// <param name="key"></param>
-        void Delete(string key);
+        void Delete(object key);
 
         /// <summary>
         /// Add an item to store
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="data"></param>
-        /// <param name="timeSpan"></param>
-        void Add(TEntity data);
+        /// <param name="entity"></param>
+        void Add(TEntity entity);
 
         /// <summary>
         /// Update and item on store
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="data"></param>
-        /// <param name="timeSpan"></param>
-        void Update(TEntity data);
+        /// <param name="entity"></param>
+        void Update(TEntity entity);
+
+        /// <summary>
+        /// Clear all items from cachestore
+        /// </summary>
+        void Clear();
+
+
+        /// <summary>
+        /// Fill all items from persisten store to cache store
+        /// </summary>
+        void Fill(IEnumerable<TEntity> entities);
+
+        bool Any();
     }
 }

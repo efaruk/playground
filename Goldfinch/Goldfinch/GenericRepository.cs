@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Goldfinch
 {
-    public class GenericRepository<TEntity> : IDisposable where TEntity : class
+    public abstract class GenericRepository<TEntity> : IDisposable where TEntity : class
     {
-        private DbContext Context;
-        private DbSet<TEntity> Set;
+        protected DbContext Context;
+        protected DbSet<TEntity> Set;
 
         public const int DEFAULT_MAX_ENTITY_COUNT = 1000;
         public const int DEFAULT_ENTITY_COUNT = 10;
         public const int DEFAULT_COMMAND_TIMEOUT = 30;
 
-        private GenericRepository()
+        protected GenericRepository()
         {
             
         }
 
-        public GenericRepository(DbContext context, bool disableChangeTracking = false, bool disableLazyLoading = false, bool disableProxyCreation = false, bool useDatabaseNullSemantics = false, bool disableValidateOnSave = false)
+        protected GenericRepository(DbContext context, bool disableChangeTracking = false, bool disableLazyLoading = false, bool disableProxyCreation = false, bool useDatabaseNullSemantics = false, bool disableValidateOnSave = false)
         {
             Context = context;
             Set = context.Set<TEntity>();
@@ -63,6 +64,15 @@ namespace Goldfinch
 
         #region Public
 
+        private TEntity GetLocalExistingEntity(TEntity entity)
+        {
+            if (!Set.Local.Any()) return null;
+            var primaryKey = EntityFrameworkHelper.GetPrimaryKey(Context, entity);
+            var existing = Set.Local.FirstOrDefault(
+                f => EntityFrameworkHelper.GetPrimaryKey(Context, f).Equals(primaryKey));
+            return existing;
+        }
+
         public DbContextConfiguration ContextConfiguration
         {
             get { return this.Context.Configuration; }
@@ -98,8 +108,7 @@ namespace Goldfinch
         {
             Set.Add(entity);
             if (saveAfter) Save(async);
-            var primaryKey = RuntimeHelper.GetPrimaryKey(Context, entity);
-            DataAdded(primaryKey, entity);
+            DataAdded(entity);
         }
 
         public virtual void BulkInsert(IEnumerable<TEntity> entities, bool saveAfter = false, bool async = false)
@@ -111,8 +120,7 @@ namespace Goldfinch
             if (saveAfter) Save(async);
             foreach (var entity in entities)
             {
-                var primaryKey = RuntimeHelper.GetPrimaryKey(Context, entity);
-                DataAdded(primaryKey, entity);
+                DataAdded(entity);
             }
         }
 
@@ -146,8 +154,7 @@ namespace Goldfinch
             }
             Set.Remove(entity);
             if (saveAfter) Save(async);
-            var primaryKey = RuntimeHelper.GetPrimaryKey(Context, entity);
-            DataDeleted(primaryKey);
+            DataDeleted(entity);
         }
 
         public virtual void BulkDelete(IEnumerable<TEntity> entities, bool saveAfter = false, bool async = false)
@@ -163,32 +170,40 @@ namespace Goldfinch
             if (saveAfter) Save(async);
             foreach (var entity in entities)
             {
-                var primaryKey = RuntimeHelper.GetPrimaryKey(Context, entity);
+                var primaryKey = EntityFrameworkHelper.GetPrimaryKey(Context, entity);
                 DataDeleted(primaryKey);
             }
         }
 
         public virtual void Update(TEntity entity, bool saveAfter = false, bool async = false)
         {
+            var existing = GetLocalExistingEntity(entity);
+            if (existing != null)
+            {
+                Context.Entry(existing).State = EntityState.Detached;
+            }
             Set.Attach(entity);
             Context.Entry(entity).State = EntityState.Modified;
             if (saveAfter) Save(async);
-            var primaryKey = RuntimeHelper.GetPrimaryKey(Context, entity);
-            DataUpdated(primaryKey, entity);
+            DataUpdated(entity);
         }
 
         public virtual void BulkUpdate(IEnumerable<TEntity> entities, bool saveAfter = false, bool async = false)
         {
             foreach (var entity in entities)
             {
+                var existing = GetLocalExistingEntity(entity);
+                if (existing != null)
+                {
+                    Context.Entry(existing).State = EntityState.Detached;
+                }
                 Set.Attach(entity);
                 Context.Entry(entity).State = EntityState.Modified;
             }
             if (saveAfter) Save(async);
             foreach (var entity in entities)
             {
-                var primaryKey = RuntimeHelper.GetPrimaryKey(Context, entity);
-                DataUpdated(primaryKey, entity);
+                DataUpdated(entity);
             }
         }
 
@@ -213,24 +228,35 @@ namespace Goldfinch
 
         protected virtual void DataDeleted(object key)
         {
-            DataDeleted handler = OnDataDeleted;
-            if (handler != null) handler(key);
+            if (OnDataDeleted != null)
+            {
+                OnDataDeleted(key);
+            }
+        }
+
+        protected virtual void DataDeleted(TEntity entity)
+        {
+            if (OnDataDeleted == null) return;
+            var primaryKey = EntityFrameworkHelper.GetPrimaryKey(Context, entity);
+            OnDataDeleted(primaryKey);
         }
 
         public virtual event DataAdded OnDataAdded;
 
-        protected virtual void DataAdded(object key, object data)
+        protected virtual void DataAdded(object data)
         {
-            DataAdded handler = OnDataAdded;
-            if (handler != null) handler(key, data);
+            if (OnDataAdded == null) return;
+            var primaryKey = EntityFrameworkHelper.GetPrimaryKey(Context, data);
+            OnDataAdded(primaryKey, data);
         }
 
         public virtual event DataUpdated OnDataUpdated;
 
-        protected virtual void DataUpdated(object key, object data)
+        protected virtual void DataUpdated(object data)
         {
-            DataUpdated handler = OnDataUpdated;
-            if (handler != null) handler(key, data);
+            if (OnDataUpdated == null) return;
+            var primaryKey = EntityFrameworkHelper.GetPrimaryKey(Context, data);
+            OnDataUpdated(primaryKey, data);
         }
 
         #endregion

@@ -42,7 +42,8 @@ namespace Goldfinch
 
         public IQueryable<TEntity> AsQueryable()
         {
-            return _context.Query<TEntity>();
+            var queryable = _context.Query<TEntity>();
+            return queryable;
         }
 
         public void Initialize()
@@ -51,15 +52,15 @@ namespace Goldfinch
             //_client.Map<TEntity>(d => d.MapFromAttributes());
         }
 
-        public TEntity Get(string key)
+        public TEntity Get(object key)
         {
-            var response = _client.Get<TEntity>(key);
+            var response = _client.Get<TEntity>(key.ToString());
             return response.Source;
         }
 
-        public void Delete(string key)
+        public void Delete(object key)
         {
-            _client.Delete<TEntity>(key, s => s);
+            _client.Delete<TEntity>(key.ToString(), s => s);
         }
 
         public void Add(TEntity data)
@@ -70,6 +71,27 @@ namespace Goldfinch
         public void Update(TEntity data)
         {
             _client.Update<TEntity>(d => d.IdFrom(data).Doc(data).RetryOnConflict(RetryOnConflict).Refresh());
+        }
+
+        public void Clear()
+        {
+            _client.DeleteByQuery<TEntity>(q => q.MatchAll());
+        }
+
+        public void Fill(IEnumerable<TEntity> entities)
+        {
+            if (entities == null) return;
+            foreach (var entity in entities)
+            {
+                _client.Update<TEntity>(s => s.Doc(entity).DocAsUpsert().RetryOnConflict(RetryOnConflict).Refresh());
+            }
+        }
+
+        public bool Any()
+        {
+            var response = _client.Search<TEntity>(s => s.MatchAll().Size(1));
+            if (response.Total > 0) return true;
+            return false;
         }
     }
 }

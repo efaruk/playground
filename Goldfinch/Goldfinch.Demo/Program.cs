@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,13 @@ namespace Goldfinch.Demo
     {
         static void Main(string[] args)
         {
+            // Clean cache strore
+            CleanCacheStore();
+            // Clean Database
+            using (var context = new GoldfinchContext())
+            {
+                context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, "DELETE FROM SimpleItem; VACUUM;");
+            }
             //FillDatabase();
             //FillCacheStore();
             RealWorldScenario();
@@ -22,13 +30,10 @@ namespace Goldfinch.Demo
 
         private static void RealWorldScenario()
         {
-            using (var context = new GoldfinchContext())
-            {
-                context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, "DELETE FROM SimpleItem; VACUUM;");
-            }
+            var maxItemCount = 1000;
             using (var manager = new SimpleItemStoreManager())
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < maxItemCount; i++)
                 {
                     var entity = new SimpleItem()
                     {
@@ -39,7 +44,7 @@ namespace Goldfinch.Demo
                     manager.Add(entity);
                 }
 
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < maxItemCount; i++)
                 {
                     var entity = new SimpleItem()
                     {
@@ -49,6 +54,21 @@ namespace Goldfinch.Demo
                         FieldValue = "Test" + i
                     };
                     manager.Update(entity);
+                }
+
+                manager.Refresh(true);
+
+
+                var rnd = new Random();
+                for (int i = 0; i < maxItemCount / 10; i++)
+                {
+                    var t = rnd.Next(maxItemCount);
+                    try
+                    {
+                        manager.Delete(i);
+                    }
+                    // ReSharper disable once EmptyGeneralCatchClause
+                    catch { }
                 }
 
                 var result = manager.AsQueryable().ToList();
@@ -92,6 +112,14 @@ namespace Goldfinch.Demo
                     };
                     store.Add(entity);
                 }
+            }
+        }
+
+        private static void CleanCacheStore()
+        {
+            using (var store = new ElasticSearchCacheStore<SimpleItem>(new SimpleItemElasticContext(), DALSettingsWrapper.ElasticSearchEndpoint, "goldfinch"))
+            {
+                store.Clear();
             }
         }
     }

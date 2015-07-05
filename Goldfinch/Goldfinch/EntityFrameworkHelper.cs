@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace Goldfinch
 {
     /// <summary>
-    /// EntityFramework reflection helper.
+    /// Entity Framework helper
     /// </summary>
-    public static class RuntimeHelper
+    public static class EntityFrameworkHelper
     {
         public static object GetPrimaryKey<TEntity>(DbContext context, TEntity entity) where TEntity : class
         {
@@ -30,5 +30,6 @@ namespace Goldfinch
             }
             return result;
         }
+
     }
 }
