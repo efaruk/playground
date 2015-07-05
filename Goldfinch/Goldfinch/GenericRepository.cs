@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Goldfinch
 {
-    public abstract class GenericRepository<TEntity> : IDisposable where TEntity : class
+    public abstract class GenericRepository<TEntity> : IPersistentRepository<TEntity> where TEntity : class
     {
         protected DbContext Context;
         protected DbSet<TEntity> Set;
@@ -62,8 +62,6 @@ namespace Goldfinch
             return Context;
         }
 
-        #region Public
-
         private TEntity GetLocalExistingEntity(TEntity entity)
         {
             if (!Set.Local.Any()) return null;
@@ -72,6 +70,10 @@ namespace Goldfinch
                 f => EntityFrameworkHelper.GetPrimaryKey(Context, f).Equals(primaryKey));
             return existing;
         }
+
+        #region Public
+
+        
 
         public DbContextConfiguration ContextConfiguration
         {

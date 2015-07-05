@@ -64,6 +64,7 @@
     <Compile Include="ElasticSearchCacheStore.cs" />
     <Compile Include="GenericRepository.cs" />
     <Compile Include="IFirstLevelCacheStore.cs" />
+    <Compile Include="IPersistentRepository.cs" />
     <Compile Include="Namespace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EntityFrameworkHelper.cs" />

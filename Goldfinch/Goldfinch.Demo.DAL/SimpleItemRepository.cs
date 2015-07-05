@@ -5,7 +5,7 @@ using Goldfinch.Demo.Data;
 
 namespace Goldfinch.Demo.DAL
 {
-    public class SimpleItemRepository : GenericRepository<SimpleItem>
+    public class SimpleItemRepository : GenericRepository<SimpleItem>, IPersistentRepository<SimpleItem>
     {
         public SimpleItemRepository() : base(new GoldfinchContext())
         {

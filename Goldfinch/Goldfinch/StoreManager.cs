@@ -9,7 +9,7 @@ namespace Goldfinch
 {
     public class StoreManager<TEntity> : IDisposable where TEntity : class
     {
-        protected GenericRepository<TEntity> PersistentRepository;
+        protected IPersistentRepository<TEntity> PersistentRepository;
         protected IFirstLevelCacheStore<TEntity> CacheStore;
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Goldfinch
         /// </summary>
         /// <param name="persistentRepository"></param>
         /// <param name="cacheStore"></param>
-        public StoreManager(GenericRepository<TEntity> persistentRepository, IFirstLevelCacheStore<TEntity> cacheStore)
+        public StoreManager(IPersistentRepository<TEntity> persistentRepository, IFirstLevelCacheStore<TEntity> cacheStore)
         {
             PersistentRepository = persistentRepository;
             CacheStore = cacheStore;
