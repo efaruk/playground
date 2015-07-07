@@ -11,7 +11,7 @@ namespace Gelastiq
 {
     public class LogEventMapping : ElasticMapping
     {
-        public LogEventMapping() : base(false, false, false, false, EnumFormat.String)
+        public LogEventMapping() : base()
         {
             
         }

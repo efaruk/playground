@@ -58,10 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DALSettingsWrapper.cs" />
+    <Compile Include="ComplexObjectElasticContext.cs" />
     <Compile Include="SimpleItemElasticContext.cs" />
+    <Compile Include="ComplexObjectRepository.cs" />
     <Compile Include="SimpleItemRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleItemStoreManager.cs" />
+    <Compile Include="ComplexObjectFirstLevelCacheManager.cs" />
+    <Compile Include="SimpleItemFirstLevelCacheManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Goldfinch.Demo.Data\Goldfinch.Demo.Data.csproj">

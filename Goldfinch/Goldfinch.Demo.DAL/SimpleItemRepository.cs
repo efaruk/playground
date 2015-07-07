@@ -7,7 +7,7 @@ namespace Goldfinch.Demo.DAL
 {
     public class SimpleItemRepository : GenericRepository<SimpleItem>, IPersistentRepository<SimpleItem>
     {
-        public SimpleItemRepository() : base(new GoldfinchContext())
+        public SimpleItemRepository() : base(new GoldfinchDbContext())
         {
             
         }

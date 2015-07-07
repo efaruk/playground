@@ -7,15 +7,15 @@ using System.Transactions;
 
 namespace Goldfinch
 {
-    public class StoreManager<TEntity> : IDisposable where TEntity : class
+    public class FirstLevelCacheManager<TEntity> : IDisposable where TEntity : class
     {
         protected IPersistentRepository<TEntity> PersistentRepository;
         protected IFirstLevelCacheStore<TEntity> CacheStore;
 
         /// <summary>
-        /// You have to set PersistentRepository and CacheStore and Initialize CacheStore before use
+        /// You have to set PersistentRepository and CacheStore before use
         /// </summary>
-        protected StoreManager()
+        protected FirstLevelCacheManager()
         {
         }
 
@@ -24,17 +24,10 @@ namespace Goldfinch
         /// </summary>
         /// <param name="persistentRepository"></param>
         /// <param name="cacheStore"></param>
-        public StoreManager(IPersistentRepository<TEntity> persistentRepository, IFirstLevelCacheStore<TEntity> cacheStore)
+        public FirstLevelCacheManager(IPersistentRepository<TEntity> persistentRepository, IFirstLevelCacheStore<TEntity> cacheStore)
         {
             PersistentRepository = persistentRepository;
             CacheStore = cacheStore;
-            try
-            {
-                Initialize();
-            }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch //Swallow the exception on first Initialize(), Index can be created before instance; 
-            { }
         }
 
         /// <summary>
@@ -43,14 +36,6 @@ namespace Goldfinch
         public void Dispose()
         {
             PersistentRepository.Dispose();
-        }
-
-        /// <summary>
-        /// Initialize Cache Store
-        /// </summary>
-        public void Initialize()
-        {
-            CacheStore.Initialize();
         }
 
         /// <summary>

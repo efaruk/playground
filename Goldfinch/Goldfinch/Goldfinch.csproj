@@ -61,6 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ElasticSearchContext.cs" />
+    <Compile Include="NestElasticLinqMapping.cs" />
     <Compile Include="ElasticSearchCacheStore.cs" />
     <Compile Include="GenericRepository.cs" />
     <Compile Include="IFirstLevelCacheStore.cs" />
@@ -68,7 +70,7 @@
     <Compile Include="Namespace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EntityFrameworkHelper.cs" />
-    <Compile Include="StoreManager.cs" />
+    <Compile Include="FirstLevelCacheManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

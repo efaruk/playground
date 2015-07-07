@@ -1,18 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using ElasticLinq;
+using ElasticLinq.Logging;
+using ElasticLinq.Mapping;
+using ElasticLinq.Retry;
 
 namespace Goldfinch.Demo.DAL
 {
-    public class SimpleItemElasticContext : ElasticSearchContext
+    public class ComplexObjectElasticContext : ElasticSearchContext
     {
 
-        public SimpleItemElasticContext()
+        public ComplexObjectElasticContext()
             : base(new ElasticConnection(new Uri(DALSettingsWrapper.ElasticSearchEndpoint), index: DALSettingsWrapper.DefaultIndexName))
         {
             
         }
 
-        public SimpleItemElasticContext(string uri, string index = null)
+        public ComplexObjectElasticContext(string uri, string index = null)
             : base(new ElasticConnection(new Uri(uri), index: index ?? DALSettingsWrapper.DefaultIndexName))
         {
             

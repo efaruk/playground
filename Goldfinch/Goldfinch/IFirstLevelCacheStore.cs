@@ -14,6 +14,11 @@ namespace Goldfinch
         void Initialize();
 
         /// <summary>
+        /// Call when you need to drop down containers
+        /// </summary>
+        void Destroy();
+
+        /// <summary>
         /// To get IQueryable to write custom query
         /// </summary>
         /// <returns></returns>

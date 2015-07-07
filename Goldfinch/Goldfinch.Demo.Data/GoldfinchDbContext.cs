@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Goldfinch.Demo.Data
 {
-    public class GoldfinchContext: DbContext
+    public class GoldfinchDbContext: DbContext
     {
-        public GoldfinchContext()
+        public GoldfinchDbContext()
         {
             //this.Database.CommandTimeout = 60;
         }
@@ -22,6 +22,7 @@ namespace Goldfinch.Demo.Data
         }
 
         public DbSet<SimpleItem> SimpleItems { get; set; }
+        public DbSet<ComplexObject> ComplexObjects { get; set; }
 
     }
 }

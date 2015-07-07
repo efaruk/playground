@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ElasticLinq;
-using Elasticsearch.Net;
 using Nest;
 
 namespace Goldfinch
@@ -12,13 +9,13 @@ namespace Goldfinch
     public class ElasticSearchCacheStore<TEntity>: IFirstLevelCacheStore<TEntity> where TEntity: class
     {
         private ElasticClient _client;
-        private ElasticContext _context;
+        private ElasticSearchContext _context;
         private string _nodeUrl;
         private string _defaultIndex;
         //private const string QueryStringFormat = "{\"query\": \"query_string\" : {\"fields\" : [\"{0}\"], \"query\" : \"{1}\"}}";
         //private const string GetQueryStringFormat = "\"query\": {\"query_string\" : {\"default_field\" : [\"_id\"], \"query\" : \"{0}\"}}";
 
-        public ElasticSearchCacheStore(ElasticContext context, string nodeUrl, string defaultIndex)
+        public ElasticSearchCacheStore(ElasticSearchContext context, string nodeUrl, string defaultIndex)
         {
             _nodeUrl = nodeUrl;
             _defaultIndex = defaultIndex;
@@ -26,6 +23,12 @@ namespace Goldfinch
             var node = new Uri(_nodeUrl);
             var settings = new ConnectionSettings(node, _defaultIndex);
             _client = new ElasticClient(settings);
+            try
+            {
+                Initialize();
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch { }
         }
 
         private long _retryOnConflict = 3;
@@ -35,11 +38,8 @@ namespace Goldfinch
             set { _retryOnConflict = value; }
         }
 
-        public void Dispose()
-        {
-            //throw new NotImplementedException();
-        }
-
+        public void Dispose() { }
+        
         public IQueryable<TEntity> AsQueryable()
         {
             var queryable = _context.Query<TEntity>();
@@ -48,8 +48,24 @@ namespace Goldfinch
 
         public void Initialize()
         {
-            _client.CreateIndex(s => s.Index(_defaultIndex).AddMapping<TEntity>(t => t.MapFromAttributes()));
-            //_client.Map<TEntity>(d => d.MapFromAttributes());
+            var exists = _client.IndexExists(_defaultIndex);
+            if (exists.Exists)
+            {
+                exists = _client.TypeExists(s => s.Type<TEntity>());
+                if (!exists.Exists)
+                    _client.Map<TEntity>(s => s.MapFromAttributes());
+            }
+            else
+            {
+                _client.CreateIndex(s => s.Index(_defaultIndex).AddMapping<TEntity>(t => t.MapFromAttributes()));
+            }
+        }
+
+        public void Destroy()
+        {
+            var indexExists = _client.IndexExists(s => s.Index(_defaultIndex));
+            if (!indexExists.Exists) return;
+            _client.DeleteMapping<TEntity>(s => s.Index((_defaultIndex)));
         }
 
         public TEntity Get(object key)
@@ -63,14 +79,14 @@ namespace Goldfinch
             _client.Delete<TEntity>(key.ToString(), s => s);
         }
 
-        public void Add(TEntity data)
+        public void Add(TEntity entity)
         {
-            _client.Index<TEntity>(data, s => s.IdFrom(data));
+            _client.Index<TEntity>(entity, s => s.IdFrom(entity));
         }
 
-        public void Update(TEntity data)
+        public void Update(TEntity entity)
         {
-            _client.Update<TEntity>(d => d.IdFrom(data).Doc(data).RetryOnConflict(RetryOnConflict).Refresh());
+            _client.Update<TEntity>(d => d.IdFrom(entity).Doc(entity).DocAsUpsert().RetryOnConflict(RetryOnConflict).Refresh());
         }
 
         public void Clear()
@@ -83,7 +99,7 @@ namespace Goldfinch
             if (entities == null) return;
             foreach (var entity in entities)
             {
-                _client.Update<TEntity>(s => s.Doc(entity).DocAsUpsert().RetryOnConflict(RetryOnConflict).Refresh());
+                _client.Update<TEntity>(s => s.IdFrom(entity).Doc(entity).DocAsUpsert().RetryOnConflict(RetryOnConflict).Refresh());
             }
         }
 

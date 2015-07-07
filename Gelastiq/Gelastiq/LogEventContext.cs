@@ -14,7 +14,7 @@ namespace Gelastiq
     public class LogEventContext: ElasticContext
     {
         public LogEventContext(string uri, ILog log = null, IRetryPolicy retryPolicy = null)
-            : base(new ElasticConnection(new Uri(uri), index: "logark"), new LogEventMapping(), log, retryPolicy)
+            : base(new ElasticConnection(new Uri(uri), index: "goldfinch"), new LogEventMapping(), log, retryPolicy)
         {
             
         }
