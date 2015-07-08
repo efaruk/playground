@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ElasticSearchContext.cs" />
+    <Compile Include="IFirstLevelCacheManager.cs" />
     <Compile Include="NestElasticLinqMapping.cs" />
     <Compile Include="ElasticSearchCacheStore.cs" />
     <Compile Include="GenericRepository.cs" />

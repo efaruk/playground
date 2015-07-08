@@ -83,7 +83,7 @@ namespace Goldfinch
         /// <summary>
         /// Return TEntity as IQuearyable
         /// </summary>
-        public IQueryable<TEntity> AsQueryable()
+        public virtual IQueryable<TEntity> AsQueryable()
         {
             return Set.AsQueryable();
         }

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goldfinch.Demo.Data", "Gold
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goldfinch.Demo.DAL", "Goldfinch.Demo.DAL\Goldfinch.Demo.DAL.csproj", "{B37B8931-81B6-4B39-BBCA-1330AE42BAD4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goldfinch.Demo.Test", "Goldfinch.Demo.Test\Goldfinch.Demo.Test.csproj", "{8F51C36C-88DC-4CBA-8A27-0AF244D7A083}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B37B8931-81B6-4B39-BBCA-1330AE42BAD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B37B8931-81B6-4B39-BBCA-1330AE42BAD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B37B8931-81B6-4B39-BBCA-1330AE42BAD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F51C36C-88DC-4CBA-8A27-0AF244D7A083}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F51C36C-88DC-4CBA-8A27-0AF244D7A083}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F51C36C-88DC-4CBA-8A27-0AF244D7A083}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F51C36C-88DC-4CBA-8A27-0AF244D7A083}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
