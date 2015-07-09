@@ -114,7 +114,7 @@ namespace Goldfinch
             request.Operations = new List<IBulkOperation>(entities.Count());
             foreach (var entity in entities)
             {
-                var op = new BulkUpdateOperation<TEntity, TEntity>(entity) { RetriesOnConflict = RetryOnConflict };
+                var op = new BulkUpdateOperation<TEntity, TEntity>(entity, entity, true) { RetriesOnConflict = RetryOnConflict, DocAsUpsert = true };
                 request.Operations.Add(op);
             }
             _client.Bulk(request);
@@ -139,7 +139,7 @@ namespace Goldfinch
                     request.Operations = new List<IBulkOperation>(ps);
                     foreach (var entity in page)
                     {
-                        var op = new BulkUpdateOperation<TEntity, TEntity>(entity) { RetriesOnConflict = RetryOnConflict, DocAsUpsert = true };
+                        var op = new BulkUpdateOperation<TEntity, TEntity>(entity, entity, true) { RetriesOnConflict = RetryOnConflict, DocAsUpsert = true };
                         request.Operations.Add(op);
                     }
                     if (request.Operations.Count > 0)
@@ -152,7 +152,7 @@ namespace Goldfinch
                 request.Operations = new List<IBulkOperation>(entities.Count());
                 foreach (var entity in entities)
                 {
-                    var op = new BulkUpdateOperation<TEntity, TEntity>(entity) { RetriesOnConflict = RetryOnConflict, DocAsUpsert = true };
+                    var op = new BulkUpdateOperation<TEntity, TEntity>(entity, entity, true) { RetriesOnConflict = RetryOnConflict, DocAsUpsert = true };
                     request.Operations.Add(op);
                 }
                 if (request.Operations.Count > 0)
