@@ -7,10 +7,15 @@ using System.Transactions;
 
 namespace Goldfinch
 {
+    /// <summary>
+    /// First Level Cache Manager
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public class FirstLevelCacheManager<TEntity> : IFirstLevelCacheManager<TEntity> where TEntity : class
     {
         protected IPersistentRepository<TEntity> PersistentRepository;
         protected IFirstLevelCacheStore<TEntity> CacheStore;
+        private int _maxItemCount = 1000000;
 
         /// <summary>
         /// You have to set PersistentRepository and CacheStore before use
@@ -28,6 +33,15 @@ namespace Goldfinch
         {
             PersistentRepository = persistentRepository;
             CacheStore = cacheStore;
+        }
+
+        /// <summary>
+        /// Max item count for ToList() operations.
+        /// </summary>
+        public int MaxItemCount
+        {
+            get { return _maxItemCount; }
+            set { _maxItemCount = value; }
         }
 
         /// <summary>
@@ -71,6 +85,10 @@ namespace Goldfinch
             }
         }
 
+        /// <summary>
+        /// Delete list of items from both Persistent Repository and Cache Store
+        /// </summary>
+        /// <param name="keys"></param>
         public void BulkDelete(IEnumerable<object> keys)
         {
             using (var scope = new TransactionScope())
@@ -95,6 +113,10 @@ namespace Goldfinch
             }
         }
 
+        /// <summary>
+        /// Add list of items on both Persistent Repository and Cache Store
+        /// </summary>
+        /// <param name="entities"></param>
         public void BulkAdd(IEnumerable<TEntity> entities)
         {
             using (var scope = new TransactionScope())
@@ -119,6 +141,10 @@ namespace Goldfinch
             }
         }
 
+        /// <summary>
+        /// Update list of items on both Persistent Repository and Cache Store
+        /// </summary>
+        /// <param name="entities"></param>
         public void BulkUpdate(IEnumerable<TEntity> entities)
         {
             using (var scope = new TransactionScope())
@@ -151,7 +177,7 @@ namespace Goldfinch
         }
 
         /// <summary>
-        /// Refill cache store if there is no item or force set true
+        /// Re-Fill cache store if there is no item or force set true
         /// </summary>
         /// <param name="force"></param>
         public void Refresh(bool force = false)
