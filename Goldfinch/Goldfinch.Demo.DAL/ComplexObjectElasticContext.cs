@@ -15,13 +15,13 @@ namespace Goldfinch.Demo.DAL
     {
 
         public ComplexObjectElasticContext()
-            : base(new ElasticConnection(new Uri(DALSettingsWrapper.ElasticSearchEndpoint), index: DALSettingsWrapper.DefaultIndexName))
+            : base(GoldfinchConnectionHelper.GetNewConnection(DALSettingsWrapper.ElasticSearchEndpoint, index: DALSettingsWrapper.DefaultIndexName))
         {
             
         }
 
         public ComplexObjectElasticContext(string uri, string index = null)
-            : base(new ElasticConnection(new Uri(uri), index: index ?? DALSettingsWrapper.DefaultIndexName))
+            : base(GoldfinchConnectionHelper.GetNewConnection(uri, index: index ?? DALSettingsWrapper.DefaultIndexName))
         {
             
         }
