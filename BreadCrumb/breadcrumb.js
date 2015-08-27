@@ -1,15 +1,14 @@
-var apiUrl = 'http://www.example.com/api';
+var apiUrl = 'http://www.currentdomain.com/api/xhr';
 var debugging = true;
-var whiteList = [ 'google.com', 'raygun.io', 'ciceksepeti.com' ];
+var whiteList = [ 'google.com', 'raygun.io', 'elmah.io', 'airbrake.io', 'errorception.com' ];
 var goldFinch = new Object();
 goldFinch.tempOpen = XMLHttpRequest.prototype.open;
 goldFinch.tempSend = XMLHttpRequest.prototype.send;
 goldFinch.self = false;
 goldFinch.callback = function () {
 	try {
-		this.self = true;
-		if (CheckWhiteList(url)) return;
-		var log = [this.method, this.url, this.data];
+		if (CheckWhiteList(this.url)) return;
+		var log = [this.method, this.url, this.data, getStackTrace()];
 		if (debugging) alert(log);
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function () {
@@ -19,23 +18,20 @@ goldFinch.callback = function () {
 				console.log(this.status);
 			}
 		}
+		this.self = true;
 		xhr.open('post', apiUrl);
 		xhr.send(log)
+		this.self = false;
 	}
 	catch(err) {
-		if (!debugging) alert(err);
+		this.self = false;
+		if (debugging) alert(err);
+		console.error(err);
 	}
 	finally {
 		this.self = false;
 	}
 }
-
-function bough() {
-	if (this.readyState == 4 ) {
-		console.log(this.status);
-    }
-}
-
 
 XMLHttpRequest.prototype.open = function(a,b) {
   if (goldFinch.self) return;
@@ -64,14 +60,18 @@ XMLHttpRequest.prototype.send = function(a,b) {
 
 function CheckWhiteList(url) {
 	var white = false;
+	var u = ExtractDomain(url)
 	for (i = 0; i < whiteList.length; i++) {
-		var item = whiteList[i].value;
-		if (this.url.test(item)) white = true;
+		var item = whiteList[i];
+		if (u.indexOf(item) !=-1) {
+			white = true;
+			break;
+		}
 	}
 	return white;
 }
 
-function extractDomain(url) {
+function ExtractDomain(url) {
     var domain;
     //find & remove protocol
     if (url.indexOf("://") > -1) {
@@ -83,4 +83,10 @@ function extractDomain(url) {
     //find & remove port number
     domain = domain.split(':')[0];
     return domain;
+}
+
+function getStackTrace() { 
+  var e = new Error();
+  var st = e.stack.replace('Error', '');
+  return st;
 }
