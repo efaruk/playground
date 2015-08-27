@@ -1,5 +1,6 @@
 var apiUrl = 'http://www.example.com/api';
 var debugging = true;
+var whiteList = [ 'google.com', 'raygun.io', 'ciceksepeti.com' ];
 var goldFinch = new Object();
 goldFinch.tempOpen = XMLHttpRequest.prototype.open;
 goldFinch.tempSend = XMLHttpRequest.prototype.send;
@@ -7,13 +8,13 @@ goldFinch.self = false;
 goldFinch.callback = function () {
 	try {
 		this.self = true;
+		if (CheckWhiteList(url)) return;
 		var log = [this.method, this.url, this.data];
 		if (debugging) alert(log);
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function () {
 			// You should change here how you whish
-			if (this.readyState == 4 ) {
-				// When complete
+			if (this.readyState == 4 ) { // When complete
 				// Log to console
 				console.log(this.status);
 			}
@@ -59,4 +60,27 @@ XMLHttpRequest.prototype.send = function(a,b) {
 	goldFinch.data = a;
   }
   goldFinch.callback();
+}
+
+function CheckWhiteList(url) {
+	var white = false;
+	for (i = 0; i < whiteList.length; i++) {
+		var item = whiteList[i].value;
+		if (this.url.test(item)) white = true;
+	}
+	return white;
+}
+
+function extractDomain(url) {
+    var domain;
+    //find & remove protocol
+    if (url.indexOf("://") > -1) {
+        domain = url.split('/')[2];
+    }
+    else {
+        domain = url.split('/')[0];
+    }
+    //find & remove port number
+    domain = domain.split(':')[0];
+    return domain;
 }
