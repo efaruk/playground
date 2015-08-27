@@ -1,11 +1,11 @@
 var apiUrl = 'http://www.currentdomain.com/api/xhr';
 var debugging = true;
 var whiteList = [ 'google.com', 'raygun.io', 'elmah.io', 'airbrake.io', 'errorception.com' ];
-var goldFinch = new Object();
-goldFinch.tempOpen = XMLHttpRequest.prototype.open;
-goldFinch.tempSend = XMLHttpRequest.prototype.send;
-goldFinch.self = false;
-goldFinch.callback = function () {
+var bird = new Object();
+bird.tempOpen = XMLHttpRequest.prototype.open;
+bird.tempSend = XMLHttpRequest.prototype.send;
+bird.self = false;
+bird.callback = function () {
 	try {
 		if (CheckWhiteList(this.url)) return;
 		var log = [this.method, this.url, this.data, getStackTrace()];
@@ -34,28 +34,28 @@ goldFinch.callback = function () {
 }
 
 XMLHttpRequest.prototype.open = function(a,b) {
-  if (goldFinch.self) return;
+  if (bird.self) return;
   if (!a) var a='';
   if (!b) var b='';
-  goldFinch.tempOpen.apply(this, arguments);
-  goldFinch.method = a;  
-  goldFinch.url = b;
+  bird.tempOpen.apply(this, arguments);
+  bird.method = a;  
+  bird.url = b;
   if (a.toLowerCase() == 'get' || a.toLowerCase() == 'head') {
     var data = b.split('?');
-    goldFinch.data = data[1];
+    bird.data = data[1];
   }
 }
 
 XMLHttpRequest.prototype.send = function(a,b) {
-  if (goldFinch.self) return;
+  if (bird.self) return;
   if (!a) var a='';
   if (!b) var b='';
-  goldFinch.tempSend.apply(this, arguments);
-  var method = goldFinch.method.toLowerCase();
+  bird.tempSend.apply(this, arguments);
+  var method = bird.method.toLowerCase();
   if(method != 'get' || method != 'head') {
-	goldFinch.data = a;
+	bird.data = a;
   }
-  goldFinch.callback();
+  bird.callback();
 }
 
 function CheckWhiteList(url) {
