@@ -1,35 +1,35 @@
 ﻿@using System.Web.Optimization
-@using StackExchange.Profiling;
+@using StackExchange.Profiling
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<title>@ViewBag.Title - My ASP.NET Application</title>
-	@Styles.Render("~/Content/css")
-	@*@Scripts.Render("~/bundles/modernizr")*@
+    <meta charset="utf-8"/>
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @*@Scripts.Render("~/bundles/modernizr")*@
 </head>
 <body>
-	<ul style="margin-left: 100px;">
-		<li>@Html.ActionLink("Home", "Index", "Home")</li>
-		<li>@Html.ActionLink("TempData", "Index", "TempData")</li>
-		<li>@Html.ActionLink("Unlocked", "Index", "Unlocked")</li>
-		<li>@Html.ActionLink("UnlockedReadOnly", "Index", "UnlockedReadOnly")</li>
-		<li>@Html.ActionLink("UnlockedBig", "Index", "UnlockedBig")</li>
-		<li>@Html.ActionLink("UnlockedBigReadonly", "Index", "UnlockedBigReadonly")</li>
-		<li>@Html.ActionLink("UnlockedCustom", "Index", "UnlockedCustom")</li>
-		<li>@Html.ActionLink("Logout", "Index", "Logout")</li>
-	</ul>
-	<br />&nbsp;
-	<br />&nbsp;
-	<br />&nbsp;
-	<br />&nbsp;
-	<div id="body" style="margin-left: 150px;">
-		@RenderBody()
-	</div>
-	<br />&nbsp;
-	@*@Scripts.Render("~/bundles/jquery")
+<ul style="margin-left: 100px;">
+    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    <li>@Html.ActionLink("TempData", "Index", "TempData")</li>
+    <li>@Html.ActionLink("Unlocked", "Index", "Unlocked")</li>
+    <li>@Html.ActionLink("UnlockedReadOnly", "Index", "UnlockedReadOnly")</li>
+    <li>@Html.ActionLink("UnlockedBig", "Index", "UnlockedBig")</li>
+    <li>@Html.ActionLink("UnlockedBigReadonly", "Index", "UnlockedBigReadonly")</li>
+    <li>@Html.ActionLink("UnlockedCustom", "Index", "UnlockedCustom")</li>
+    <li>@Html.ActionLink("Logout", "Index", "Logout")</li>
+</ul>
+<br/>&nbsp;
+<br/>&nbsp;
+<br/>&nbsp;
+<br/>&nbsp;
+<div id="body" style="margin-left: 150px;">
+    @RenderBody()
+</div>
+<br/>&nbsp;
+@*@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")*@
-	@*@RenderSection("scripts", required: false)*@
-	@MiniProfiler.RenderIncludes()
+@*@RenderSection("scripts", required: false)*@
+@MiniProfiler.RenderIncludes()
 </body>
 </html>

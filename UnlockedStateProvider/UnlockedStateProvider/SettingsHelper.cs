@@ -5,37 +5,37 @@ using System.Globalization;
 
 namespace UnlockedStateProvider
 {
-	public static class SettingsHelper
-	{
-		public static string GetAppSetting(string key, string defaultValue = "")
-		{
-			var value = ConfigurationManager.AppSettings.Get(key);
-			if (string.IsNullOrEmpty(value))
-			{
-				value = defaultValue;
-			}
-			return value;
-		}
+    public static class SettingsHelper
+    {
+        public static string GetAppSetting(string key, string defaultValue = "")
+        {
+            var value = ConfigurationManager.AppSettings.Get(key);
+            if (string.IsNullOrEmpty(value))
+            {
+                value = defaultValue;
+            }
+            return value;
+        }
 
-		public static int GetIntAppSetting(string key, int defaultValue)
-		{
-			var value = ConfigurationManager.AppSettings.Get(key);
-			if (string.IsNullOrEmpty(value))
-			{
-				value = defaultValue.ToString(CultureInfo.InvariantCulture);
-			}
-			return int.Parse(value);
-		}
+        public static int GetIntAppSetting(string key, int defaultValue)
+        {
+            var value = ConfigurationManager.AppSettings.Get(key);
+            if (string.IsNullOrEmpty(value))
+            {
+                value = defaultValue.ToString(CultureInfo.InvariantCulture);
+            }
+            return int.Parse(value);
+        }
 
-		public static bool GetBoolAppSetting(string key, bool defaultValue)
-		{
-			var value = ConfigurationManager.AppSettings.Get(key);
-			if (string.IsNullOrEmpty(value))
-			{
-				value = defaultValue.ToString(CultureInfo.InvariantCulture);
-			}
-			return bool.Parse(value);
-		}
+        public static bool GetBoolAppSetting(string key, bool defaultValue)
+        {
+            var value = ConfigurationManager.AppSettings.Get(key);
+            if (string.IsNullOrEmpty(value))
+            {
+                value = defaultValue.ToString(CultureInfo.InvariantCulture);
+            }
+            return bool.Parse(value);
+        }
 
 
         //Taken from MS
@@ -53,7 +53,7 @@ namespace UnlockedStateProvider
 
         public static int GetIntSettings(NameValueCollection config, string attrName, int defaultVal)
         {
-            string str = (string)null;
+            string str = (string) null;
             try
             {
                 str = GetFromConfig(config, attrName);
@@ -74,7 +74,7 @@ namespace UnlockedStateProvider
 
         public static bool GetBoolSettings(NameValueCollection config, string attrName, bool defaultVal)
         {
-            var attrName1 = (string)null;
+            var attrName1 = (string) null;
             try
             {
                 attrName1 = GetFromConfig(config, attrName);
@@ -101,7 +101,7 @@ namespace UnlockedStateProvider
                 if (!string.IsNullOrEmpty(str))
                     return str;
             }
-            return (string)null;
+            return (string) null;
         }
 
         public static string GetFromConfig(NameValueCollection config, string attrName)
@@ -110,8 +110,7 @@ namespace UnlockedStateProvider
             if (values != null && values.Length > 0 && !string.IsNullOrEmpty(values[0]))
                 return values[0];
             else
-                return (string)null;
+                return (string) null;
         }
-
-	}
+    }
 }

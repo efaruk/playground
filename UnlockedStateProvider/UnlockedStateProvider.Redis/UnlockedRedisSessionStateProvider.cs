@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Configuration;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using System.Web.Configuration;
-using System.Web.Hosting;
 using System.Web.SessionState;
 
 namespace UnlockedStateProvider.Redis
@@ -39,7 +32,8 @@ namespace UnlockedStateProvider.Redis
 
         public override SessionStateStoreData CreateNewStoreData(System.Web.HttpContext context, int timeout)
         {
-            return new SessionStateStoreData(new SessionStateItemCollection(), new HttpStaticObjectsCollection(), timeout);
+            return new SessionStateStoreData(new SessionStateItemCollection(), new HttpStaticObjectsCollection(),
+                timeout);
         }
 
         public override void CreateUninitializedItem(System.Web.HttpContext context, string id, int timeout)
@@ -63,18 +57,20 @@ namespace UnlockedStateProvider.Redis
                 //var store = (IUnlockedStateStore)filterContext.GetContextItem(UNLOCKED_STATE_STORE_KEY);
                 // store.UpdateContext();
                 var expire = UnlockedExtensions.GetNextTimeout(Store.Configuration.SessionTimeout);
-                Store.Set(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY, Store.Items, expire, RunAsync);
+                Store.Set(UnlockedExtensions.UNLOCKED_STATE_STORE_KEY, Store.Items, expire);
             }
             //base.EndRequest(context);
             //UnlockedStateStore.Dispose();
         }
 
-        public override SessionStateStoreData GetItem(System.Web.HttpContext context, string id, out bool locked, out TimeSpan lockAge, out object lockId, out SessionStateActions actions)
+        public override SessionStateStoreData GetItem(System.Web.HttpContext context, string id, out bool locked,
+            out TimeSpan lockAge, out object lockId, out SessionStateActions actions)
         {
             throw new NotImplementedException();
         }
 
-        public override SessionStateStoreData GetItemExclusive(System.Web.HttpContext context, string id, out bool locked, out TimeSpan lockAge, out object lockId, out SessionStateActions actions)
+        public override SessionStateStoreData GetItemExclusive(System.Web.HttpContext context, string id,
+            out bool locked, out TimeSpan lockAge, out object lockId, out SessionStateActions actions)
         {
             throw new NotImplementedException();
         }
@@ -89,7 +85,8 @@ namespace UnlockedStateProvider.Redis
             throw new NotImplementedException();
         }
 
-        public override void RemoveItem(System.Web.HttpContext context, string id, object lockId, SessionStateStoreData item)
+        public override void RemoveItem(System.Web.HttpContext context, string id, object lockId,
+            SessionStateStoreData item)
         {
             throw new NotImplementedException();
         }
@@ -99,7 +96,8 @@ namespace UnlockedStateProvider.Redis
             throw new NotImplementedException();
         }
 
-        public override void SetAndReleaseItemExclusive(System.Web.HttpContext context, string id, SessionStateStoreData item, object lockId, bool newItem)
+        public override void SetAndReleaseItemExclusive(System.Web.HttpContext context, string id,
+            SessionStateStoreData item, object lockId, bool newItem)
         {
             throw new NotImplementedException();
         }

@@ -1,10 +1,10 @@
 ﻿namespace UnlockedStateProvider
 {
-	public enum UnlockedStateUsage
-	{
-		ReadWrite,
-		Disabled,
-		ReadOnly,
-		CustomOnly
-	}
+    public enum UnlockedStateUsage
+    {
+        ReadWrite,
+        Disabled,
+        ReadOnly,
+        CustomOnly
+    }
 }
