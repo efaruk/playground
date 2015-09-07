@@ -4,18 +4,27 @@ var whiteList = [ 'google.com', 'raygun.io', 'elmah.io', 'airbrake.io', 'errorce
 var bird = new Object();
 bird.tempOpen = XMLHttpRequest.prototype.open;
 bird.tempSend = XMLHttpRequest.prototype.send;
+bird.tempHeader = XMLHttpRequest.prototype.setRequestHeader;
+bird.headers = [];
 bird.self = false;
 bird.callback = function () {
 	try {
 		if (CheckWhiteList(this.url)) return;
-		var log = [this.method, this.url, this.data, getStackTrace()];
+		if (!this.headers) { this.headers = []; }
+		var header = '';
+		for (var key in this.headers) {
+		  if (key === 'length' || !this.headers.hasOwnProperty(key)) continue;
+		  var value = this.headers[key];
+		  header = header + key + ':' + value + ',';
+		}
+		var log = [this.method, this.url, this.data, getStackTrace(), header];
 		if (debugging) alert(log);
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function () {
 			// You should change here how you whish
-			if (this.readyState == 4 ) { // When complete
+			if (debugging) {
 				// Log to console
-				console.log(this.status);
+				console.log(this.readyState);
 			}
 		}
 		this.self = true;
@@ -56,6 +65,19 @@ XMLHttpRequest.prototype.send = function(a,b) {
 	bird.data = a;
   }
   bird.callback();
+}
+
+XMLHttpRequest.prototype.setRequestHeader = function(a,b) {
+  if (!a) var a='';
+  if (!b) var b='';
+  if(!this.headers) {
+    this.headers = [];
+  }
+  bird.tempHeader.apply(this, arguments);
+  if (!bird.self) {
+	this.headers[a] = b;
+	bird.headers = this.headers;
+  }
 }
 
 function CheckWhiteList(url) {

