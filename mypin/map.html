@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Share My Thing</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+</head>
+<body role="document">
+		<!-- Static navbar -->
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">MyPin</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../navbar/">Default</a></li>
+            <li class="active"><a href="./">Static top <span class="sr-only">(current)</span></a></li>
+            <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+	<div class="jumbotron container" role="main">
+		<div class="container">
+			<div class="row">
+				<div id="map" class="col-md-6" style="width: 80%; height: 400px;"></div>
+				<div class="col-md-2">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Düzenle<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#" onclick="addPin();">Yeni Pin</a></li>
+							<li><a href="#" onclick="addCircle();">Yeni Bölge</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">Temizle</a></li>
+							<li><a href="#">Haritayı Sıfırla</a></li>
+						</ul>
+					</li>
+					<div class="row">
+						<div id="mapForm" class="container">
+							<form class="form-horizontal">
+							<fieldset>
+							<legend>My Pin</legend>
+							<div class="form-group">
+								<label class="control-label" for="pinTitle">Başlık</label>
+								<input id="pinTitle" name="pinTitle" type="text" placeholder="Başlık giriniz..." class="form-control input-sm" required="true" >
+							</div>
+							<div class="form-group">
+								<label class="control-label" for="pinTitle">Açıklama:</label>
+								<textarea class="form-control" id="pinDescription" placeholder="Açıklama giriniz..." name="pinDescription" style="resize: vertical;"></textarea>
+							</div>
+							<div class="form-group">
+								<label class="control-label" for="pinTitle">Kategori:</label>
+								<select id="pinMainCategory" name="pinMainCategory" class="form-control">
+									<option value="" selected disabled>Seçiniz</option>
+									<option value="1">Avcılık - Balık</option>
+									<option value="1">Avcılık - Kara</option>
+									<option value="2">Gezi</option>
+									<option value="3">Kamp</option>
+									<option value="4">Spor</option>
+								</select>
+								<select id="pinMainCategory" name="pinMainCategory" class="form-control">
+									<option value="" selected disabled>Seçiniz</option>
+									<option value="1">Avlak Yeri</option>
+								</select>
+							</div>
+							<div class="form-group pull-right">
+								<button id="button1id" name="button1id" class="btn btn-success">Kaydet</button>
+								<button id="button2id" name="button2id" class="btn btn-danger">İptal</button>
+							</div>
+							</fieldset>
+							</form>
+						</div>
+					</div>
+				</div>
+		  </div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="http://api-maps.yandex.ru/2.1/?lang=tr_TR" type="text/javascript"></script>
+	<script type="text/javascript">
+		ymaps.ready(init);
+		var map;
+
+		//toggleSuspend('mapForm');
+
+		function init(){
+			map = new ymaps.Map("map", {
+				center: [41.08, 29.00],
+				zoom: 15
+			});
+		}
+		
+		function addPin() {
+			var coordinates = map.getCenter();
+			pin = new ymaps.Placemark(coordinates, { hintContent: 'Yeni Pin' }, { hasBalloon:false,draggable: true, hideIconOnBalloonOpen: false, preset: 'islands#redIcon' } );
+			pin.events.add('click', function(e) {selectPin(e)});
+			pin.events.add('dragend', function(e) {refreshPin(e)});
+			pin.events.add('balloonopen', function(e) {balloonOpen(e)});
+			pin.properties.set('coordinates', coordinates);
+			pin.properties.set('pid', guid);
+			map.geoObjects.add(pin);
+		}
+		
+		function addCircle() {
+			var coordinates = map.getCenter();
+			var size = prompt("Lütfen bölge büyüklüğünü metre olarak giriniz", "500");
+			if (!isInt(size)) {
+				size = 500;
+			} else {
+				if (size > 3000) size = 3000;
+			}
+			pin = new ymaps.Circle([coordinates, size], { hintContent: 'Yeni Bölge' }, { hasBalloon:false,draggable: true, hideIconOnBalloonOpen: false, preset: 'islands#redIcon' } );
+			pin.events.add('click', function(e) {selectPin(e)});
+			pin.events.add('dragend', function(e) {refreshPin(e)});
+			pin.events.add('balloonopen', function(e) {balloonOpen(e)});
+			pin.properties.set('coordinates', coordinates);
+			pin.properties.set('pid', guid);
+			map.geoObjects.add(pin);
+		}
+		
+		function refreshPin(e) {
+			var pin = e.get('target');
+			var coordinates = pin.geometry.getCoordinates();
+			pin.properties.set('coordinates', coordinates);
+		}
+		
+		function selectPin(e) {
+			var pin = e.get('target');
+			var coordinates = pin.geometry.getCoordinates();
+			alert(coordinates);
+		}
+		
+		function balloonOpen(e) {
+			var pin = e.get('target');
+			var coordinates = pin.geometry.getCoordinates();
+		}
+		
+		function isInt(n) {
+			return n % 1 === 0;
+		}
+		
+		function guid() {
+			function s4() {
+				return Math.floor((1 + Math.random()) * 0x10000)
+					.toString(16)
+					.substring(1);
+			}
+			return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+				s4() + '-' + s4() + s4() + s4();
+		}
+		
+		function toggleSuspend(id) {
+			e = document.getElementById(id);
+			if (e != null) {
+				e.disabled = el.disabled ? false : true;
+				if (e.childNodes && e.childNodes.length > 0) {
+					for (var i = 0; i < e.childNodes.length; i++) {
+						if (e.childNodes[i].id != null) {
+							suspend(e.childNodes[i].id);
+						}
+					}
+        }
+			}
+		}
+	</script>
+</body>
+
+</html>
