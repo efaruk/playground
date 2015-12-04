@@ -95,13 +95,9 @@ namespace log4net.Appender.Extended
             }
         }
 
-        protected virtual ExtendedLoggingEvent ConvertLoggingEvent(LoggingEvent loggingEvent, IEnumerable<LayoutParameter> parameters)
+        protected virtual ExtendedLoggingEvent ConvertLoggingEvent(LoggingEvent loggingEvent, IList<LayoutParameter> parameters)
         {
-            var extendedLoggingEvent = new ExtendedLoggingEvent(loggingEvent);
-            foreach (var layoutParameter in parameters)
-            {
-                extendedLoggingEvent.EventParameters.Add(new ExtendedLoggingEventParameter(layoutParameter.ParameterName, layoutParameter.Render(loggingEvent)));
-            }
+            var extendedLoggingEvent = Utility.ConvertLoggingEvent(loggingEvent, parameters);
             return extendedLoggingEvent;
         }
 

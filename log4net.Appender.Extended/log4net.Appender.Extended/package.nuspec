@@ -8,7 +8,7 @@
     <owners>$author$</owners>
     <licenseUrl>http://www.gnu.org/copyleft/gpl.html</licenseUrl>
     <projectUrl>https://github.com/efaruk/playground</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/efaruk/playground/master/log4net.Appender.Splunk/logo/logo.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/efaruk/playground/master/log4net.Appender.Extended/logo/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>log4net Extended</description>
     <releaseNotes>log4net Extended</releaseNotes>

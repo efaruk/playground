@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomDoubleBufferingAppender.cs" />
+    <Compile Include="ExtendedAppenderSkeleton.cs" />
     <Compile Include="ExtendedLoggingEvent.cs" />
     <Compile Include="LayoutParameter.cs" />
     <Compile Include="DoubleBufferingAppenderSkeleton.cs" />

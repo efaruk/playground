@@ -3,10 +3,9 @@ Time and Count Buffered BufferingAppenderSkeleton: DoubleBufferingAppenderSkelet
 
 Example Config:
 
-	<appender name="ArkBufferingAppender" type="log4net.Appender.Ark.ArkBufferingAppender">
+	<appender name="DoubleBufferingAppender" type="log4net.Appender.Ark.DoubleBufferingAppenderSkeleton">
 	    <MaxBufferSize value="10" />
 	    <TimeThreshold value="60" />
-	    <SaveOnDatabase value="true" />
 	    <layout type="log4net.Layout.PatternLayout">
 	    <conversionPattern value="%message %exception %aspnet-request" />
 	    </layout>
