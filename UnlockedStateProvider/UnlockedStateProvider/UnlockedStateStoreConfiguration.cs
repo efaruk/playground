@@ -51,23 +51,24 @@ namespace UnlockedStateProvider
 
         public void ConfigureAsSdandardProvider(NameValueCollection config)
         {
-            Disabled = SettingsHelper.GetBoolAppSetting("disabled", false);
-            AutoManageSessionCookie = SettingsHelper.GetBoolAppSetting("auto", true);
-            CookieName = SettingsHelper.GetAppSetting("cookieName", UnlockedExtensions.CUSTOM_COOKIE_NAME);
-            ForceSlide = SettingsHelper.GetBoolAppSetting("forceSlide", true);
-            HostConfigName = SettingsHelper.GetAppSetting("hostConfigName");
+            Disabled = SettingsHelper.GetBoolSettings(config, "disabled", false);
+            AutoManageSessionCookie = SettingsHelper.GetBoolSettings(config, "auto", true);
+            CookieName = SettingsHelper.GetStringSettings(config, "cookieName", UnlockedExtensions.CUSTOM_COOKIE_NAME);
+            ForceSlide = SettingsHelper.GetBoolSettings(config, "forceSlide", true);
+            SlideAsync = SettingsHelper.GetBoolSettings(config, "slideAsync", true);
+            HostConfigName = SettingsHelper.GetStringSettings(config, "hostConfigName", "localhost");
             //
             Host = SettingsHelper.GetStringSettings(config, "host", DEFAULT_HOST);
             //this.Port = SettingsHelper.GetIntSettings(config, "port", 0);
             Database = SettingsHelper.GetStringSettings(config, "databaseId", DEFAULT_DATABASE_ID);
-            SessionTimeout = SettingsHelper.GetIntAppSetting("sessionTimeout", DEFAULT_SESSION_TIMEOUT);
-            OperationTimeout = SettingsHelper.GetIntAppSetting("operationTimeout", DEFAULT_OPERATION_TIMEOUT);
-            ConnectionTimeout = SettingsHelper.GetIntAppSetting("connectionTimeout", DEFAULT_OPERATION_TIMEOUT);
+            SessionTimeout = SettingsHelper.GetIntSettings(config, "sessionTimeout", DEFAULT_SESSION_TIMEOUT);
+            OperationTimeout = SettingsHelper.GetIntSettings(config, "operationTimeout", DEFAULT_OPERATION_TIMEOUT);
+            ConnectionTimeout = SettingsHelper.GetIntSettings(config, "connectionTimeout", DEFAULT_OPERATION_TIMEOUT);
             AccessKey = SettingsHelper.GetStringSettings(config, "accessKey", "");
-            RetryCount = SettingsHelper.GetIntAppSetting("retryCount", 0);
-            UseSsl = SettingsHelper.GetBoolSettings(config, "ssl", true);
+            RetryCount = SettingsHelper.GetIntSettings(config, "retryCount", 0);
+            UseSsl = SettingsHelper.GetBoolSettings(config, "ssl", false);
             ApplicationName = SettingsHelper.GetStringSettings(config, "applicationName", "");
-            PreferSlaveForRead = SettingsHelper.GetBoolAppSetting("preferSlave", true);
+            PreferSlaveForRead = SettingsHelper.GetBoolSettings(config, "preferSlave", true);
             ConnectionString = SettingsHelper.GetStringSettings(config, "connectionString", "");
 
             if (this.ApplicationName == null)
@@ -91,6 +92,8 @@ namespace UnlockedStateProvider
             }
             ConfiguredAsStandardProvider = true;
         }
+
+        public bool SlideAsync { get; set; }
 
 
         public object ConfigurationCreationLock = new object();

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://www.gnu.org/copyleft/gpl.html</licenseUrl>
+    <projectUrl>https://github.com/efaruk/playground</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/efaruk/playground/master/log4net.Appender.Splunk/logo/logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>log4net Extended</description>
+    <releaseNotes>log4net Extended</releaseNotes>
+    <copyright>Copyright ©  2014</copyright>
+    <tags>log4net Extended DoubleBufferingAppenderSkeleton</tags>
+	<dependencies>
+      <group>
+        <dependency id="log4net" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

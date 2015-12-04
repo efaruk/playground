@@ -66,12 +66,29 @@ namespace UnlockedStateProvider.Redis
         public override SessionStateStoreData GetItem(System.Web.HttpContext context, string id, out bool locked,
             out TimeSpan lockAge, out object lockId, out SessionStateActions actions)
         {
-            throw new NotImplementedException();
+            locked = false;
+            lockId = null;
+            lockAge = TimeSpan.MinValue;
+            actions = SessionStateActions.None;
+
+            var contextStore = context.GetStoreFromContext();
+            var itemCollection = new SessionStateItemCollection();
+            foreach (var storeItem in contextStore.Items)
+            {
+                itemCollection[storeItem.Key] = storeItem.Value;
+            }
+            var data = new SessionStateStoreData(itemCollection, new HttpStaticObjectsCollection(), 0);
+            return data;
         }
 
         public override SessionStateStoreData GetItemExclusive(System.Web.HttpContext context, string id,
             out bool locked, out TimeSpan lockAge, out object lockId, out SessionStateActions actions)
         {
+            locked = false;
+            lockId = null;
+            lockAge = TimeSpan.MinValue;
+            actions = SessionStateActions.None;
+
             throw new NotImplementedException();
         }
 

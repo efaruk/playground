@@ -18,6 +18,7 @@ namespace UnlockedStateProvider
         public const string SESSION_STARTED_KEY = "UNLOCKED:started";
         public const int DEFAULT_ITEM_COUNT = 15;
         public const string UNLOCKED = "UNLOCKED";
+        public const string SESSION_STATE_ACTIONS = "SessionStateActions";
 
 
         /// <summary>
