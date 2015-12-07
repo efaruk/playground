@@ -49,3 +49,5 @@ If you need custom parameters, override ConvertLoggingEvent:
     }
 
 Happy logging...
+
+[![efaruk MyGet Build Status](https://www.myget.org/BuildSource/Badge/efaruk?identifier=80412953-5b8c-4baf-bc52-a5331755bdef)](https://www.myget.org/)

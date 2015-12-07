@@ -15,10 +15,5 @@
     <releaseNotes>log4net Extended</releaseNotes>
     <copyright>Copyright ©  2014</copyright>
     <tags>log4net Extended DoubleBufferingAppenderSkeleton</tags>
-    <dependencies>
-      <group>
-        <dependency id="log4net" />
-      </group>
-    </dependencies>
   </metadata>
 </package>
