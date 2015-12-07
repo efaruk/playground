@@ -7,7 +7,6 @@ using Timer = System.Timers.Timer;
 
 namespace log4net.Appender.Extended
 {
-
     public abstract class DoubleBufferingAppenderSkeleton : BufferingAppenderSkeleton
     {
         // ReSharper disable once StaticMemberInGenericType
@@ -54,6 +53,7 @@ namespace log4net.Appender.Extended
         }
 
         private int _timeThreshold = 60;
+
         /// <summary>
         ///     Time threshold as seconds default is 60
         /// </summary>
@@ -64,6 +64,7 @@ namespace log4net.Appender.Extended
         }
 
         private int _maxBufferSize = 100;
+
         /// <summary>
         ///     Buffer threshold as count default is 100
         /// </summary>
@@ -78,13 +79,11 @@ namespace log4net.Appender.Extended
         /// </summary>
         public List<LayoutParameter> Parameters { get; set; }
 
-        public void AddParameter(LayoutParameter parameter)
-        {
-            Parameters.Add(parameter);
-        }
+        public void AddParameter(LayoutParameter parameter) { Parameters.Add(parameter); }
 
 
         private readonly ConcurrentBag<ExtendedLoggingEvent> _eventRequests = new ConcurrentBag<ExtendedLoggingEvent>();
+
         protected override void SendBuffer(LoggingEvent[] events)
         {
             var requestList = new List<LoggingEvent>(BufferSize);
@@ -102,6 +101,7 @@ namespace log4net.Appender.Extended
         }
 
         private bool _sentInPeriod;
+
         protected void Send()
         {
             if (_sentInPeriod) return;
