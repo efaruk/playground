@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9937E2
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Appender.SplunkAppenders.Demo", "log4net.Appender.SplunkAppenders.Demo\log4net.Appender.SplunkAppenders.Demo.csproj", "{AE76FD8A-F4FB-43BB-92A4-DF60F7E47DDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Appender.SplunkAppenders.Test", "log4net.Appender.SplunkAppenders.Test\log4net.Appender.SplunkAppenders.Test.csproj", "{21A215F4-B4D1-4CB2-A5A7-95FF6A54E18A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +26,14 @@ Global
 		{C2E762D5-C1C2-4AC7-945E-D5FD0D810590}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2E762D5-C1C2-4AC7-945E-D5FD0D810590}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2E762D5-C1C2-4AC7-945E-D5FD0D810590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE76FD8A-F4FB-43BB-92A4-DF60F7E47DDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE76FD8A-F4FB-43BB-92A4-DF60F7E47DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE76FD8A-F4FB-43BB-92A4-DF60F7E47DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE76FD8A-F4FB-43BB-92A4-DF60F7E47DDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21A215F4-B4D1-4CB2-A5A7-95FF6A54E18A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21A215F4-B4D1-4CB2-A5A7-95FF6A54E18A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21A215F4-B4D1-4CB2-A5A7-95FF6A54E18A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21A215F4-B4D1-4CB2-A5A7-95FF6A54E18A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
