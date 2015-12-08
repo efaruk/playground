@@ -8,17 +8,11 @@
     <owners>$author$</owners>
     <licenseUrl>http://www.gnu.org/copyleft/gpl.html</licenseUrl>
     <projectUrl>https://github.com/efaruk/playground</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/efaruk/playground/master/log4net.Appender.Splunk/logo/logo.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/efaruk/playground/master/log4net.Appender.SplunkAppenders/logo/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>log4net Splunk Appenders</description>
     <releaseNotes>log4net Splunk Appenders</releaseNotes>
     <copyright>Copyright ©  2014</copyright>
     <tags>log4net Splunk Appender Buffering</tags>
-	<dependencies>
-      <group>
-        <dependency id="log4net" />
-		    <dependency id="Splunk.Client" />
-      </group>
-    </dependencies>
   </metadata>
 </package>

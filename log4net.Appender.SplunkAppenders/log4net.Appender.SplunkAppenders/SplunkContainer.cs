@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using log4net.Core;
 using Splunk.Client;
 
 namespace log4net.Appender.SplunkAppenders
@@ -111,19 +112,38 @@ namespace log4net.Appender.SplunkAppenders
             return indx;
         }
 
-
-        public static void Log(string data, string url, string indexName, string userName, string password, bool useFreshSession = false, int sessionTimeout = 55)
+        public static void Log(string data, string url, string indexName, string userName, string password, IErrorHandler errorHandler = null, bool useFreshSession = false, int sessionTimeout = 55)
         {
-            indexName = indexName.ToLowerInvariant();
-            var service = CreateSplunkService(url, indexName, userName, password, useFreshSession, sessionTimeout).GetAwaiter().GetResult();
-            service.Transmitter.SendAsync(data, indexName).GetAwaiter().GetResult();
+            try
+            {
+                indexName = indexName.ToLowerInvariant();
+                var service = CreateSplunkService(url, indexName, userName, password, useFreshSession, sessionTimeout).GetAwaiter().GetResult();
+                service.Transmitter.SendAsync(data, indexName).GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                if (errorHandler != null)
+                {
+                    errorHandler.Error("Splunk Appender Log Exception.", ex);
+                }
+            }
         }
 
-        public static async Task LogAsync(string data, string url, string indexName, string userName, string password, bool useFreshSession = false, int sessionTimeout = 55)
+        public static async Task LogAsync(string data, string url, string indexName, string userName, string password, IErrorHandler errorHandler = null, bool useFreshSession = false, int sessionTimeout = 55)
         {
-            indexName = indexName.ToLowerInvariant();
-            var service = await CreateSplunkService(url, indexName, userName, password, useFreshSession, sessionTimeout);
-            await service.Transmitter.SendAsync(data, indexName);
+            try
+            {
+                indexName = indexName.ToLowerInvariant();
+                var service = await CreateSplunkService(url, indexName, userName, password, useFreshSession, sessionTimeout);
+                await service.Transmitter.SendAsync(data, indexName);
+            }
+            catch (Exception ex)
+            {
+                if (errorHandler != null)
+                {
+                    errorHandler.Error("Splunk Appender LogAsync Exception.", ex);
+                }
+            }
         }
         
     }

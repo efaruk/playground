@@ -18,6 +18,8 @@ namespace log4net.Appender.SplunkAppenders
 
         public string IndexName { get; set; }
 
+        public bool Async { get; set; }
+
         /// <summary>
         ///     Session timeout as minutes. (Default splunk session timeout is 1 hour, you should give timeout value less then splunkd session timeout).
         /// </summary>
@@ -29,14 +31,14 @@ namespace log4net.Appender.SplunkAppenders
 
         protected override void AppendExtended(ExtendedLoggingEvent extendedLoggingEvent)
         {
-            try
+            var data = Utility.Serialize(extendedLoggingEvent);
+            if (Async)
             {
-                var data = Utility.Serialize(extendedLoggingEvent);
-                SplunkContainer.Log(data, SplunkUrl, IndexName, UserName, Password);
+                SplunkContainer.LogAsync(data, SplunkUrl, IndexName, UserName, Password, ErrorHandler, false, SessionTimeout);
             }
-            catch (Exception ex)
+            else
             {
-                ErrorHandler.Error("Error on Append", ex);
+                SplunkContainer.Log(data, SplunkUrl, IndexName, UserName, Password, ErrorHandler, false, SessionTimeout);
             }
         }
     }

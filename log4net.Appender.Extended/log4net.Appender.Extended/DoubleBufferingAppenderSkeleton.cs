@@ -130,7 +130,7 @@ namespace log4net.Appender.Extended
             }
         }
 
-        protected abstract void BulkSend(IEnumerable<ExtendedLoggingEvent> customLoggingEvents);
+        protected abstract void BulkSend(IList<ExtendedLoggingEvent> customLoggingEvents);
 
         protected override void OnClose()
         {
