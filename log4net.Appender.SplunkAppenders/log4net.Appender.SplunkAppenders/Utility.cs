@@ -4,7 +4,6 @@ namespace log4net.Appender.SplunkAppenders
 {
     public static class Utility
     {
-
         //private static JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings();
 
         //public static JsonSerializerSettings JsonSerializerSettings
@@ -19,7 +18,7 @@ namespace log4net.Appender.SplunkAppenders
             return t;
         }
 
-        public static string Serialize<T>(T data) where T: class 
+        public static string Serialize<T>(T data) where T : class
         {
             var rc = JsonConvert.SerializeObject(data);
             return rc;

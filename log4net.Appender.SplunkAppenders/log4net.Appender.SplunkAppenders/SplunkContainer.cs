@@ -13,7 +13,8 @@ namespace log4net.Appender.SplunkAppenders
     {
         private static System.Timers.Timer sessionTimer = new System.Timers.Timer(60000);
 
-        static SplunkContainer() {
+        static SplunkContainer()
+        {
             //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
             DisableCertificateValidation();
             sessionTimer.Elapsed += SessionTimer_Elapsed;
@@ -42,24 +43,16 @@ namespace log4net.Appender.SplunkAppenders
             }
         }
 
-        public static void SetSecurityProtocol(SecurityProtocolType securityProtocolType)
-        {
-            ServicePointManager.SecurityProtocol = securityProtocolType;
-        }
+        public static void SetSecurityProtocol(SecurityProtocolType securityProtocolType) { ServicePointManager.SecurityProtocol = securityProtocolType; }
 
 
         private static int sessionTimerCounter = 0;
-        static void SessionTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            sessionTimerCounter++;
-        }
+        static void SessionTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e) { sessionTimerCounter++; }
 
-        private static bool ServerCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            return true;
-        }
+        private static bool ServerCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; }
 
         private static Context _splunkServiceContext;
+
         private static Context SplunkServiceContext
         {
             get { return _splunkServiceContext; }
@@ -112,7 +105,8 @@ namespace log4net.Appender.SplunkAppenders
             return indx;
         }
 
-        public static void Log(string data, string url, string indexName, string userName, string password, IErrorHandler errorHandler = null, bool useFreshSession = false, int sessionTimeout = 55)
+        public static void Log(string data, string url, string indexName, string userName, string password, IErrorHandler errorHandler = null, bool useFreshSession = false,
+            int sessionTimeout = 55)
         {
             try
             {
@@ -129,7 +123,8 @@ namespace log4net.Appender.SplunkAppenders
             }
         }
 
-        public static async Task LogAsync(string data, string url, string indexName, string userName, string password, IErrorHandler errorHandler = null, bool useFreshSession = false, int sessionTimeout = 55)
+        public static async Task LogAsync(string data, string url, string indexName, string userName, string password, IErrorHandler errorHandler = null,
+            bool useFreshSession = false, int sessionTimeout = 55)
         {
             try
             {
@@ -145,6 +140,5 @@ namespace log4net.Appender.SplunkAppenders
                 }
             }
         }
-        
     }
 }

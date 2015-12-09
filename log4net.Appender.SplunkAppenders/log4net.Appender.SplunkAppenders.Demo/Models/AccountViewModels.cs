@@ -31,6 +31,7 @@ namespace log4net.Appender.SplunkAppenders.Demo.Models
         [Required]
         [Display(Name = "Code")]
         public string Code { get; set; }
+
         public string ReturnUrl { get; set; }
 
         [Display(Name = "Remember this browser?")]

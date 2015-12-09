@@ -3,7 +3,7 @@ using log4net.Layout;
 
 namespace log4net.Appender.Extended
 {
-    public class LayoutParameter
+    public class RawLayoutParameter
     {
         public string ParameterName { get; set; }
 

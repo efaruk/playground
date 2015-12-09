@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using log4net.Config;
 
 namespace log4net.Appender.SplunkAppenders.Demo
@@ -18,6 +17,5 @@ namespace log4net.Appender.SplunkAppenders.Demo
         {
             get { return _logger; }
         }
-
     }
 }

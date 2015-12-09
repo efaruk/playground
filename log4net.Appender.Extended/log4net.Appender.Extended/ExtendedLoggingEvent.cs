@@ -10,21 +10,18 @@ namespace log4net.Appender.Extended
 
         public ExtendedLoggingEvent()
         {
-            EventParameters = new List<ExtendedLoggingEventParameter>(10);
-            CustomParameters = new List<ExtendedLoggingEventParameter>(10);
+            EventParameters = new List<RenderedLayoutParameter>(10);
+            Variables = new List<KeyValuePair<string, string>>(100);
             Machine = Environment.MachineName;
         }
 
-        public ExtendedLoggingEvent(LoggingEvent loggingEvent) : this()
-        {
-            LoggingEvent = loggingEvent;
-        }
+        public ExtendedLoggingEvent(LoggingEvent loggingEvent) : this() { LoggingEvent = loggingEvent; }
 
-        public ExtendedLoggingEvent(LoggingEvent loggingEvent, IList<ExtendedLoggingEventParameter> eventParameters, IList<ExtendedLoggingEventParameter> customParameters): this()
+        public ExtendedLoggingEvent(LoggingEvent loggingEvent, List<RenderedLayoutParameter> eventParameters, List<KeyValuePair<string, string>> variables) : this()
         {
             LoggingEvent = loggingEvent;
             EventParameters = eventParameters;
-            CustomParameters = customParameters;
+            Variables = variables;
         }
 
         public LoggingEvent LoggingEvent
@@ -48,25 +45,10 @@ namespace log4net.Appender.Extended
 
         public string StackTrace { get; set; }
 
-        public IList<ExtendedLoggingEventParameter> EventParameters { get; set; }
+        public List<RenderedLayoutParameter> EventParameters { get; set; }
 
-        public IList<ExtendedLoggingEventParameter> CustomParameters { get; set; }
+        public List<KeyValuePair<string, string>> Variables { get; set; }
 
         public SerializableException Exception { get; set; }
-    }
-
-    public class ExtendedLoggingEventParameter
-    {
-        public ExtendedLoggingEventParameter() { }
-
-        public ExtendedLoggingEventParameter(string name, string value)
-        {
-            Name = name;
-            Value = value;
-        }
-
-        public string Name { get; set; }
-
-        public string Value { get; set; }
     }
 }

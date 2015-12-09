@@ -15,7 +15,7 @@ namespace log4net.Appender.Extended
 
         protected DoubleBufferingAppenderSkeleton()
         {
-            Parameters = new List<LayoutParameter>(10);
+            Parameters = new List<RawLayoutParameter>(10);
             BufferTimer.Elapsed += BufferTimerElapsed;
             BufferTimer.Start();
             BufferSize = 1;
@@ -56,6 +56,7 @@ namespace log4net.Appender.Extended
         #region Properties
 
         private string _application = AppDomain.CurrentDomain.FriendlyName;
+
         /// <summary>
         ///     Application Name to filter logs by application, default is AppDomain.CurrentDomain.FriendlyName
         /// </summary>
@@ -66,8 +67,10 @@ namespace log4net.Appender.Extended
         }
 
         private Level _environmentVariablesLevel = Level.Error;
+
         /// <summary>
-        ///     Minimum level for Environment variables, we will include Environment Variables at this level and above. Default is Error.
+        ///     Minimum level for Environment variables, we will include Environment Variables at this level and above. Default is
+        ///     Error.
         /// </summary>
         public Level EnvironmentVariablesLevel
         {
@@ -75,11 +78,12 @@ namespace log4net.Appender.Extended
             set { _environmentVariablesLevel = value; }
         }
 
-        private List<LayoutParameter> _parameters = new List<LayoutParameter>(10);
+        private List<RawLayoutParameter> _parameters = new List<RawLayoutParameter>(10);
+
         /// <summary>
         ///     Layout parameters for custom metrics
         /// </summary>
-        public List<LayoutParameter> Parameters
+        public List<RawLayoutParameter> Parameters
         {
             get { return _parameters; }
             set { _parameters = value; }
@@ -88,6 +92,7 @@ namespace log4net.Appender.Extended
         #region DoubleBuffer
 
         private int _timeThreshold = 60;
+
         /// <summary>
         ///     Time threshold as seconds default is 60
         /// </summary>
@@ -98,6 +103,7 @@ namespace log4net.Appender.Extended
         }
 
         private int _maxBufferSize = 100;
+
         /// <summary>
         ///     Buffer threshold as count default is 100
         /// </summary>
@@ -111,7 +117,7 @@ namespace log4net.Appender.Extended
 
         #endregion
 
-        public void AddParameter(LayoutParameter parameter) { Parameters.Add(parameter); }
+        public void AddParameter(RawLayoutParameter parameter) { Parameters.Add(parameter); }
 
 
         private readonly ConcurrentBag<ExtendedLoggingEvent> _eventRequests = new ConcurrentBag<ExtendedLoggingEvent>();
@@ -126,7 +132,7 @@ namespace log4net.Appender.Extended
             }
         }
 
-        protected virtual ExtendedLoggingEvent ConvertLoggingEvent(LoggingEvent loggingEvent, List<LayoutParameter> parameters)
+        protected virtual ExtendedLoggingEvent ConvertLoggingEvent(LoggingEvent loggingEvent, List<RawLayoutParameter> parameters)
         {
             var extendedLoggingEvent = Utility.ConvertLoggingEvent(loggingEvent, parameters, Application, EnvironmentVariablesLevel);
             return extendedLoggingEvent;
@@ -162,7 +168,7 @@ namespace log4net.Appender.Extended
             }
         }
 
-        protected abstract void BulkSend(IList<ExtendedLoggingEvent> customLoggingEvents);
+        protected abstract void BulkSend(List<ExtendedLoggingEvent> extendedLoggingEvents);
 
         protected override void OnClose()
         {

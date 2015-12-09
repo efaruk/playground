@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using log4net.Appender.Extended;
-using log4net.Core;
+﻿using log4net.Appender.Extended;
 
 namespace log4net.Appender.SplunkAppenders
 {
@@ -20,8 +17,10 @@ namespace log4net.Appender.SplunkAppenders
         public bool Async { get; set; }
 
         private int _sessionTimeout = 55;
+
         /// <summary>
-        ///     Session timeout as minutes. (Default splunk session timeout is 1 hour, you should give timeout value less then splunkd session timeout).
+        ///     Session timeout as minutes. (Default splunk session timeout is 1 hour, you should give timeout value less then
+        ///     splunkd session timeout). Default is 55 minutes.
         /// </summary>
         public int SessionTimeout
         {

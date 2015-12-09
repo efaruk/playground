@@ -1,13 +1,11 @@
-﻿using log4net.Appender.Extended;
+﻿using System.Collections.Generic;
+using log4net.Appender.Extended;
 
 namespace log4net.Appender.SplunkAppenders
 {
     public class SplunkEntry
     {
-
-        public SplunkEntry() {
-            
-        }
+        public SplunkEntry() { Variables = new List<KeyValuePair<string, string>>(100); }
 
         public SplunkEntry(ExtendedLoggingEvent extendedLoggingEvent)
         {
@@ -16,6 +14,7 @@ namespace log4net.Appender.SplunkAppenders
             Message = extendedLoggingEvent.Message;
             StackTrace = extendedLoggingEvent.StackTrace;
             LogLevel = extendedLoggingEvent.LoggingEvent.Level.Name;
+            Variables = extendedLoggingEvent.Variables;
         }
 
         public string Application { get; set; }
@@ -28,5 +27,6 @@ namespace log4net.Appender.SplunkAppenders
 
         public string LogLevel { get; set; }
 
+        public List<KeyValuePair<string, string>> Variables { get; set; }
     }
 }

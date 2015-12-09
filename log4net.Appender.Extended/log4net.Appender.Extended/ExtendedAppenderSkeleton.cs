@@ -9,6 +9,7 @@ namespace log4net.Appender.Extended
         #region Properties
 
         private string _application = AppDomain.CurrentDomain.FriendlyName;
+
         /// <summary>
         ///     Application Name to filter logs by application, default is AppDomain.CurrentDomain.FriendlyName
         /// </summary>
@@ -19,8 +20,10 @@ namespace log4net.Appender.Extended
         }
 
         private Level _environmentVariablesLevel = Level.Error;
+
         /// <summary>
-        ///     Minimum level for Environment variables, we will include Environment Variables at this level and above. Default is Error.
+        ///     Minimum level for Environment variables, we will include Environment Variables at this level and above. Default is
+        ///     Error.
         /// </summary>
         public Level EnvironmentVariablesLevel
         {
@@ -28,12 +31,12 @@ namespace log4net.Appender.Extended
             set { _environmentVariablesLevel = value; }
         }
 
-        private List<LayoutParameter> _parameters = new List<LayoutParameter>(10);
+        private List<RawLayoutParameter> _parameters = new List<RawLayoutParameter>(10);
 
         /// <summary>
         ///     Layout parameters for custom metrics
         /// </summary>
-        public List<LayoutParameter> Parameters
+        public List<RawLayoutParameter> Parameters
         {
             get { return _parameters; }
             set { _parameters = value; }
@@ -41,7 +44,7 @@ namespace log4net.Appender.Extended
 
         #endregion
 
-        public void AddParameter(LayoutParameter parameter) { Parameters.Add(parameter); }
+        public void AddParameter(RawLayoutParameter parameter) { Parameters.Add(parameter); }
 
         /// <summary>
         ///     Standard extension point for AppenderSkeleton
@@ -65,7 +68,7 @@ namespace log4net.Appender.Extended
         /// <param name="loggingEvent"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        protected virtual ExtendedLoggingEvent ConvertLoggingEvent(LoggingEvent loggingEvent, List<LayoutParameter> parameters)
+        protected virtual ExtendedLoggingEvent ConvertLoggingEvent(LoggingEvent loggingEvent, List<RawLayoutParameter> parameters)
         {
             var extendedLoggingEvent = Utility.ConvertLoggingEvent(loggingEvent, parameters, Application, EnvironmentVariablesLevel);
             return extendedLoggingEvent;

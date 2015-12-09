@@ -10,16 +10,18 @@ namespace log4net.Appender.Extended
         public const string StackTraceText = "StackTrace";
         public const string ExceptionText = "Exception";
 
-        public static ExtendedLoggingEvent ConvertLoggingEvent(LoggingEvent loggingEvent, List<LayoutParameter> parameters, string application, Level environmentVariablesThresholdLevel)
+        public static ExtendedLoggingEvent ConvertLoggingEvent(LoggingEvent loggingEvent, List<RawLayoutParameter> parameters, string application,
+            Level environmentVariablesThresholdLevel)
         {
-            var variables = new List<KeyValuePair<string, string>>(100);
+            var extendedLoggingEvent = new ExtendedLoggingEvent(loggingEvent);
             var message = loggingEvent.RenderedMessage;
+            var variables = new List<KeyValuePair<string, string>>(100);
             string stackTrace = null;
             if (loggingEvent.Level >= environmentVariablesThresholdLevel)
             {
                 var vars = Environment.GetEnvironmentVariables();
                 variables.AddRange(from object v in vars.Keys
-                                   select new KeyValuePair<string, string>(v.ToString(), vars[v].ToString()));
+                    select new KeyValuePair<string, string>(v.ToString(), vars[v].ToString()));
             }
             var stackTraceParameter =
                 parameters.FirstOrDefault(
@@ -58,15 +60,13 @@ namespace log4net.Appender.Extended
                     stackTrace = loggingEvent.LocationInformation.FullInfo;
                 }
             }
-            var extendedLoggingEvent = new ExtendedLoggingEvent(loggingEvent)
-            {
-                Message = message,
-                StackTrace = stackTrace,
-                Application = application
-            };
+            extendedLoggingEvent.Message = message;
+            extendedLoggingEvent.StackTrace = stackTrace;
+            extendedLoggingEvent.Application = application;
+            extendedLoggingEvent.Variables = variables;
             foreach (var layoutParameter in parameters)
             {
-                extendedLoggingEvent.EventParameters.Add(new ExtendedLoggingEventParameter(layoutParameter.ParameterName, layoutParameter.Render(loggingEvent)));
+                extendedLoggingEvent.EventParameters.Add(new RenderedLayoutParameter(layoutParameter.ParameterName, layoutParameter.Render(loggingEvent)));
             }
             return extendedLoggingEvent;
         }
