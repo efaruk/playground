@@ -17,12 +17,12 @@ namespace log4net.Appender.Extended
             var message = loggingEvent.RenderedMessage;
             var variables = new List<KeyValuePair<string, string>>(100);
             string stackTrace = null;
-            if (loggingEvent.Level >= environmentVariablesThresholdLevel)
-            {
-                var vars = Environment.GetEnvironmentVariables();
-                variables.AddRange(from object v in vars.Keys
-                    select new KeyValuePair<string, string>(v.ToString(), vars[v].ToString()));
-            }
+            //if (loggingEvent.Level >= environmentVariablesThresholdLevel)
+            //{
+            //    var vars = Environment.GetEnvironmentVariables();
+            //    variables.AddRange(from object v in vars.Keys
+            //        select new KeyValuePair<string, string>(v.ToString(), vars[v].ToString()));
+            //}
             var stackTraceParameter =
                 parameters.FirstOrDefault(
                     p => string.Equals(p.ParameterName, StackTraceText, StringComparison.InvariantCultureIgnoreCase));
@@ -71,6 +71,12 @@ namespace log4net.Appender.Extended
                 extendedLoggingEvent.Variables.Add(new KeyValuePair<string, string>(param.Name, param.Value));
             }
             return extendedLoggingEvent;
+        }
+
+        public static List<KeyValuePair<string, string>> GetEnvironmentVariables()
+        {
+            var variables = new List<KeyValuePair<string, string>>(100);
+            return variables;
         }
     }
 }
