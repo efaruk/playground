@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Timers;
@@ -52,8 +53,41 @@ namespace log4net.Appender.Extended
             }
         }
 
-        private int _timeThreshold = 60;
+        #region Properties
 
+        private string _application = AppDomain.CurrentDomain.FriendlyName;
+        /// <summary>
+        ///     Application Name to filter logs by application, default is AppDomain.CurrentDomain.FriendlyName
+        /// </summary>
+        public string Application
+        {
+            get { return _application; }
+            set { _application = value; }
+        }
+
+        private Level _environmentVariablesLevel = Level.Error;
+        /// <summary>
+        ///     Minimum level for Environment variables, we will include Environment Variables at this level and above. Default is Error.
+        /// </summary>
+        public Level EnvironmentVariablesLevel
+        {
+            get { return _environmentVariablesLevel; }
+            set { _environmentVariablesLevel = value; }
+        }
+
+        private List<LayoutParameter> _parameters = new List<LayoutParameter>(10);
+        /// <summary>
+        ///     Layout parameters for custom metrics
+        /// </summary>
+        public List<LayoutParameter> Parameters
+        {
+            get { return _parameters; }
+            set { _parameters = value; }
+        }
+
+        #region DoubleBuffer
+
+        private int _timeThreshold = 60;
         /// <summary>
         ///     Time threshold as seconds default is 60
         /// </summary>
@@ -64,7 +98,6 @@ namespace log4net.Appender.Extended
         }
 
         private int _maxBufferSize = 100;
-
         /// <summary>
         ///     Buffer threshold as count default is 100
         /// </summary>
@@ -74,10 +107,9 @@ namespace log4net.Appender.Extended
             set { _maxBufferSize = value; }
         }
 
-        /// <summary>
-        ///     Layout parameters for custom metrics
-        /// </summary>
-        public List<LayoutParameter> Parameters { get; set; }
+        #endregion
+
+        #endregion
 
         public void AddParameter(LayoutParameter parameter) { Parameters.Add(parameter); }
 
@@ -94,9 +126,9 @@ namespace log4net.Appender.Extended
             }
         }
 
-        protected virtual ExtendedLoggingEvent ConvertLoggingEvent(LoggingEvent loggingEvent, IList<LayoutParameter> parameters)
+        protected virtual ExtendedLoggingEvent ConvertLoggingEvent(LoggingEvent loggingEvent, List<LayoutParameter> parameters)
         {
-            var extendedLoggingEvent = Utility.ConvertLoggingEvent(loggingEvent, parameters);
+            var extendedLoggingEvent = Utility.ConvertLoggingEvent(loggingEvent, parameters, Application, EnvironmentVariablesLevel);
             return extendedLoggingEvent;
         }
 

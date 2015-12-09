@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using log4net.Core;
 
 namespace log4net.Appender.Extended
@@ -11,6 +12,7 @@ namespace log4net.Appender.Extended
         {
             EventParameters = new List<ExtendedLoggingEventParameter>(10);
             CustomParameters = new List<ExtendedLoggingEventParameter>(10);
+            Machine = Environment.MachineName;
         }
 
         public ExtendedLoggingEvent(LoggingEvent loggingEvent) : this()
@@ -18,7 +20,7 @@ namespace log4net.Appender.Extended
             LoggingEvent = loggingEvent;
         }
 
-        public ExtendedLoggingEvent(LoggingEvent loggingEvent, IList<ExtendedLoggingEventParameter> eventParameters, IList<ExtendedLoggingEventParameter> customParameters)
+        public ExtendedLoggingEvent(LoggingEvent loggingEvent, IList<ExtendedLoggingEventParameter> eventParameters, IList<ExtendedLoggingEventParameter> customParameters): this()
         {
             LoggingEvent = loggingEvent;
             EventParameters = eventParameters;
@@ -37,6 +39,14 @@ namespace log4net.Appender.Extended
                 _loggingEvent = value;
             }
         }
+
+        public string Application { get; set; }
+
+        public string Machine { get; set; }
+
+        public string Message { get; set; }
+
+        public string StackTrace { get; set; }
 
         public IList<ExtendedLoggingEventParameter> EventParameters { get; set; }
 

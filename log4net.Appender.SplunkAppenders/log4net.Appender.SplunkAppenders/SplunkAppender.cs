@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using log4net.Appender.Extended;
 using log4net.Core;
 
@@ -6,9 +7,7 @@ namespace log4net.Appender.SplunkAppenders
 {
     public class SplunkAppender : ExtendedAppenderSkeleton
     {
-        private int _sessionTimeout = 55;
-
-        private bool UseFreshSession { get; set; }
+        public bool UseFreshSession { get; set; }
 
         public string SplunkUrl { get; set; }
 
@@ -20,6 +19,7 @@ namespace log4net.Appender.SplunkAppenders
 
         public bool Async { get; set; }
 
+        private int _sessionTimeout = 55;
         /// <summary>
         ///     Session timeout as minutes. (Default splunk session timeout is 1 hour, you should give timeout value less then splunkd session timeout).
         /// </summary>
@@ -31,14 +31,20 @@ namespace log4net.Appender.SplunkAppenders
 
         protected override void AppendExtended(ExtendedLoggingEvent extendedLoggingEvent)
         {
-            var data = Utility.Serialize(extendedLoggingEvent);
+            var splunkEntry = new SplunkEntry(extendedLoggingEvent);
+            var data = Utility.Serialize(splunkEntry);
+            Send(data);
+        }
+
+        protected virtual void Send(string data)
+        {
             if (Async)
             {
-                SplunkContainer.LogAsync(data, SplunkUrl, IndexName, UserName, Password, ErrorHandler, false, SessionTimeout);
+                SplunkContainer.LogAsync(data, SplunkUrl, IndexName, UserName, Password, ErrorHandler, UseFreshSession, SessionTimeout);
             }
             else
             {
-                SplunkContainer.Log(data, SplunkUrl, IndexName, UserName, Password, ErrorHandler, false, SessionTimeout);
+                SplunkContainer.Log(data, SplunkUrl, IndexName, UserName, Password, ErrorHandler, UseFreshSession, SessionTimeout);
             }
         }
     }
