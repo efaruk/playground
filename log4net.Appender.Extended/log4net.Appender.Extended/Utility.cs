@@ -66,7 +66,9 @@ namespace log4net.Appender.Extended
             extendedLoggingEvent.Variables = variables;
             foreach (var layoutParameter in parameters)
             {
-                extendedLoggingEvent.EventParameters.Add(new RenderedLayoutParameter(layoutParameter.ParameterName, layoutParameter.Render(loggingEvent)));
+                var param = new RenderedLayoutParameter(layoutParameter.ParameterName, layoutParameter.Render(loggingEvent));
+                extendedLoggingEvent.EventParameters.Add(param);
+                extendedLoggingEvent.Variables.Add(new KeyValuePair<string, string>(param.Name, param.Value));
             }
             return extendedLoggingEvent;
         }

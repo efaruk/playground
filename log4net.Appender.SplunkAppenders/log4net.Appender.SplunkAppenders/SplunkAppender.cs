@@ -39,7 +39,9 @@ namespace log4net.Appender.SplunkAppenders
         {
             if (Async)
             {
+#pragma warning disable 4014
                 SplunkContainer.LogAsync(data, SplunkUrl, IndexName, UserName, Password, ErrorHandler, UseFreshSession, SessionTimeout);
+#pragma warning restore 4014
             }
             else
             {
