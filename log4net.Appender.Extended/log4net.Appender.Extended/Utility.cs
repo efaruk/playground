@@ -17,12 +17,10 @@ namespace log4net.Appender.Extended
             var message = loggingEvent.RenderedMessage;
             var variables = new List<KeyValuePair<string, string>>(100);
             string stackTrace = null;
-            //if (loggingEvent.Level >= environmentVariablesThresholdLevel)
-            //{
-            //    var vars = Environment.GetEnvironmentVariables();
-            //    variables.AddRange(from object v in vars.Keys
-            //        select new KeyValuePair<string, string>(v.ToString(), vars[v].ToString()));
-            //}
+            if (loggingEvent.Level >= environmentVariablesThresholdLevel)
+            {
+                variables = GetEnvironmentVariables();
+            }
             var stackTraceParameter =
                 parameters.FirstOrDefault(
                     p => string.Equals(p.ParameterName, StackTraceText, StringComparison.InvariantCultureIgnoreCase));
@@ -68,14 +66,42 @@ namespace log4net.Appender.Extended
             {
                 var param = new RenderedLayoutParameter(layoutParameter.ParameterName, layoutParameter.Render(loggingEvent));
                 extendedLoggingEvent.EventParameters.Add(param);
-                extendedLoggingEvent.Variables.Add(new KeyValuePair<string, string>(param.Name, param.Value));
+                var exists = extendedLoggingEvent.Variables.Exists(pair =>
+                {
+                    if (pair.Key == param.Name) return true;
+                    return false;
+                });
+                if (!exists)
+                {
+                    extendedLoggingEvent.Variables.Add(new KeyValuePair<string, string>(param.Name, param.Value));
+                }
             }
             return extendedLoggingEvent;
         }
 
         public static List<KeyValuePair<string, string>> GetEnvironmentVariables()
         {
-            var variables = new List<KeyValuePair<string, string>>(100);
+            var variables = new List<KeyValuePair<string, string>>(100)
+            {
+                new KeyValuePair<string, string>("Environment.MachineName", Environment.MachineName),
+                new KeyValuePair<string, string>("Environment.CommandLine", Environment.CommandLine),
+                new KeyValuePair<string, string>("Environment.CurrentDirectory", Environment.CurrentDirectory),
+                new KeyValuePair<string, string>("Environment.StackTrace", Environment.StackTrace),
+                new KeyValuePair<string, string>("Environment.SystemDirectory", Environment.SystemDirectory),
+                new KeyValuePair<string, string>("Environment.UserDomainName", Environment.UserDomainName),
+                new KeyValuePair<string, string>("Environment.UserName", Environment.UserName),
+                new KeyValuePair<string, string>("Environment.OSVersion", Environment.OSVersion.VersionString),
+                new KeyValuePair<string, string>("Environment.CurrentManagedThreadId", Environment.CurrentManagedThreadId.ToString()),
+                new KeyValuePair<string, string>("Environment.ExitCode", Environment.ExitCode.ToString()),
+                new KeyValuePair<string, string>("Environment.HasShutdownStarted", Environment.HasShutdownStarted.ToString()),
+                new KeyValuePair<string, string>("Environment.Is64BitOperatingSystem", Environment.Is64BitOperatingSystem.ToString()),
+                new KeyValuePair<string, string>("Environment.Is64BitProcess", Environment.Is64BitProcess.ToString()),
+                new KeyValuePair<string, string>("Environment.ProcessorCount", Environment.ProcessorCount.ToString()),
+                new KeyValuePair<string, string>("Environment.SystemPageSize", Environment.SystemPageSize.ToString()),
+                new KeyValuePair<string, string>("Environment.TickCount", Environment.TickCount.ToString()),
+                new KeyValuePair<string, string>("Environment.UserInteractive", Environment.UserInteractive.ToString()),
+                new KeyValuePair<string, string>("Environment.WorkingSet", Environment.WorkingSet.ToString())
+            };
             return variables;
         }
     }

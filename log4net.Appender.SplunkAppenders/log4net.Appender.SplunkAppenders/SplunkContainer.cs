@@ -2,10 +2,11 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.Security;
+using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using log4net.Core;
-using Splunk.Client;
+using Splunk;
 
 namespace log4net.Appender.SplunkAppenders
 {
@@ -15,7 +16,7 @@ namespace log4net.Appender.SplunkAppenders
 
         static SplunkContainer()
         {
-            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
             DisableCertificateValidation();
             sessionTimer.Elapsed += SessionTimer_Elapsed;
         }
@@ -51,68 +52,79 @@ namespace log4net.Appender.SplunkAppenders
 
         private static bool ServerCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; }
 
-        private static Context _splunkServiceContext;
+        private static string _splunkToken;
 
-        private static Context SplunkServiceContext
+        private static string SplunkToken
         {
-            get { return _splunkServiceContext; }
+            get { return _splunkToken; }
             set
             {
                 sessionTimerCounter = 0;
                 sessionTimer.Start();
-                _splunkServiceContext = value;
+                _splunkToken = value;
             }
         }
 
-        public static async Task<Service> CreateSplunkService(string url, string indexName, string userName, string password, bool useFreshSession = false, int sessionTimeout = 55)
+        public static Service CreateSplunkService(string host, string indexName, string userName, string password, int port = 8089, bool useFreshSession = false, int sessionTimeout = 55)
         {
             Service service;
             if (useFreshSession)
             {
-                service = new Service(new Uri(url));
-                await Logon(service, userName, password);
-                await CreateIndexIfNotExist(service, indexName);
+                service = new Service(host, port);
+                Logon(service, userName, password);
+                CreateIndexIfNotExist(service, indexName);
             }
             else
             {
-                if (SplunkServiceContext == null || (sessionTimerCounter > sessionTimeout))
+                if (string.IsNullOrEmpty(SplunkToken) || (sessionTimerCounter > sessionTimeout))
                 {
                     sessionTimer.Stop();
-                    service = new Service(new Uri(url));
-                    SplunkServiceContext = await Logon(service, userName, password);
-                    await CreateIndexIfNotExist(service, indexName);
+                    service = new Service(host, port);
+                    SplunkToken = Logon(service, userName, password);
+                    CreateIndexIfNotExist(service, indexName);
                 }
                 else
                 {
-                    service = new Service(SplunkServiceContext);
+                    service = new Service(host, port);
+                    service.Token = SplunkToken;
                 }
             }
             return service;
         }
 
-        public static async Task<Context> Logon(Service service, string userName, string password)
+        public static string Logon(Service service, string userName, string password)
         {
-            await service.LogOnAsync(userName, password);
-            return service.Context;
+            service.Login(userName, password);
+            return service.Token;
         }
 
-        public static async Task<Index> CreateIndexIfNotExist(Service service, string indexName)
+        public static void CreateIndexIfNotExist(Service service, string indexName)
         {
             indexName = indexName.ToLowerInvariant();
-            var indx = await service.Indexes.GetOrNullAsync(indexName) ?? await service.Indexes.CreateAsync(indexName);
-            if (indx.Disabled)
-                await indx.EnableAsync();
-            return indx;
+            var indexes = service.GetIndexes();
+            if (!indexes.ContainsKey(indexName))
+            {
+                indexes.Create(indexName);
+                indexes.Refresh();   
+            }
+            var indx = indexes.Get(indexName);
+            if (indx.IsDisabled)
+            {
+                indx.Enable();
+            }
         }
 
-        public static void Log(string data, string url, string indexName, string userName, string password, IErrorHandler errorHandler = null, bool useFreshSession = false,
+
+
+        public static void Log(string data, string host, string indexName, string userName, string password, int port = 8089, IErrorHandler errorHandler = null, bool useFreshSession = false,
             int sessionTimeout = 55)
         {
             try
             {
                 indexName = indexName.ToLowerInvariant();
-                var service = CreateSplunkService(url, indexName, userName, password, useFreshSession, sessionTimeout).GetAwaiter().GetResult();
-                service.Transmitter.SendAsync(data, indexName).GetAwaiter().GetResult();
+                var service = CreateSplunkService(host, indexName, userName, password, port, useFreshSession, sessionTimeout);
+                var receiver = service.GetReceiver();
+                receiver.Submit(indexName, data);
             }
             catch (Exception ex)
             {
@@ -123,22 +135,25 @@ namespace log4net.Appender.SplunkAppenders
             }
         }
 
-        public static async Task LogAsync(string data, string url, string indexName, string userName, string password, IErrorHandler errorHandler = null,
-            bool useFreshSession = false, int sessionTimeout = 55)
+        public static async Task LogAsync(string data, string host, string indexName, string userName, string password, int port = 8089, IErrorHandler errorHandler = null, bool useFreshSession = false,
+            int sessionTimeout = 55)
         {
-            try
+            var t = new Task(() =>
             {
-                indexName = indexName.ToLowerInvariant();
-                var service = await CreateSplunkService(url, indexName, userName, password, useFreshSession, sessionTimeout);
-                await service.Transmitter.SendAsync(data, indexName);
-            }
-            catch (Exception ex)
-            {
-                if (errorHandler != null)
+                try
                 {
-                    errorHandler.Error("Splunk Appender LogAsync Exception.", ex);
+                    Log(data, host, indexName, userName, password, port, errorHandler, useFreshSession, sessionTimeout);
                 }
-            }
+                catch (Exception ex)
+                {
+                    if (errorHandler != null)
+                    {
+                        errorHandler.Error("Splunk Appender Log Exception.", ex);
+                    }
+                }
+            });
+            t.Start();
+            await t;
         }
     }
 }

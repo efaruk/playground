@@ -9,13 +9,10 @@ namespace log4net.Appender.SplunkAppenders.Demo.Controllers
 
         public ActionResult Index()
         {
-            //Parallel.For(0, 1000, i =>
-            //{
-            //    _logger.Info(string.Format("Test Info Log {0}", i));
-            //});
-
-            //_logger.Info(string.Format("Test Info Log {0}", "single"));
-            _logger.Error("Error: Home/Index", new InvalidOperationException("Index action is not allowed for anonymous users..."));
+            if (!Request.IsAuthenticated)
+            {
+                _logger.Error("Error: Home/Index", new InvalidOperationException("Index action is not allowed for anonymous users..."));
+            }
 
             return View();
         }

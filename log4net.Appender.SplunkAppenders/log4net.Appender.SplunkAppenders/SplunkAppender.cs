@@ -6,7 +6,14 @@ namespace log4net.Appender.SplunkAppenders
     {
         public bool UseFreshSession { get; set; }
 
-        public string SplunkUrl { get; set; }
+        public string SplunkHost { get; set; }
+
+        private int _splunkPort = 8089;
+        public int SplunkPort
+        {
+            get { return _splunkPort; }
+            set { _splunkPort = value; }
+        }
 
         public string UserName { get; set; }
 
@@ -17,6 +24,7 @@ namespace log4net.Appender.SplunkAppenders
         public bool Async { get; set; }
 
         private int _sessionTimeout = 55;
+        
 
         /// <summary>
         ///     Session timeout as minutes. (Default splunk session timeout is 1 hour, you should give timeout value less then
@@ -40,12 +48,12 @@ namespace log4net.Appender.SplunkAppenders
             if (Async)
             {
 #pragma warning disable 4014
-                SplunkContainer.LogAsync(data, SplunkUrl, IndexName, UserName, Password, ErrorHandler, UseFreshSession, SessionTimeout);
+                SplunkContainer.LogAsync(data, SplunkHost, IndexName, UserName, Password, SplunkPort, ErrorHandler, UseFreshSession, SessionTimeout);
 #pragma warning restore 4014
             }
             else
             {
-                SplunkContainer.Log(data, SplunkUrl, IndexName, UserName, Password, ErrorHandler, UseFreshSession, SessionTimeout);
+                SplunkContainer.Log(data, SplunkHost, IndexName, UserName, Password, SplunkPort, ErrorHandler, UseFreshSession, SessionTimeout);
             }
         }
     }
