@@ -9,6 +9,11 @@ namespace log4net.Appender.Extended
     {
         public const string StackTraceText = "StackTrace";
         public const string ExceptionText = "Exception";
+        public const string AspNetRequestText = "AspNetRequest";
+        public const string AspNetContextText = "AspNetContext";
+        public const string AspNetSessionText = "AspNetSession";
+        public const string AspNetCacheText = "AspNetCache";
+        public const string AspNetServerVariablesText = "AspNetServerVariables";
 
         public static ExtendedLoggingEvent ConvertLoggingEvent(LoggingEvent loggingEvent, List<RawLayoutParameter> parameters, string application,
             Level environmentVariablesThresholdLevel)
@@ -27,11 +32,20 @@ namespace log4net.Appender.Extended
             var exceptionParameter =
                 parameters.FirstOrDefault(
                     p => string.Equals(p.ParameterName, ExceptionText, StringComparison.InvariantCultureIgnoreCase));
+            //var aspNetRequestParameter = parameters.FirstOrDefault(
+            //        p => string.Equals(p.ParameterName, AspNetRequestText, StringComparison.InvariantCultureIgnoreCase));
+            //var aspNetContextParameter = parameters.FirstOrDefault(
+            //        p => string.Equals(p.ParameterName, AspNetContextText, StringComparison.InvariantCultureIgnoreCase));
+            //var aspNetSessionParameter = parameters.FirstOrDefault(
+            //        p => string.Equals(p.ParameterName, AspNetSessionText, StringComparison.InvariantCultureIgnoreCase));
+            //var aspNetCacheParameter = parameters.FirstOrDefault(
+            //        p => string.Equals(p.ParameterName, AspNetCacheText, StringComparison.InvariantCultureIgnoreCase));
+            //var aspNetServerVariablesParameter = parameters.FirstOrDefault(
+            //        p => string.Equals(p.ParameterName, AspNetServerVariablesText, StringComparison.InvariantCultureIgnoreCase));
+            var customParameters = new[] { StackTraceText, ExceptionText, AspNetRequestText, AspNetContextText, AspNetSessionText, AspNetCacheText, AspNetServerVariablesText };
             var otherParameters =
                 parameters.FindAll(
-                    p =>
-                        !string.Equals(p.ParameterName, ExceptionText, StringComparison.InvariantCultureIgnoreCase) ||
-                        !string.Equals(p.ParameterName, StackTraceText, StringComparison.InvariantCultureIgnoreCase));
+                    p => !customParameters.Contains(p.ParameterName));
             if (otherParameters.Any())
             {
                 variables.AddRange(
@@ -104,5 +118,13 @@ namespace log4net.Appender.Extended
             };
             return variables;
         }
+
+        public static List<KeyValuePair<string, string>> GetAspNetRequestVariables(LoggingEvent loggingEvent)
+        {
+            var data = loggingEvent.GetLoggingEventData();
+            var variables = new List<KeyValuePair<string, string>>(100);
+            return variables;
+        }
+
     }
 }

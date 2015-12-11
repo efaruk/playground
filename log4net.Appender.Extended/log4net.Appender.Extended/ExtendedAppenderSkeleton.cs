@@ -19,11 +19,10 @@ namespace log4net.Appender.Extended
             set { _application = value; }
         }
 
-        private Level _environmentVariablesLevel = Level.Error;
+        private Level _environmentVariablesLevel = Level.Fatal;
 
         /// <summary>
-        ///     Minimum level for Environment variables, we will include Environment Variables at this level and above. Default is
-        ///     Error.
+        ///     Minimum level for Environment variables, we will include Environment Variables at this level and above. Default is Fatal.
         /// </summary>
         public Level EnvironmentVariablesLevel
         {

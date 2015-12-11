@@ -18,6 +18,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Appender.SplunkAppe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Appender.SplunkAppenders.DemoConsole", "log4net.Appender.SplunkAppenders.DemoConsole\log4net.Appender.SplunkAppenders.DemoConsole.csproj", "{F048FC4D-C100-48C7-AC1C-55ED48BEF5F6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7AA2A629-6DBB-48D0-A0C8-5A5E572DCD58}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

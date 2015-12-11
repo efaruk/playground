@@ -11,7 +11,7 @@ namespace log4net.Appender.SplunkAppenders.Demo.Controllers
         {
             if (!Request.IsAuthenticated)
             {
-                _logger.Error("Error: Home/Index", new InvalidOperationException("Index action is not allowed for anonymous users..."));
+                _logger.Error("Error: Home/Index", new DivideByZeroException());
             }
 
             return View();

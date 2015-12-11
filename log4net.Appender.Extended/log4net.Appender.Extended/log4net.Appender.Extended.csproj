@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,7 +49,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtendedAppenderSkeleton.cs" />
+    <Compile Include="Layout\ExtendedAspNetCachePatternConverter.cs" />
+    <Compile Include="Layout\ExtendedAspNetContextPatternConverter.cs" />
+    <Compile Include="Layout\ExtendedAspNetPatternConverter.cs" />
     <Compile Include="ExtendedLoggingEvent.cs" />
+    <Compile Include="Layout\ExtendedAspNetRequestPatternConverter.cs" />
+    <Compile Include="Layout\ExtendedAspNetSessionPatternConverter.cs" />
+    <Compile Include="Layout\ExtendedPatternLayout.cs" />
     <Compile Include="RenderedLayoutParameter.cs" />
     <Compile Include="RawLayoutParameter.cs" />
     <Compile Include="DoubleBufferingAppenderSkeleton.cs" />

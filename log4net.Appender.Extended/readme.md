@@ -50,3 +50,5 @@ If you need custom parameters, override ConvertLoggingEvent:
     }
 
 Happy logging...
+
+Instead of aspnet-cache, aspnet-context, aspnet-request, aspnet-session you can use wild card option with; extended-aspnet-cache{*}, extended-aspnet-context{*}, extended-aspnet-request{*}, extended-aspnet-session{*}

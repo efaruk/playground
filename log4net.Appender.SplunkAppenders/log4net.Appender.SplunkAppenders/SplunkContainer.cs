@@ -124,7 +124,14 @@ namespace log4net.Appender.SplunkAppenders
                 indexName = indexName.ToLowerInvariant();
                 var service = CreateSplunkService(host, indexName, userName, password, port, useFreshSession, sessionTimeout);
                 var receiver = service.GetReceiver();
-                receiver.Submit(indexName, data);
+                var args = new ReceiverSubmitArgs()
+                {
+                    Index = indexName,
+                    Source = "SplunkAppender",
+                    SourceType = "bigjson",
+                    Host = Environment.MachineName
+                };
+                receiver.Submit(args, data);
             }
             catch (Exception ex)
             {

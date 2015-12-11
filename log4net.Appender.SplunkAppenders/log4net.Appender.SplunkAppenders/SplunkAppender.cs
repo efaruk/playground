@@ -1,4 +1,5 @@
 ﻿using log4net.Appender.Extended;
+using log4net.Core;
 
 namespace log4net.Appender.SplunkAppenders
 {
