@@ -56,8 +56,8 @@
     <Compile Include="Layout\ExtendedAspNetRequestPatternConverter.cs" />
     <Compile Include="Layout\ExtendedAspNetSessionPatternConverter.cs" />
     <Compile Include="Layout\ExtendedPatternLayout.cs" />
-    <Compile Include="RenderedLayoutParameter.cs" />
-    <Compile Include="RawLayoutParameter.cs" />
+    <Compile Include="Layout\RenderedLayoutParameter.cs" />
+    <Compile Include="Layout\RawLayoutParameter.cs" />
     <Compile Include="DoubleBufferingAppenderSkeleton.cs" />
     <Compile Include="DoubleBufferingForwarder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,4 @@
-﻿namespace log4net.Appender.Extended
+﻿namespace log4net.Appender.Extended.Layout
 {
     public class RenderedLayoutParameter
     {

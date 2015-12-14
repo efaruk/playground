@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Timers;
+using log4net.Appender.Extended.Layout;
 using log4net.Core;
 using Timer = System.Timers.Timer;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using log4net.Appender.Extended.Layout;
 using log4net.Core;
 
 namespace log4net.Appender.Extended

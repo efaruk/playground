@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using log4net.Appender.Extended.Layout;
 using log4net.Core;
 
 namespace log4net.Appender.Extended
@@ -45,7 +46,7 @@ namespace log4net.Appender.Extended
             var customParameters = new[] { StackTraceText, ExceptionText, AspNetRequestText, AspNetContextText, AspNetSessionText, AspNetCacheText, AspNetServerVariablesText };
             var otherParameters =
                 parameters.FindAll(
-                    p => !customParameters.Contains(p.ParameterName));
+                    p => !customParameters.Contains(p.ParameterName) && (p.LevelMin < loggingEvent.Level && p.LevelMax > loggingEvent.Level));
             if (otherParameters.Any())
             {
                 variables.AddRange(

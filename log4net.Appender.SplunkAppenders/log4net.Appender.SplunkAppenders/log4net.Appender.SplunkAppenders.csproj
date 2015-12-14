@@ -37,8 +37,8 @@
       <HintPath>..\packages\log4net.2.0.4\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4net.Appender.Extended, Version=1.3.8.29379, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.Appender.Extended.1.3.8.29379\lib\net451\log4net.Appender.Extended.dll</HintPath>
+    <Reference Include="log4net.Appender.Extended, Version=1.3.10.18666, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.Appender.Extended.1.3.10.18666\lib\net451\log4net.Appender.Extended.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -66,13 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Content Include="app.config.transform">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Include="app.config.transform" />
     <None Include="package.nuspec" />
-    <Content Include="web.config.transform">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Include="web.config.transform" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
