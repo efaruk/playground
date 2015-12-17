@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Timers;
 using log4net.Appender.Extended.Layout;
@@ -160,7 +161,10 @@ namespace log4net.Appender.Extended
                         requestList.Add(extendedLoggingEvent);
                     }
                 }
-                BulkSend(requestList);
+                if (requestList.Any())
+                {
+                    BulkSend(requestList);
+                }
             }
             finally
             {
