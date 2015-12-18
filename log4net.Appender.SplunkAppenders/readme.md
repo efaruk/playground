@@ -1,4 +1,5 @@
 log4net.Appender.SplunkAppenders
+[![NuGet version](https://badge.fury.io/nu/log4net.Appender.SplunkAppenders.svg)](https://badge.fury.io/nu/log4net.Appender.SplunkAppenders)
 
 using : log4net.Appender.Extended https://www.nuget.org/packages/log4net.Appender.Extended, https://github.com/efaruk/playground/tree/master/log4net.Appender.Extended
 
