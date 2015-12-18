@@ -2,6 +2,8 @@ Time and Count Buffered BufferingAppenderSkeleton: DoubleBufferingAppenderSkelet
 ===================
 [![efaruk MyGet Build Status](https://www.myget.org/BuildSource/Badge/efaruk?identifier=80412953-5b8c-4baf-bc52-a5331755bdef)](https://www.myget.org/)
 
+[![NuGet version](https://badge.fury.io/nu/log4net.Appender.Extended.svg)](https://badge.fury.io/nu/log4net.Appender.Extended)
+
 Example Config:
 
 	<appender name="DoubleBufferingAppender" type="log4net.Appender.Ark.DoubleBufferingAppenderSkeleton">
