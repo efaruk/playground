@@ -20,7 +20,7 @@ namespace log4net.Appender.Extended.Layout
 
         public override void Format(TextWriter writer, LoggingEvent loggingEvent)
         {
-            if (LevelMin < loggingEvent.Level && LevelMax > loggingEvent.Level)
+            if (LevelMin <= loggingEvent.Level && LevelMax >= loggingEvent.Level)
             {
                 base.Format(writer, loggingEvent);
             }

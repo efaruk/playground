@@ -5,6 +5,7 @@ using log4net.Core;
 
 namespace log4net.Appender.Extended
 {
+    //TODO: Abstract
     public class ExtendedAppenderSkeleton : AppenderSkeleton
     {
         #region Properties
@@ -60,6 +61,7 @@ namespace log4net.Appender.Extended
         ///     Extension point for ExtendedAppenderSkeleton
         /// </summary>
         /// <param name="extendedLoggingEvent"></param>
+        //TODO: Abstract
         protected virtual void AppendExtended(ExtendedLoggingEvent extendedLoggingEvent) { }
 
         /// <summary>

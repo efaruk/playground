@@ -3,94 +3,70 @@ using System.Collections.Generic;
 using System.Linq;
 using log4net.Appender.Extended.Layout;
 using log4net.Core;
+using log4net.Util;
 
 namespace log4net.Appender.Extended
 {
     public static class Utility
     {
         public const string StackTraceText = "StackTrace";
-        public const string ExceptionText = "Exception";
-        public const string AspNetRequestText = "AspNetRequest";
-        public const string AspNetContextText = "AspNetContext";
-        public const string AspNetSessionText = "AspNetSession";
-        public const string AspNetCacheText = "AspNetCache";
-        public const string AspNetServerVariablesText = "AspNetServerVariables";
 
         public static ExtendedLoggingEvent ConvertLoggingEvent(LoggingEvent loggingEvent, List<RawLayoutParameter> parameters, string application,
             Level environmentVariablesThresholdLevel)
         {
-            var extendedLoggingEvent = new ExtendedLoggingEvent(loggingEvent);
-            var message = loggingEvent.RenderedMessage;
+            var extendedLoggingEvent = new ExtendedLoggingEvent(loggingEvent)
+            {
+                Message = loggingEvent.RenderedMessage,
+                Application = application
+            };
             var variables = new List<KeyValuePair<string, string>>(100);
             string stackTrace = null;
             if (loggingEvent.Level >= environmentVariablesThresholdLevel)
             {
                 variables = GetEnvironmentVariables();
             }
+            var otherParameters =
+                parameters.FindAll(
+                    p => (p.ParameterName != StackTraceText) && (p.LevelMin <= loggingEvent.Level && p.LevelMax >= loggingEvent.Level));
+            if (otherParameters.Any())
+            {
+                foreach (var rawLayoutParameter in otherParameters)
+                {
+                    var param = new RenderedLayoutParameter(rawLayoutParameter.ParameterName, rawLayoutParameter.Render(loggingEvent));
+                    extendedLoggingEvent.EventParameters.Add(param);
+                    if (rawLayoutParameter.OmitNull)
+                    {
+                        if (param.Value != SystemInfo.NullText)
+                        {
+                            variables.Add(new KeyValuePair<string, string>(param.Name, param.Value));
+                        }
+                    }
+                    else
+                    {
+                        variables.Add(new KeyValuePair<string, string>(rawLayoutParameter.ParameterName, param.Value));
+                    }
+                }
+            }
             var stackTraceParameter =
                 parameters.FirstOrDefault(
                     p => string.Equals(p.ParameterName, StackTraceText, StringComparison.InvariantCultureIgnoreCase));
-            var exceptionParameter =
-                parameters.FirstOrDefault(
-                    p => string.Equals(p.ParameterName, ExceptionText, StringComparison.InvariantCultureIgnoreCase));
-            //var aspNetRequestParameter = parameters.FirstOrDefault(
-            //        p => string.Equals(p.ParameterName, AspNetRequestText, StringComparison.InvariantCultureIgnoreCase));
-            //var aspNetContextParameter = parameters.FirstOrDefault(
-            //        p => string.Equals(p.ParameterName, AspNetContextText, StringComparison.InvariantCultureIgnoreCase));
-            //var aspNetSessionParameter = parameters.FirstOrDefault(
-            //        p => string.Equals(p.ParameterName, AspNetSessionText, StringComparison.InvariantCultureIgnoreCase));
-            //var aspNetCacheParameter = parameters.FirstOrDefault(
-            //        p => string.Equals(p.ParameterName, AspNetCacheText, StringComparison.InvariantCultureIgnoreCase));
-            //var aspNetServerVariablesParameter = parameters.FirstOrDefault(
-            //        p => string.Equals(p.ParameterName, AspNetServerVariablesText, StringComparison.InvariantCultureIgnoreCase));
-            var customParameters = new[] { StackTraceText, ExceptionText, AspNetRequestText, AspNetContextText, AspNetSessionText, AspNetCacheText, AspNetServerVariablesText };
-            var otherParameters =
-                parameters.FindAll(
-                    p => !customParameters.Contains(p.ParameterName) && (p.LevelMin < loggingEvent.Level && p.LevelMax > loggingEvent.Level));
-            if (otherParameters.Any())
-            {
-                variables.AddRange(
-                    otherParameters.Select(
-                        parameter =>
-                            new KeyValuePair<string, string>(parameter.ParameterName, parameter.Render(loggingEvent))));
-            }
             if (stackTraceParameter != null)
             {
                 stackTrace = stackTraceParameter.Render(loggingEvent);
-            }
-            if (exceptionParameter != null)
-            {
-                message = string.Format("{0}:\r\n {1}", message, exceptionParameter.Render(loggingEvent));
-            }
-            if (string.IsNullOrWhiteSpace(stackTrace))
-            {
-                if (loggingEvent.ExceptionObject != null && loggingEvent.ExceptionObject.StackTrace != null)
+                if (string.IsNullOrWhiteSpace(stackTrace))
                 {
-                    stackTrace = loggingEvent.ExceptionObject.StackTrace;
-                }
-                else
-                {
-                    stackTrace = loggingEvent.LocationInformation.FullInfo;
+                    if (loggingEvent.ExceptionObject != null && loggingEvent.ExceptionObject.StackTrace != null)
+                    {
+                        stackTrace = loggingEvent.ExceptionObject.StackTrace;
+                    }
+                    else
+                    {
+                        stackTrace = loggingEvent.LocationInformation.FullInfo;
+                    }
                 }
             }
-            extendedLoggingEvent.Message = message;
             extendedLoggingEvent.StackTrace = stackTrace;
-            extendedLoggingEvent.Application = application;
             extendedLoggingEvent.Variables = variables;
-            foreach (var layoutParameter in parameters)
-            {
-                var param = new RenderedLayoutParameter(layoutParameter.ParameterName, layoutParameter.Render(loggingEvent));
-                extendedLoggingEvent.EventParameters.Add(param);
-                var exists = extendedLoggingEvent.Variables.Exists(pair =>
-                {
-                    if (pair.Key == param.Name) return true;
-                    return false;
-                });
-                if (!exists)
-                {
-                    extendedLoggingEvent.Variables.Add(new KeyValuePair<string, string>(param.Name, param.Value));
-                }
-            }
             return extendedLoggingEvent;
         }
 
@@ -117,13 +93,6 @@ namespace log4net.Appender.Extended
                 new KeyValuePair<string, string>("Environment.UserInteractive", Environment.UserInteractive.ToString()),
                 new KeyValuePair<string, string>("Environment.WorkingSet", Environment.WorkingSet.ToString())
             };
-            return variables;
-        }
-
-        public static List<KeyValuePair<string, string>> GetAspNetRequestVariables(LoggingEvent loggingEvent)
-        {
-            var data = loggingEvent.GetLoggingEventData();
-            var variables = new List<KeyValuePair<string, string>>(100);
             return variables;
         }
 

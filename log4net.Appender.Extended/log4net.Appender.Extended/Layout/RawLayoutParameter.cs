@@ -1,5 +1,6 @@
 ﻿using log4net.Core;
 using log4net.Layout;
+using log4net.Util;
 
 namespace log4net.Appender.Extended.Layout
 {
@@ -20,13 +21,15 @@ namespace log4net.Appender.Extended.Layout
             set { _levelMax = value; }
         }
 
+        public bool OmitNull { get; set; }
+
         public string ParameterName { get; set; }
 
         public IRawLayout Layout { get; set; }
 
         public string Render(LoggingEvent loggingEvent)
         {
-            var format = Layout.Format(loggingEvent) ?? "[Null]";
+            var format = Layout.Format(loggingEvent) ?? SystemInfo.NullText;
             return format.ToString();
         }
     }
