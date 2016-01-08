@@ -10,22 +10,18 @@ using Timer = System.Timers.Timer;
 
 namespace log4net.Appender.Extended
 {
-    public abstract class DoubleBufferingAppenderSkeleton : BufferingAppenderSkeleton
+    public class DoubleBuffer: IDisposable
     {
 
         #region Implementation
         // ReSharper disable once StaticMemberInGenericType
         private static readonly Timer BufferTimer = new Timer(1000);
 
-        #region Ctor
-        protected DoubleBufferingAppenderSkeleton()
+        #region Constructor
+        protected DoubleBuffer()
         {
             BufferTimer.Elapsed += BufferTimerElapsed;
             BufferTimer.Start();
-            BufferSize = 1;
-            Lossy = false;
-            // ReSharper disable once VirtualMemberCallInContructor
-            ActivateOptions();
         }
         #endregion
 
@@ -46,7 +42,7 @@ namespace log4net.Appender.Extended
                 }
                 else
                 {
-                    if (_eventRequests.Count >= MaxBufferSize)
+                    if (EventRequests.Count >= MaxBufferSize)
                     {
                         Send();
                     }
@@ -125,15 +121,15 @@ namespace log4net.Appender.Extended
         public void AddParameter(RawLayoutParameter parameter) { Parameters.Add(parameter); }
 
 
-        private readonly ConcurrentBag<ExtendedLoggingEvent> _eventRequests = new ConcurrentBag<ExtendedLoggingEvent>();
+        protected readonly ConcurrentBag<ExtendedLoggingEvent> EventRequests = new ConcurrentBag<ExtendedLoggingEvent>();
 
-        protected override void SendBuffer(LoggingEvent[] events)
+        public virtual void SendBuffer(LoggingEvent[] events)
         {
-            var requestList = new List<LoggingEvent>(BufferSize);
+            var requestList = new List<LoggingEvent>(MaxBufferSize);
             requestList.AddRange(events);
             foreach (var logEventRequest in requestList)
             {
-                _eventRequests.Add(ConvertLoggingEvent(logEventRequest, Parameters));
+                EventRequests.Add(ConvertLoggingEvent(logEventRequest, Parameters));
             }
         }
 
@@ -145,29 +141,29 @@ namespace log4net.Appender.Extended
 
         private bool _sentInPeriod;
 
-        protected void Send()
+        protected virtual void Send()
         {
             if (_sentInPeriod) return;
             try
             {
                 _sentInPeriod = true;
-                if (_eventRequests.IsEmpty)
+                if (EventRequests.IsEmpty)
                 {
                     _sentInPeriod = false;
                     return;
                 }
                 var requestList = new List<ExtendedLoggingEvent>(MaxBufferSize);
-                while (!_eventRequests.IsEmpty)
+                while (!EventRequests.IsEmpty)
                 {
                     ExtendedLoggingEvent extendedLoggingEvent;
-                    if (_eventRequests.TryTake(out extendedLoggingEvent))
+                    if (EventRequests.TryTake(out extendedLoggingEvent))
                     {
                         requestList.Add(extendedLoggingEvent);
                     }
                 }
-                if (requestList.Any())
+                if (requestList.Any() && BulkSendAction != null)
                 {
-                    BulkSend(requestList);
+                    BulkSendAction(requestList);
                 }
             }
             finally
@@ -176,20 +172,21 @@ namespace log4net.Appender.Extended
             }
         }
 
-        protected override void OnClose()
+        public void Dispose()
         {
-            base.OnClose();
             BufferTimer.Stop();
             Thread.Sleep(1000);
             Send();
+            BufferTimer.Dispose();
         }
 
         #endregion
 
         #endregion
+        
 
-        #region Abstract
-        protected abstract void BulkSend(List<ExtendedLoggingEvent> extendedLoggingEvents);
-        #endregion
+        public Action<List<ExtendedLoggingEvent>> BulkSendAction { get; set; }
+
+        
     }
 }
