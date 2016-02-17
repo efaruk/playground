@@ -40,11 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ForcerLoop\ForcerLoop.cs" />
+    <Compile Include="ForcerLoop\ForcerLoopEventArgs.cs" />
+    <Compile Include="ForcerLoop\ForcerLoopPolicy.cs" />
     <Compile Include="Impersonation\Impersonator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ForcerLoop\readme.md" />
     <None Include="Impersonation\readme.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

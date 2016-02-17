@@ -2,11 +2,16 @@
 
 Impersonator is implementation to run any process with different user account. Please check Impersonator.cs
 
-Usage:
+Usage: ImpersonatorUsage.cs
 
 ```csharp
 
-Impersonator.RunImpersonatedAction("domain.local", "username", "password", () => 
+public void Usage()
 {
-	//Do something here with account username@domain.local
-});
+    Impersonator.RunImpersonatedAction("domain.local", "username", "password", () =>
+    {
+        //Do something here with account username@domain.local
+    });
+}
+
+```
