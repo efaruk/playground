@@ -40,15 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncUsing\AsyncUsing.cs" />
+    <Compile Include="AsyncUsing\AsyncUsingUsage.cs" />
     <Compile Include="ForcerLoop\ForcerLoop.cs" />
     <Compile Include="ForcerLoop\ForcerLoopEventArgs.cs" />
     <Compile Include="ForcerLoop\ForcerLoopPolicy.cs" />
-    <Compile Include="Impersonation\Impersonator.cs" />
+    <Compile Include="ForcerLoop\ForcerLoopUsage.cs" />
+    <Compile Include="Impersonator\Impersonator.cs" />
+    <Compile Include="Impersonator\ImpersonatorUsage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AsyncUsing\readme.md" />
     <None Include="ForcerLoop\readme.md" />
-    <None Include="Impersonation\readme.md" />
+    <None Include="Impersonator\readme.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
