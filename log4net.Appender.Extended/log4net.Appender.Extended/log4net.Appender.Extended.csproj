@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DoubleBuffer.cs" />
     <Compile Include="ExtendedAppenderSkeleton.cs" />
     <Compile Include="Layout\ExtendedAspNetCachePatternConverter.cs" />
     <Compile Include="Layout\ExtendedAspNetContextPatternConverter.cs" />
