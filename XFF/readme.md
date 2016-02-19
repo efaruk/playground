@@ -1,7 +1,7 @@
 I don't recommend to use this http module, use this extension method instead of this module:
 
 ```cs
-public static string UserRealHostAddress(this HttpRequest request, string headerName = "HTTP_X_FORWARDED_FOR", string seperator = ",", int clientIpIndex = 0)
+public static string UserRealHostAddress(this HttpRequest request, string headerName = "X-Forwarded-For", string seperator = ",", int clientIpIndex = 0)
 {
     if (request == null) throw new ArgumentNullException("request");
     var rc = request.UserHostAddress;
