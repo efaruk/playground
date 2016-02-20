@@ -209,10 +209,9 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
+<<<<<<< HEAD
 # GhostDoc plugin setting file
 *.GhostDoc.xml
-.vs/
-project.lock.json
 
 # Node.js Tools for Visual Studio
 .ntvs_analysis.dat
@@ -236,3 +235,7 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+=======
+.vs/
+project.lock.json
+>>>>>>> 6f0d4a0c98474ca2e2dd559651501e2a660bcec0
