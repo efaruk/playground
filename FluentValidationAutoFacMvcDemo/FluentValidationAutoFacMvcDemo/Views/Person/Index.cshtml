@@ -3,3 +3,26 @@
     ViewBag.Title = "Home Page";
 }
 
+<div>
+    @using (Html.BeginForm("Index", "Person", FormMethod.Post))
+    {
+        <div class="form-group">
+            Id: @Html.HiddenFor(m => m.Id) @Html.ValidationMessageFor(m => m.Id, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            First Name: @Html.TextBoxFor(m => m.FirstName) @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            Last Name: @Html.TextBoxFor(m => m.LastName) @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            Created On: @Html.TextBoxFor(m => m.CreatedOn) @Html.ValidationMessageFor(m => m.CreatedOn, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            Modified On: @Html.TextBoxFor(m => m.ModifiedOn) @Html.ValidationMessageFor(m => m.ModifiedOn, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Submit" class="btn btn-primary btn-default"/>
+        </div>
+    }
+</div>

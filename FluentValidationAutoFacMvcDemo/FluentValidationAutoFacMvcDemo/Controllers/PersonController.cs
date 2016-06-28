@@ -11,13 +11,13 @@ namespace FluentValidationAutoFacMvcDemo.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(PersonModel model)
+        public ActionResult Index(PersonModel model)
         {
             if (ModelState.IsValid)
             {
                 
             }
-            return Json(model);
+            return View(model);
         }
     }
 }
