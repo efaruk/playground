@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using FluentValidation;
 using FluentValidation.Mvc;
-using FluentValidationAutoFacMvcDemo.Infrastructure;
+using FluentValidAutoFacMvcDemo.Infrastructure;
 using log4net;
 using log4net.Config;
 
-namespace FluentValidationAutoFacMvcDemo
+namespace FluentValidAutoFacMvcDemo
 {
     public static class DependencyContainer
     {
@@ -43,13 +42,13 @@ namespace FluentValidationAutoFacMvcDemo
             builder.RegisterFilterProvider();
 
             //FluentValidation
+            DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
+            ModelValidatorProviders.Providers.Clear();
             FluentValidationModelValidatorProvider.Configure(provider =>
             {
                 provider.ValidatorFactory = new AutofacValidatorFactory();
                 provider.AddImplicitRequiredValidator = false;
             });
-            //ModelValidatorProviders.Providers.Clear();
-            DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
             //var fluentValidation = new FluentValidationModelValidatorProvider(new AutofacValidatorFactory())
             //{
             //    AddImplicitRequiredValidator = false

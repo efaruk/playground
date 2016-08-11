@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FluentValidationAutoFacMvcDemo</RootNamespace>
-    <AssemblyName>FluentValidationAutoFacMvcDemo</AssemblyName>
+    <RootNamespace>FluentValidAutoFacMvcDemo</RootNamespace>
+    <AssemblyName>FluentValidAutoFacMvcDemo</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -149,6 +149,7 @@
     <Compile Include="Infrastructure\ITypeFinder.cs" />
     <Compile Include="Models\PersonModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\PersonValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

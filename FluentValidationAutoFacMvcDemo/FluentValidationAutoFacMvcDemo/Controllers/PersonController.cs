@@ -1,13 +1,18 @@
 ﻿using System.Web.Mvc;
-using FluentValidationAutoFacMvcDemo.Models;
+using FluentValidAutoFacMvcDemo.Models;
 
-namespace FluentValidationAutoFacMvcDemo.Controllers
+namespace FluentValidAutoFacMvcDemo.Controllers
 {
     public class PersonController : Controller
     {
         public ActionResult Index()
         {
-            return View();
+            var model = new PersonModel
+            {
+                FirstName = "Faruk",
+                LastName = "Pehlivanlı",
+            };
+            return View(model);
         }
 
         [HttpPost]

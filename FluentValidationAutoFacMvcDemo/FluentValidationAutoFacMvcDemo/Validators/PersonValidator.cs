@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using FluentValidationAutoFacMvcDemo.Models;
+using PersonModel = FluentValidAutoFacMvcDemo.Models.PersonModel;
 
-namespace FluentValidationAutoFacMvcDemo.Validators
+namespace FluentValidAutoFacMvcDemo.Validators
 {
-    public class PersonValidator : BaseValidator<PersonModel>
+    public class PersonValidator : AbstractValidator<PersonModel>
     {
         public PersonValidator()
         {

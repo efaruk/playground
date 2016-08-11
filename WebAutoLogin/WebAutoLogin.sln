@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAutoLogin.Client", "WebAutoLogin.Client\WebAutoLogin.Client.csproj", "{727ED413-13AC-4730-B34E-50AB79BC3830}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAutoLogin.Service", "WebAutoLogin.Service\WebAutoLogin.Service.csproj", "{8DFA59B8-EEDC-47B0-AC7E-16972441A231}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAutoLogin", "WebAutoLogin\WebAutoLogin.csproj", "{57BC8253-4D54-43B9-85F4-7D2FF35138E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAutoLogin.Test", "WebAutoLogin.Test\WebAutoLogin.Test.csproj", "{7AE0FEEF-DC34-4BB5-A6EE-FF9D57111E42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAutoLogin.Service.Test", "WebAutoLogin.Service.Test\WebAutoLogin.Service.Test.csproj", "{B19704DA-E656-4238-8206-8399922F34B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{727ED413-13AC-4730-B34E-50AB79BC3830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{727ED413-13AC-4730-B34E-50AB79BC3830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{727ED413-13AC-4730-B34E-50AB79BC3830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{727ED413-13AC-4730-B34E-50AB79BC3830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DFA59B8-EEDC-47B0-AC7E-16972441A231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DFA59B8-EEDC-47B0-AC7E-16972441A231}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DFA59B8-EEDC-47B0-AC7E-16972441A231}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DFA59B8-EEDC-47B0-AC7E-16972441A231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57BC8253-4D54-43B9-85F4-7D2FF35138E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57BC8253-4D54-43B9-85F4-7D2FF35138E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57BC8253-4D54-43B9-85F4-7D2FF35138E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57BC8253-4D54-43B9-85F4-7D2FF35138E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AE0FEEF-DC34-4BB5-A6EE-FF9D57111E42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE0FEEF-DC34-4BB5-A6EE-FF9D57111E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE0FEEF-DC34-4BB5-A6EE-FF9D57111E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE0FEEF-DC34-4BB5-A6EE-FF9D57111E42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B19704DA-E656-4238-8206-8399922F34B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B19704DA-E656-4238-8206-8399922F34B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B19704DA-E656-4238-8206-8399922F34B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B19704DA-E656-4238-8206-8399922F34B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace FluentValidationAutoFacMvcDemo.Models
+namespace FluentValidAutoFacMvcDemo.Models
 {
     public class PersonModel : BaseModel
     {
@@ -19,6 +16,6 @@ namespace FluentValidationAutoFacMvcDemo.Models
 
         public DateTime CreatedOn { get; set; }
 
-        public DateTime ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
     }
 }

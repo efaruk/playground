@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace FluentValidationAutoFacMvcDemo.Infrastructure
+namespace FluentValidAutoFacMvcDemo.Infrastructure
 {
     /// <summary>
     ///     Taken from nopCommerce

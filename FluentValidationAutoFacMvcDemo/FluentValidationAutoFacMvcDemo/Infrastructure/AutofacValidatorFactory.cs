@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using FluentValidation;
 
-namespace FluentValidationAutoFacMvcDemo.Infrastructure
+namespace FluentValidAutoFacMvcDemo.Infrastructure
 {
     public class AutofacValidatorFactory : ValidatorFactoryBase
     {

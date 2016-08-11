@@ -5,7 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace FluentValidationAutoFacMvcDemo.Infrastructure
+namespace FluentValidAutoFacMvcDemo.Infrastructure
 {
     /// <summary>
     ///     Taken from nopCommerce

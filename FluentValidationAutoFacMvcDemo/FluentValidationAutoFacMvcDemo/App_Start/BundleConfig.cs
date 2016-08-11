@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace FluentValidationAutoFacMvcDemo
+namespace FluentValidAutoFacMvcDemo
 {
     public class BundleConfig
     {

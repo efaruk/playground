@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace FluentValidationAutoFacMvcDemo
+namespace FluentValidAutoFacMvcDemo
 {
     public class FilterConfig
     {
