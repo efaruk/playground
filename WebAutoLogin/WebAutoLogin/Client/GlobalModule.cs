@@ -1,5 +1,4 @@
-﻿using WebAutoLogin.Configuration;
-using WebAutoLogin.Data.Entities;
+﻿using WebAutoLogin.Data.Entities;
 
 namespace WebAutoLogin.Client
 {

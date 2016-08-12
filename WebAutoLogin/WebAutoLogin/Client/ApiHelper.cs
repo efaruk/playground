@@ -3,6 +3,7 @@ using System.Net;
 using RestSharp;
 using WebAutoLogin.Configuration;
 using WebAutoLogin.Data.Entities;
+using RestRequest = RestSharp.Newtonsoft.Json.RestRequest;
 
 namespace WebAutoLogin.Client
 {

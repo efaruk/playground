@@ -1,4 +1,4 @@
-﻿namespace WebAutoLogin.Client
+﻿namespace WebAutoLogin.Manager
 {
     partial class frmAccount
     {

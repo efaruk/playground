@@ -1,7 +1,8 @@
 ﻿using System.Windows.Forms;
+using WebAutoLogin.Client;
 using WebAutoLogin.Security.Cryptography;
 
-namespace WebAutoLogin.Client
+namespace WebAutoLogin.Manager
 {
     public partial class frmLogin : frmBaseForm
     {

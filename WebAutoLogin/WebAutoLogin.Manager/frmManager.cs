@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Windows.Forms;
+using WebAutoLogin.Client;
 
-namespace WebAutoLogin.Client
+namespace WebAutoLogin.Manager
 {
-    public partial class frmMain : frmBaseForm
+    public partial class frmManager : frmBaseForm
     {
         private bool _closing = false;
         private bool _loggedIn = false;
 
         private DriveDetector _driveDetector;
-        private frmLogin _frmLogin;
+        //private frmLogin _frmLogin;
         private IApiHelper _apiHelper;
 
-        public frmMain()
+        public frmManager()
         {
             InitializeComponent();
         }
@@ -20,7 +21,7 @@ namespace WebAutoLogin.Client
         private void frmMain_Load(object sender, EventArgs e)
         {
             _apiHelper = DependencyContainer.Resolve<IApiHelper>();
-            _frmLogin = new frmLogin();
+            //_frmLogin = new frmLogin();
             _driveDetector = new DriveDetector();
             _driveDetector.Start();
         }
@@ -32,11 +33,11 @@ namespace WebAutoLogin.Client
 
         private void btnManage_Click(object sender, EventArgs e)
         {
-            var result = _frmLogin.ShowDialog(this);
-            if (result == DialogResult.OK)
-            {
-                MessageBox.Show(string.Format("Welcome {0}", GlobalModule.Account.FullName), "Login");
-            }
+            //var result = _frmLogin.ShowDialog(this);
+            //if (result == DialogResult.OK)
+            //{
+            //    MessageBox.Show(string.Format("Welcome {0}", GlobalModule.Account.FullName), "Login");
+            //}
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace WebAutoLogin.Client
+﻿namespace WebAutoLogin.Manager
 {
-    partial class frmMain
+    partial class frmManager
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmManager));
             this.niMain = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmsNotification = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiTest = new System.Windows.Forms.ToolStripMenuItem();

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAutoLogin.Test", "WebAut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAutoLogin.Service.Test", "WebAutoLogin.Service.Test\WebAutoLogin.Service.Test.csproj", "{B19704DA-E656-4238-8206-8399922F34B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAutoLogin.Manager", "WebAutoLogin.Manager\WebAutoLogin.Manager.csproj", "{31C803AC-A5CA-4552-A45F-EEA255966839}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{B19704DA-E656-4238-8206-8399922F34B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B19704DA-E656-4238-8206-8399922F34B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B19704DA-E656-4238-8206-8399922F34B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31C803AC-A5CA-4552-A45F-EEA255966839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31C803AC-A5CA-4552-A45F-EEA255966839}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31C803AC-A5CA-4552-A45F-EEA255966839}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31C803AC-A5CA-4552-A45F-EEA255966839}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
