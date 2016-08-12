@@ -40,7 +40,7 @@ namespace WebAutoLogin.Manager
             var password = tbPassword.Text.Trim();
             var token = _hashService.Hash(string.Format(GlobalModule.TokenHashFormat, userName, password));
             var account = _apiHelper.GetAccountByToken(token);
-            if (account != null && account.Id > 0)
+            if (account != null && account.Id > 0 && account.Admin && !account.Locked)
             {
                 GlobalModule.Account = account;
                 DialogResult = DialogResult.OK;

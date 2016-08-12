@@ -13,7 +13,7 @@ namespace WebAutoLogin.Service.Data
         Account GetAccountById(int id);
         Account GetAccountByToken(string token);
         List<Account> GetAccounts();
-        void InsertAccount(Account account);
+        Account InsertAccount(Account account);
         void UpdateAccount(Account account);
     }
 }

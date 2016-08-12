@@ -63,22 +63,20 @@ namespace WebAutoLogin.Service.Data
             return account;
         }
 
-        public void InsertAccount(Account account)
+        public Account InsertAccount(Account account)
         {
             ExecuteQuery(_dbConnection, () =>
             {
                 var query = "insert into Account(FullName, UserName, Password, Token, Locked, Admin)" +
-                            "values ((@FullName, @UserName, @Password, @Token, @Locked, @Admin));";
-                _dbConnection.Execute(query, new
-                {
-                    account.FullName,
-                    account.UserName,
-                    account.Password,
-                    account.Token,
-                    account.Locked,
-                    account.Admin
-                });
+                            "values ((@FullName, @UserName, @Password, @Token, @Locked, @Admin))" +
+                            "SELECT last_insert_rowid();";
+                var id = _dbConnection.Query<int>(query, account);
+
+                account = _dbConnection.Query<Account>(
+                "select Id, FullName, UserName, Password, Token, Locked, Admin from Account where Id=@Id",
+                new { Id = id }).FirstOrDefault();
             });
+            return account;
         }
 
         public void UpdateAccount(Account account)

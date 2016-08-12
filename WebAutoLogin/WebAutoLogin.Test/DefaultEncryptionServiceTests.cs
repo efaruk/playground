@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WebAutoLogin.Client;
 using WebAutoLogin.Security.Cryptography;
 
 namespace WebAutoLogin.Test
@@ -23,8 +24,8 @@ namespace WebAutoLogin.Test
         public void EncryptDecryptWithStaticKeyAndVectorTest()
         {
             var encryptionService = new DefaultEncryptionService();
-            var key = ConfigurationManager.AppSettings.Get("Key");
-            var vector = ConfigurationManager.AppSettings.Get("Vector");
+            var key = ConfigurationManager.AppSettings.Get(GlobalModule.SettingKey);
+            var vector = ConfigurationManager.AppSettings.Get(GlobalModule.SettingVector);
             var password = "F4reburnu";
             var cipher = encryptionService.Encrypt(password, key, vector);
             var decrypted = encryptionService.Decrypt(cipher, key, vector);

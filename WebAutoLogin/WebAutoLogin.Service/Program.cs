@@ -2,6 +2,7 @@
 using Mono.Unix;
 using Mono.Unix.Native;
 using Nancy.Hosting.Self;
+using WebAutoLogin.Client;
 using WebAutoLogin.Configuration;
 
 namespace WebAutoLogin.Service
@@ -9,10 +10,11 @@ namespace WebAutoLogin.Service
     internal class Program
     {
         // Resource: https://github.com/NancyFx/Nancy/wiki/Hosting-Nancy-with-Nginx-on-Ubuntu
+        // ReSharper disable once UnusedParameter.Local maybe later.
         private static void Main(string[] args)
         {
             var settingsProvider = new AppConfigSettingsProvider();
-            var uri = settingsProvider.GetAppSetting("BaseAddress");
+            var uri = settingsProvider.GetAppSetting(GlobalModule.SettingBaseAddress);
             Console.WriteLine("Starting Nancy Host on " + uri);
             var configuration = new HostConfiguration
             {
@@ -26,7 +28,7 @@ namespace WebAutoLogin.Service
             if (Type.GetType("Mono.Runtime") != null)
             {
                 Console.WriteLine("Running on Mono");
-                int p = (int)Environment.OSVersion.Platform;
+                var p = (int)Environment.OSVersion.Platform;
                 if ((p == 4) || (p == 6) || (p == 128))
                 {
                     Console.WriteLine("Running on Unix Like System");

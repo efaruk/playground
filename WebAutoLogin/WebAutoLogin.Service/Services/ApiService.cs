@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WebAutoLogin.Client;
 using WebAutoLogin.Configuration;
 using WebAutoLogin.Data.Entities;
 using WebAutoLogin.Security.Cryptography;
@@ -15,14 +16,15 @@ namespace WebAutoLogin.Service.Services
         public ApiService(ISettingsProvider settingsProvider, IDataService dataService, IEncryptionService encryptionService)
         {
             _settingsProvider = settingsProvider;
+
             _dataService = dataService;
             _encryptionService = encryptionService;
         }
 
         public Account Login(string userName, string password)
         {
-            var cipher = _encryptionService.Encrypt(password, _settingsProvider.GetAppSetting("Key"),
-                _settingsProvider.GetAppSetting("Vector"));
+            var cipher = _encryptionService.Encrypt(password, _settingsProvider.GetAppSetting(GlobalModule.SettingKey),
+                _settingsProvider.GetAppSetting(GlobalModule.SettingVector));
             var account = _dataService.Login(userName, cipher);
             return account;
         }
@@ -47,6 +49,7 @@ namespace WebAutoLogin.Service.Services
 
         public void InsertAccount(Account account)
         {
+
             _dataService.InsertAccount(account);
         }
 

@@ -28,20 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tbFullName = new System.Windows.Forms.TextBox();
+            this.tbUsername = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.tbPassword = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.tbToken = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.cbIsLocked = new System.Windows.Forms.CheckBox();
             this.cbIsAdmin = new System.Windows.Forms.CheckBox();
-            this.btnOk = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.btnGenerateToken = new System.Windows.Forms.Button();
             this.btnSetupUsbStick = new System.Windows.Forms.Button();
+            this.btnSetPassword = new System.Windows.Forms.Button();
+            this.btnSaveAndClose = new System.Windows.Forms.Button();
+            this.bsAccount = new System.Windows.Forms.BindingSource(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.bsAccount)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -53,19 +57,21 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Full Name:";
             // 
-            // textBox1
+            // tbFullName
             // 
-            this.textBox1.Location = new System.Drawing.Point(75, 12);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(465, 21);
-            this.textBox1.TabIndex = 1;
+            this.tbFullName.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bsAccount, "FullName", true));
+            this.tbFullName.Location = new System.Drawing.Point(75, 12);
+            this.tbFullName.Name = "tbFullName";
+            this.tbFullName.Size = new System.Drawing.Size(465, 21);
+            this.tbFullName.TabIndex = 1;
             // 
-            // textBox2
+            // tbUsername
             // 
-            this.textBox2.Location = new System.Drawing.Point(75, 39);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(465, 21);
-            this.textBox2.TabIndex = 3;
+            this.tbUsername.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bsAccount, "UserName", true));
+            this.tbUsername.Location = new System.Drawing.Point(75, 39);
+            this.tbUsername.Name = "tbUsername";
+            this.tbUsername.Size = new System.Drawing.Size(465, 21);
+            this.tbUsername.TabIndex = 3;
             // 
             // label2
             // 
@@ -76,12 +82,14 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Username:";
             // 
-            // textBox3
+            // tbPassword
             // 
-            this.textBox3.Location = new System.Drawing.Point(75, 66);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(465, 21);
-            this.textBox3.TabIndex = 5;
+            this.tbPassword.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bsAccount, "Password", true));
+            this.tbPassword.Location = new System.Drawing.Point(75, 66);
+            this.tbPassword.Name = "tbPassword";
+            this.tbPassword.ReadOnly = true;
+            this.tbPassword.Size = new System.Drawing.Size(352, 21);
+            this.tbPassword.TabIndex = 5;
             // 
             // label3
             // 
@@ -92,13 +100,14 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Password:";
             // 
-            // textBox4
+            // tbToken
             // 
-            this.textBox4.Location = new System.Drawing.Point(75, 93);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(465, 21);
-            this.textBox4.TabIndex = 7;
+            this.tbToken.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bsAccount, "Token", true));
+            this.tbToken.Location = new System.Drawing.Point(75, 93);
+            this.tbToken.Name = "tbToken";
+            this.tbToken.ReadOnly = true;
+            this.tbToken.Size = new System.Drawing.Size(465, 21);
+            this.tbToken.TabIndex = 7;
             // 
             // label4
             // 
@@ -112,32 +121,35 @@
             // cbIsLocked
             // 
             this.cbIsLocked.AutoSize = true;
+            this.cbIsLocked.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.bsAccount, "Locked", true));
             this.cbIsLocked.Location = new System.Drawing.Point(75, 121);
             this.cbIsLocked.Name = "cbIsLocked";
-            this.cbIsLocked.Size = new System.Drawing.Size(71, 17);
+            this.cbIsLocked.Size = new System.Drawing.Size(59, 17);
             this.cbIsLocked.TabIndex = 8;
-            this.cbIsLocked.Text = "Is Locked";
+            this.cbIsLocked.Text = "Locked";
             this.cbIsLocked.UseVisualStyleBackColor = true;
             // 
             // cbIsAdmin
             // 
             this.cbIsAdmin.AutoSize = true;
+            this.cbIsAdmin.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.bsAccount, "Admin", true));
             this.cbIsAdmin.Location = new System.Drawing.Point(75, 144);
             this.cbIsAdmin.Name = "cbIsAdmin";
-            this.cbIsAdmin.Size = new System.Drawing.Size(67, 17);
+            this.cbIsAdmin.Size = new System.Drawing.Size(55, 17);
             this.cbIsAdmin.TabIndex = 9;
-            this.cbIsAdmin.Text = "Is Admin";
+            this.cbIsAdmin.Text = "Admin";
             this.cbIsAdmin.UseVisualStyleBackColor = true;
             // 
-            // btnOk
+            // btnSave
             // 
-            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Location = new System.Drawing.Point(384, 196);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 10;
-            this.btnOk.Text = "OK";
-            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(280, 196);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 10;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
@@ -149,55 +161,77 @@
             this.btnCancel.TabIndex = 11;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // btnGenerateToken
-            // 
-            this.btnGenerateToken.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnGenerateToken.Enabled = false;
-            this.btnGenerateToken.Location = new System.Drawing.Point(12, 196);
-            this.btnGenerateToken.Name = "btnGenerateToken";
-            this.btnGenerateToken.Size = new System.Drawing.Size(149, 23);
-            this.btnGenerateToken.TabIndex = 12;
-            this.btnGenerateToken.Text = "Generate Token";
-            this.btnGenerateToken.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnSetupUsbStick
             // 
             this.btnSetupUsbStick.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnSetupUsbStick.Enabled = false;
-            this.btnSetupUsbStick.Location = new System.Drawing.Point(167, 196);
+            this.btnSetupUsbStick.Location = new System.Drawing.Point(12, 196);
             this.btnSetupUsbStick.Name = "btnSetupUsbStick";
             this.btnSetupUsbStick.Size = new System.Drawing.Size(149, 23);
             this.btnSetupUsbStick.TabIndex = 13;
             this.btnSetupUsbStick.Text = "Setup USB Stick";
             this.btnSetupUsbStick.UseVisualStyleBackColor = true;
+            this.btnSetupUsbStick.Click += new System.EventHandler(this.btnSetupUsbStick_Click);
+            // 
+            // btnSetPassword
+            // 
+            this.btnSetPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSetPassword.Location = new System.Drawing.Point(433, 66);
+            this.btnSetPassword.Name = "btnSetPassword";
+            this.btnSetPassword.Size = new System.Drawing.Size(107, 23);
+            this.btnSetPassword.TabIndex = 14;
+            this.btnSetPassword.Text = "Set Password";
+            this.btnSetPassword.UseVisualStyleBackColor = true;
+            this.btnSetPassword.Click += new System.EventHandler(this.btnSetPassword_Click);
+            // 
+            // btnSaveAndClose
+            // 
+            this.btnSaveAndClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveAndClose.Location = new System.Drawing.Point(361, 196);
+            this.btnSaveAndClose.Name = "btnSaveAndClose";
+            this.btnSaveAndClose.Size = new System.Drawing.Size(98, 23);
+            this.btnSaveAndClose.TabIndex = 15;
+            this.btnSaveAndClose.Text = "Save && Close";
+            this.btnSaveAndClose.UseVisualStyleBackColor = true;
+            this.btnSaveAndClose.Click += new System.EventHandler(this.btnSaveAndClose_Click);
+            // 
+            // bsAccount
+            // 
+            this.bsAccount.AllowNew = false;
+            this.bsAccount.DataSource = typeof(WebAutoLogin.Data.Entities.Account);
+            this.bsAccount.CurrentItemChanged += new System.EventHandler(this.bsAccount_CurrentItemChanged);
             // 
             // frmAccount
             // 
-            this.AcceptButton = this.btnOk;
+            this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(552, 231);
+            this.Controls.Add(this.btnSaveAndClose);
+            this.Controls.Add(this.btnSetPassword);
             this.Controls.Add(this.btnSetupUsbStick);
-            this.Controls.Add(this.btnGenerateToken);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOk);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.cbIsAdmin);
             this.Controls.Add(this.cbIsLocked);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.tbToken);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.tbPassword);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.tbUsername);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbFullName);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmAccount";
             this.Text = "Account";
+            this.Load += new System.EventHandler(this.frmAccount_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.bsAccount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,18 +240,20 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tbFullName;
+        private System.Windows.Forms.TextBox tbUsername;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox tbToken;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox cbIsLocked;
         private System.Windows.Forms.CheckBox cbIsAdmin;
-        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnGenerateToken;
         private System.Windows.Forms.Button btnSetupUsbStick;
+        private System.Windows.Forms.BindingSource bsAccount;
+        private System.Windows.Forms.Button btnSetPassword;
+        private System.Windows.Forms.Button btnSaveAndClose;
     }
 }

@@ -15,7 +15,7 @@ namespace WebAutoLogin.Client
         public ApiHelper(ISettingsProvider settingsProvider)
         {
             _settingsProvider = settingsProvider;
-            _baseUrl = _settingsProvider.GetAppSetting("ApiUrl");
+            _baseUrl = _settingsProvider.GetAppSetting(GlobalModule.SettingApiUrl);
         }
 
         private string _baseUrl;
