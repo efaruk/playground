@@ -28,107 +28,192 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Password = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Token = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IsLocked = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.IsAdmin = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.components = new System.ComponentModel.Container();
+            this.dgAccounts = new System.Windows.Forms.DataGridView();
+            this.bsAccounts = new System.Windows.Forms.BindingSource(this.components);
+            this.tsMain = new System.Windows.Forms.ToolStrip();
+            this.tsbNew = new System.Windows.Forms.ToolStripButton();
+            this.tsbEdit = new System.Windows.Forms.ToolStripButton();
+            this.tsbList = new System.Windows.Forms.ToolStripButton();
+            this.tsbDelete = new System.Windows.Forms.ToolStripButton();
+            this.ıdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fullNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.userNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.passwordDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tokenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lockedDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.adminDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dgAccounts)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsAccounts)).BeginInit();
+            this.tsMain.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dgAccounts
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Id,
-            this.FullName,
-            this.UserName,
-            this.Password,
-            this.Token,
-            this.IsLocked,
-            this.IsAdmin});
-            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(758, 408);
-            this.dataGridView1.TabIndex = 0;
+            this.dgAccounts.AllowUserToAddRows = false;
+            this.dgAccounts.AllowUserToDeleteRows = false;
+            this.dgAccounts.AllowUserToOrderColumns = true;
+            this.dgAccounts.AutoGenerateColumns = false;
+            this.dgAccounts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgAccounts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ıdDataGridViewTextBoxColumn,
+            this.fullNameDataGridViewTextBoxColumn,
+            this.userNameDataGridViewTextBoxColumn,
+            this.passwordDataGridViewTextBoxColumn,
+            this.tokenDataGridViewTextBoxColumn,
+            this.lockedDataGridViewCheckBoxColumn,
+            this.adminDataGridViewCheckBoxColumn});
+            this.dgAccounts.DataSource = this.bsAccounts;
+            this.dgAccounts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgAccounts.EnableHeadersVisualStyles = false;
+            this.dgAccounts.Location = new System.Drawing.Point(0, 25);
+            this.dgAccounts.MultiSelect = false;
+            this.dgAccounts.Name = "dgAccounts";
+            this.dgAccounts.ReadOnly = true;
+            this.dgAccounts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgAccounts.Size = new System.Drawing.Size(782, 402);
+            this.dgAccounts.TabIndex = 0;
             // 
-            // Id
+            // bsAccounts
             // 
-            this.Id.HeaderText = "#";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
+            this.bsAccounts.AllowNew = false;
+            this.bsAccounts.DataSource = typeof(WebAutoLogin.Data.Entities.Account);
             // 
-            // FullName
+            // tsMain
             // 
-            this.FullName.HeaderText = "FullName";
-            this.FullName.Name = "FullName";
-            this.FullName.ReadOnly = true;
+            this.tsMain.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbNew,
+            this.tsbEdit,
+            this.tsbList,
+            this.tsbDelete});
+            this.tsMain.Location = new System.Drawing.Point(0, 0);
+            this.tsMain.Name = "tsMain";
+            this.tsMain.Size = new System.Drawing.Size(782, 25);
+            this.tsMain.TabIndex = 1;
+            this.tsMain.Text = "toolStrip1";
             // 
-            // UserName
+            // tsbNew
             // 
-            this.UserName.HeaderText = "UserName";
-            this.UserName.Name = "UserName";
-            this.UserName.ReadOnly = true;
+            this.tsbNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbNew.Name = "tsbNew";
+            this.tsbNew.Size = new System.Drawing.Size(36, 22);
+            this.tsbNew.Text = "New";
+            this.tsbNew.Click += new System.EventHandler(this.tsbNew_Click);
             // 
-            // Password
+            // tsbEdit
             // 
-            this.Password.HeaderText = "Password";
-            this.Password.Name = "Password";
-            this.Password.ReadOnly = true;
+            this.tsbEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbEdit.Name = "tsbEdit";
+            this.tsbEdit.Size = new System.Drawing.Size(32, 22);
+            this.tsbEdit.Text = "Edit";
+            this.tsbEdit.Click += new System.EventHandler(this.tsbEdit_Click);
             // 
-            // Token
+            // tsbList
             // 
-            this.Token.HeaderText = "Token";
-            this.Token.Name = "Token";
-            this.Token.ReadOnly = true;
+            this.tsbList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbList.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbList.Name = "tsbList";
+            this.tsbList.Size = new System.Drawing.Size(29, 22);
+            this.tsbList.Text = "List";
+            this.tsbList.Click += new System.EventHandler(this.tsbList_Click);
             // 
-            // IsLocked
+            // tsbDelete
             // 
-            this.IsLocked.HeaderText = "IsLocked";
-            this.IsLocked.Name = "IsLocked";
-            this.IsLocked.ReadOnly = true;
+            this.tsbDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbDelete.Name = "tsbDelete";
+            this.tsbDelete.Size = new System.Drawing.Size(47, 22);
+            this.tsbDelete.Text = "Delete";
+            this.tsbDelete.Click += new System.EventHandler(this.tsbDelete_Click);
             // 
-            // IsAdmin
+            // ıdDataGridViewTextBoxColumn
             // 
-            this.IsAdmin.HeaderText = "IsAdmin";
-            this.IsAdmin.Name = "IsAdmin";
-            this.IsAdmin.ReadOnly = true;
+            this.ıdDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            this.ıdDataGridViewTextBoxColumn.HeaderText = "Id";
+            this.ıdDataGridViewTextBoxColumn.Name = "ıdDataGridViewTextBoxColumn";
+            this.ıdDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // fullNameDataGridViewTextBoxColumn
+            // 
+            this.fullNameDataGridViewTextBoxColumn.DataPropertyName = "FullName";
+            this.fullNameDataGridViewTextBoxColumn.HeaderText = "FullName";
+            this.fullNameDataGridViewTextBoxColumn.Name = "fullNameDataGridViewTextBoxColumn";
+            this.fullNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // userNameDataGridViewTextBoxColumn
+            // 
+            this.userNameDataGridViewTextBoxColumn.DataPropertyName = "UserName";
+            this.userNameDataGridViewTextBoxColumn.HeaderText = "UserName";
+            this.userNameDataGridViewTextBoxColumn.Name = "userNameDataGridViewTextBoxColumn";
+            this.userNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // passwordDataGridViewTextBoxColumn
+            // 
+            this.passwordDataGridViewTextBoxColumn.DataPropertyName = "Password";
+            this.passwordDataGridViewTextBoxColumn.HeaderText = "Password";
+            this.passwordDataGridViewTextBoxColumn.Name = "passwordDataGridViewTextBoxColumn";
+            this.passwordDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // tokenDataGridViewTextBoxColumn
+            // 
+            this.tokenDataGridViewTextBoxColumn.DataPropertyName = "Token";
+            this.tokenDataGridViewTextBoxColumn.HeaderText = "Token";
+            this.tokenDataGridViewTextBoxColumn.Name = "tokenDataGridViewTextBoxColumn";
+            this.tokenDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // lockedDataGridViewCheckBoxColumn
+            // 
+            this.lockedDataGridViewCheckBoxColumn.DataPropertyName = "Locked";
+            this.lockedDataGridViewCheckBoxColumn.HeaderText = "Locked";
+            this.lockedDataGridViewCheckBoxColumn.Name = "lockedDataGridViewCheckBoxColumn";
+            this.lockedDataGridViewCheckBoxColumn.ReadOnly = true;
+            // 
+            // adminDataGridViewCheckBoxColumn
+            // 
+            this.adminDataGridViewCheckBoxColumn.DataPropertyName = "Admin";
+            this.adminDataGridViewCheckBoxColumn.HeaderText = "Admin";
+            this.adminDataGridViewCheckBoxColumn.Name = "adminDataGridViewCheckBoxColumn";
+            this.adminDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
             // frmAccountList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(782, 465);
-            this.Controls.Add(this.dataGridView1);
+            this.ClientSize = new System.Drawing.Size(782, 427);
+            this.Controls.Add(this.dgAccounts);
+            this.Controls.Add(this.tsMain);
             this.Name = "frmAccountList";
-            this.Text = "Account List";
+            this.Text = "Account List - WAL Manager";
             this.Load += new System.EventHandler(this.frmAccountList_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgAccounts)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsAccounts)).EndInit();
+            this.tsMain.ResumeLayout(false);
+            this.tsMain.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FullName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Password;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Token;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn IsLocked;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn IsAdmin;
+        private System.Windows.Forms.DataGridView dgAccounts;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ısLockedDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ısAdminDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.BindingSource bsAccounts;
+        private System.Windows.Forms.ToolStrip tsMain;
+        private System.Windows.Forms.ToolStripButton tsbNew;
+        private System.Windows.Forms.ToolStripButton tsbEdit;
+        private System.Windows.Forms.ToolStripButton tsbList;
+        private System.Windows.Forms.ToolStripButton tsbDelete;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ıdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn userNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn passwordDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tokenDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn lockedDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn adminDataGridViewCheckBoxColumn;
     }
 }

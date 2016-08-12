@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using WebAutoLogin.Client;
 
 namespace WebAutoLogin.Manager
 {
@@ -11,9 +12,12 @@ namespace WebAutoLogin.Manager
         [STAThread]
         static void Main()
         {
+            // Initialize Dependency Container
+            DependencyContainer.Initialize();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmManager());
+            Application.Run(new frmAccountList());
         }
     }
 }

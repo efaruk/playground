@@ -33,7 +33,7 @@ namespace WebAutoLogin.Service.Data
             ExecuteQuery(_dbConnection, () =>
             {
                 account = _dbConnection.Query<Account>(
-                "select Id, FullName, UserName, Password, Token, IsLocked, IsAdmin from Account where UserName=@UserName and Password=@Password",
+                "select Id, FullName, UserName, Password, Token, Locked, Admin from Account where UserName=@UserName and Password=@Password",
                 new { UserName = userName, Password = password }).FirstOrDefault();
             });
             return account;
@@ -45,7 +45,7 @@ namespace WebAutoLogin.Service.Data
             ExecuteQuery(_dbConnection, () =>
             {
                 account = _dbConnection.Query<Account>(
-                "select Id, FullName, UserName, Password, Token, IsLocked, IsAdmin from Account where Token=@Token",
+                "select Id, FullName, UserName, Password, Token, Locked, Admin from Account where Token=@Token",
                 new { Token = token }).FirstOrDefault();
             });
             return account;
@@ -57,7 +57,7 @@ namespace WebAutoLogin.Service.Data
             ExecuteQuery(_dbConnection, () =>
             {
                 account = _dbConnection.Query<Account>(
-                "select Id, FullName, UserName, Password, Token, IsLocked, IsAdmin from Account where Id=@Id",
+                "select Id, FullName, UserName, Password, Token, Locked, Admin from Account where Id=@Id",
                 new { Id = id }).FirstOrDefault();
             });
             return account;
@@ -67,16 +67,16 @@ namespace WebAutoLogin.Service.Data
         {
             ExecuteQuery(_dbConnection, () =>
             {
-                var query = "insert into Account(FullName, UserName, Password, Token, IsLocked, IsAdmin)" +
-                            "values ((@FullName, @UserName, @Password, @Token, @IsLocked, @IsAdmin));";
+                var query = "insert into Account(FullName, UserName, Password, Token, Locked, Admin)" +
+                            "values ((@FullName, @UserName, @Password, @Token, @Locked, @Admin));";
                 _dbConnection.Execute(query, new
                 {
                     account.FullName,
                     account.UserName,
                     account.Password,
                     account.Token,
-                    account.IsLocked,
-                    account.IsAdmin
+                    account.Locked,
+                    account.Admin
                 });
             });
         }
@@ -86,7 +86,7 @@ namespace WebAutoLogin.Service.Data
             ExecuteQuery(_dbConnection, () =>
             {
                 var query =
-                    "update Account set FullName=@FullName, UserName=@UserName, Password=@Password, Token=@Token, IsLocked=@IsLocked, IsAdmin=@IsAdmin where Id=@Id";
+                    "update Account set FullName=@FullName, UserName=@UserName, Password=@Password, Token=@Token, Locked=@Locked, Admin=@Admin where Id=@Id";
                 _dbConnection.Execute(query, account);
             });
         }
@@ -97,7 +97,7 @@ namespace WebAutoLogin.Service.Data
             ExecuteQuery(_dbConnection, () =>
             {
                 accounts = _dbConnection.Query<Account>(
-                "select Id, FullName, UserName, Password, Token, IsLocked, IsAdmin from Account").ToList();
+                "select Id, FullName, UserName, Password, Token, Locked, Admin from Account").ToList();
             });
             return accounts;
         }

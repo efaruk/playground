@@ -33,7 +33,6 @@
             this.niMain = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmsNotification = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiTest = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnManage = new System.Windows.Forms.Button();
             this.btnTestConnection = new System.Windows.Forms.Button();
             this.cmsNotification.SuspendLayout();
             this.SuspendLayout();
@@ -50,47 +49,36 @@
             this.cmsNotification.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiTest});
             this.cmsNotification.Name = "cmsNotification";
-            this.cmsNotification.Size = new System.Drawing.Size(96, 26);
+            this.cmsNotification.Size = new System.Drawing.Size(197, 26);
             // 
             // tsmiTest
             // 
             this.tsmiTest.Name = "tsmiTest";
-            this.tsmiTest.Size = new System.Drawing.Size(95, 22);
-            this.tsmiTest.Text = "Test";
+            this.tsmiTest.Size = new System.Drawing.Size(196, 22);
+            this.tsmiTest.Text = "Test Server Connection";
             this.tsmiTest.Click += new System.EventHandler(this.tsmiTest_Click);
-            // 
-            // btnManage
-            // 
-            this.btnManage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnManage.Location = new System.Drawing.Point(205, 92);
-            this.btnManage.Name = "btnManage";
-            this.btnManage.Size = new System.Drawing.Size(131, 23);
-            this.btnManage.TabIndex = 1;
-            this.btnManage.Text = "Manage Accounts";
-            this.btnManage.UseVisualStyleBackColor = true;
-            this.btnManage.Click += new System.EventHandler(this.btnManage_Click);
             // 
             // btnTestConnection
             // 
-            this.btnTestConnection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnTestConnection.Location = new System.Drawing.Point(12, 92);
+            this.btnTestConnection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTestConnection.Location = new System.Drawing.Point(205, 92);
             this.btnTestConnection.Name = "btnTestConnection";
             this.btnTestConnection.Size = new System.Drawing.Size(131, 23);
             this.btnTestConnection.TabIndex = 2;
             this.btnTestConnection.Text = "Test Server Connection";
             this.btnTestConnection.UseVisualStyleBackColor = true;
+            this.btnTestConnection.Click += new System.EventHandler(this.btnTestConnection_Click);
             // 
-            // frmMain
+            // frmClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(348, 127);
             this.Controls.Add(this.btnTestConnection);
-            this.Controls.Add(this.btnManage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "frmMain";
-            this.Text = "Web Auto Login";
+            this.Name = "frmClient";
+            this.Text = "WAL Client";
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.cmsNotification.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -102,7 +90,6 @@
         private System.Windows.Forms.NotifyIcon niMain;
         private System.Windows.Forms.ContextMenuStrip cmsNotification;
         private System.Windows.Forms.ToolStripMenuItem tsmiTest;
-        private System.Windows.Forms.Button btnManage;
         private System.Windows.Forms.Button btnTestConnection;
     }
 }

@@ -12,8 +12,8 @@
 
         public string Token { get; set; }
 
-        public bool IsLocked { get; set; }
+        public bool Locked { get; set; }
 
-        public bool IsAdmin { get; set; }
+        public bool Admin { get; set; }
     }
 }

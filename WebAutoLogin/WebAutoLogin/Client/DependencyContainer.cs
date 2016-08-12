@@ -25,7 +25,7 @@ namespace WebAutoLogin.Client
             builder.RegisterInstance(_logger).As<ILog>().SingleInstance();
             builder.RegisterType<JsonNetSerializer>().As<ISerializer>().SingleInstance();
             builder.RegisterType<AppConfigSettingsProvider>().As<ISettingsProvider>().SingleInstance();
-            builder.Register(c => new ApiHelper(GlobalModule.Account, c.Resolve<ISettingsProvider>())).As<IApiHelper>().SingleInstance();
+            builder.RegisterType<ApiHelper>().As<IApiHelper>().SingleInstance();
             builder.RegisterType<DefaultHashService>().As<IHashService>().SingleInstance();
             builder.RegisterType<DefaultEncryptionService>().As<IEncryptionService>().SingleInstance();
 

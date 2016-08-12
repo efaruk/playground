@@ -25,7 +25,7 @@ namespace WebAutoLogin.Test
             var encryptionService = new DefaultEncryptionService();
             var key = ConfigurationManager.AppSettings.Get("Key");
             var vector = ConfigurationManager.AppSettings.Get("Vector");
-            var password = "Y4mukMav!";
+            var password = "F4reburnu";
             var cipher = encryptionService.Encrypt(password, key, vector);
             var decrypted = encryptionService.Decrypt(cipher, key, vector);
             Assert.AreEqual(password, decrypted);

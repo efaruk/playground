@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using WebAutoLogin.Client;
 using WebAutoLogin.Security.Cryptography;
 
@@ -18,6 +19,14 @@ namespace WebAutoLogin.Manager
         {
             _apiHelper = DependencyContainer.Resolve<IApiHelper>();
             _hashService = DependencyContainer.Resolve<IHashService>();
+#if DEBUG
+            if (Environment.MachineName.Equals("windev", StringComparison.InvariantCultureIgnoreCase))
+            {
+                tbUsername.Text = "efaruk";
+                tbPassword.Text = "F4reburnu";
+            }
+#endif
+            // Do More
         }
 
         private void btnOk_Click(object sender, System.EventArgs e)
@@ -29,7 +38,7 @@ namespace WebAutoLogin.Manager
             }
             var userName = tbUsername.Text.Trim();
             var password = tbPassword.Text.Trim();
-            var token = _hashService.Hash(string.Format("{0}|{1}", userName, password));
+            var token = _hashService.Hash(string.Format(GlobalModule.TokenHashFormat, userName, password));
             var account = _apiHelper.GetAccountByToken(token);
             if (account != null && account.Id > 0)
             {

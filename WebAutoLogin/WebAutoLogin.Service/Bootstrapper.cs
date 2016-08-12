@@ -6,6 +6,7 @@ using log4net.Config;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Autofac;
+using WebAutoLogin.Client;
 using WebAutoLogin.Configuration;
 using WebAutoLogin.Security.Cryptography;
 using WebAutoLogin.Service.Data;
@@ -37,17 +38,18 @@ namespace WebAutoLogin.Service
         {
             pipelines.BeforeRequest += ctx =>
             {
+                if (!ctx.Request.Path.StartsWith("/accounts/")) return null;
                 if (ctx.Request.Path.StartsWith("/accounts/token/"))
                 {
                     return null;
                 }
                 var response = new Response { StatusCode = HttpStatusCode.Forbidden };
-                if (!ctx.Request.Headers.Keys.Contains("token"))
+                if (!ctx.Request.Headers.Keys.Contains(GlobalModule.TokenHeaderKey))
                 {
                     return response;
                 }
                 var service = container.Resolve<IApiService>();
-                var token = ctx.Request.Headers["token"].ToString();
+                var token = ctx.Request.Headers[GlobalModule.TokenHeaderKey].First().ToString();
                 var account = service.GetAccountByToken(token);
                 return account == null ? response : null;
             };

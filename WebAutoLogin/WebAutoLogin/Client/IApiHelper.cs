@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using WebAutoLogin.Data.Entities;
 
 namespace WebAutoLogin.Client
@@ -9,7 +10,7 @@ namespace WebAutoLogin.Client
         Account GetAccountByToken(string token);
         List<Account> GetAccounts();
         bool HealthCheck();
-        void InsertAccount(Account account);
-        void UpdateAccount(Account account);
+        HttpStatusCode InsertAccount(Account account);
+        HttpStatusCode UpdateAccount(Account account);
     }
 }
