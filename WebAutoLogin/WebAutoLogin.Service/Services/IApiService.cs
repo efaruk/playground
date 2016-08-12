@@ -9,7 +9,7 @@ namespace WebAutoLogin.Service.Services
         Account GetAccountByToken(string token);
         Account GetAccountById(int id);
         List<Account> GetAccounts();
-        void InsertAccount(Account account);
+        Account InsertAccount(Account account);
         void UpdateAccount(Account account);
     }
 }

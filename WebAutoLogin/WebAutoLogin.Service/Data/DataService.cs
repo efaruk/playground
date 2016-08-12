@@ -68,8 +68,8 @@ namespace WebAutoLogin.Service.Data
             ExecuteQuery(_dbConnection, () =>
             {
                 var query = "insert into Account(FullName, UserName, Password, Token, Locked, Admin)" +
-                            "values ((@FullName, @UserName, @Password, @Token, @Locked, @Admin))" +
-                            "SELECT last_insert_rowid();";
+                            "values ((@FullName, @UserName, @Password, @Token, @Locked, @Admin));" +
+                            "select sqlite3_last_insert_rowid();";
                 var id = _dbConnection.Query<int>(query, account);
 
                 account = _dbConnection.Query<Account>(

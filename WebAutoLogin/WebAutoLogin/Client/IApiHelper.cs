@@ -10,7 +10,7 @@ namespace WebAutoLogin.Client
         Account GetAccountByToken(string token);
         List<Account> GetAccounts();
         bool HealthCheck();
-        HttpStatusCode InsertAccount(Account account);
+        Account InsertAccount(Account account);
         HttpStatusCode UpdateAccount(Account account);
     }
 }

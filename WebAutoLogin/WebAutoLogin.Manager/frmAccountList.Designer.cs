@@ -36,7 +36,7 @@
             this.tsbEdit = new System.Windows.Forms.ToolStripButton();
             this.tsbList = new System.Windows.Forms.ToolStripButton();
             this.tsbDelete = new System.Windows.Forms.ToolStripButton();
-            this.ıdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fullNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.userNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.passwordDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,7 +56,7 @@
             this.dgAccounts.AutoGenerateColumns = false;
             this.dgAccounts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgAccounts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ıdDataGridViewTextBoxColumn,
+            this.idColumn,
             this.fullNameDataGridViewTextBoxColumn,
             this.userNameDataGridViewTextBoxColumn,
             this.passwordDataGridViewTextBoxColumn,
@@ -129,12 +129,12 @@
             this.tsbDelete.Text = "Delete";
             this.tsbDelete.Click += new System.EventHandler(this.tsbDelete_Click);
             // 
-            // ıdDataGridViewTextBoxColumn
+            // idColumn
             // 
-            this.ıdDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.ıdDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.ıdDataGridViewTextBoxColumn.Name = "ıdDataGridViewTextBoxColumn";
-            this.ıdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.idColumn.DataPropertyName = "Id";
+            this.idColumn.HeaderText = "Id";
+            this.idColumn.Name = "idColumn";
+            this.idColumn.ReadOnly = true;
             // 
             // fullNameDataGridViewTextBoxColumn
             // 
@@ -208,7 +208,7 @@
         private System.Windows.Forms.ToolStripButton tsbEdit;
         private System.Windows.Forms.ToolStripButton tsbList;
         private System.Windows.Forms.ToolStripButton tsbDelete;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ıdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn userNameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn passwordDataGridViewTextBoxColumn;

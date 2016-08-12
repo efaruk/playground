@@ -47,10 +47,11 @@ namespace WebAutoLogin.Service.Services
             return accounts;
         }
 
-        public void InsertAccount(Account account)
+        public Account InsertAccount(Account account)
         {
 
             _dataService.InsertAccount(account);
+            return account;
         }
 
         public void UpdateAccount(Account account)

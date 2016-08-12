@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.tbFullName = new System.Windows.Forms.TextBox();
+            this.bsAccount = new System.Windows.Forms.BindingSource(this.components);
             this.tbUsername = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tbPassword = new System.Windows.Forms.TextBox();
@@ -44,7 +45,6 @@
             this.btnSetupUsbStick = new System.Windows.Forms.Button();
             this.btnSetPassword = new System.Windows.Forms.Button();
             this.btnSaveAndClose = new System.Windows.Forms.Button();
-            this.bsAccount = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bsAccount)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,6 +64,12 @@
             this.tbFullName.Name = "tbFullName";
             this.tbFullName.Size = new System.Drawing.Size(465, 21);
             this.tbFullName.TabIndex = 1;
+            // 
+            // bsAccount
+            // 
+            this.bsAccount.AllowNew = false;
+            this.bsAccount.DataSource = typeof(WebAutoLogin.Data.Entities.Account);
+            this.bsAccount.CurrentItemChanged += new System.EventHandler(this.bsAccount_CurrentItemChanged);
             // 
             // tbUsername
             // 
@@ -87,6 +93,7 @@
             this.tbPassword.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bsAccount, "Password", true));
             this.tbPassword.Location = new System.Drawing.Point(75, 66);
             this.tbPassword.Name = "tbPassword";
+            this.tbPassword.PasswordChar = '•';
             this.tbPassword.ReadOnly = true;
             this.tbPassword.Size = new System.Drawing.Size(352, 21);
             this.tbPassword.TabIndex = 5;
@@ -196,12 +203,6 @@
             this.btnSaveAndClose.Text = "Save && Close";
             this.btnSaveAndClose.UseVisualStyleBackColor = true;
             this.btnSaveAndClose.Click += new System.EventHandler(this.btnSaveAndClose_Click);
-            // 
-            // bsAccount
-            // 
-            this.bsAccount.AllowNew = false;
-            this.bsAccount.DataSource = typeof(WebAutoLogin.Data.Entities.Account);
-            this.bsAccount.CurrentItemChanged += new System.EventHandler(this.bsAccount_CurrentItemChanged);
             // 
             // frmAccount
             // 

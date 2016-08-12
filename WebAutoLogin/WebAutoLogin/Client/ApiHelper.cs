@@ -52,13 +52,13 @@ namespace WebAutoLogin.Client
             return response.StatusCode != HttpStatusCode.OK ? null : response.Data;
         }
 
-        public HttpStatusCode InsertAccount(Account account)
+        public Account InsertAccount(Account account)
         {
             var client = SetupClient();
             var request = new RestRequest("/accounts/", Method.POST);
             request.AddBody(account);
             var response = client.Execute<Account>(request);
-            return response.StatusCode;
+            return response.StatusCode == HttpStatusCode.OK ? response.Data : null;
         }
 
         public HttpStatusCode UpdateAccount(Account account)

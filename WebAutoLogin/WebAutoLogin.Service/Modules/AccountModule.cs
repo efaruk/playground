@@ -42,7 +42,7 @@ namespace WebAutoLogin.Service.Modules
             {
                 var account = this.Bind<Account>();
                 apiService.InsertAccount(account);
-                return Response.AsText("OK");
+                return Response.AsJson(account);
             };
 
             Put["/"] = p =>

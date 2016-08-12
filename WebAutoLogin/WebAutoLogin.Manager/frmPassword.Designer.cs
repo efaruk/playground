@@ -54,7 +54,7 @@
             this.tbPassword1.Name = "tbPassword1";
             this.tbPassword1.PasswordChar = '•';
             this.tbPassword1.Size = new System.Drawing.Size(201, 21);
-            this.tbPassword1.TabIndex = 3;
+            this.tbPassword1.TabIndex = 0;
             this.tbPassword1.Validating += new System.ComponentModel.CancelEventHandler(this.tbPassword1_Validating);
             // 
             // label2
@@ -63,7 +63,7 @@
             this.label2.Location = new System.Drawing.Point(12, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(57, 13);
-            this.label2.TabIndex = 2;
+            this.label2.TabIndex = 0;
             this.label2.Text = "Password:";
             // 
             // btnOk
@@ -72,7 +72,7 @@
             this.btnOk.Location = new System.Drawing.Point(138, 74);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 4;
+            this.btnOk.TabIndex = 2;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -85,7 +85,7 @@
             this.btnCancel.Location = new System.Drawing.Point(219, 74);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 5;
+            this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -100,7 +100,7 @@
             this.tbPassword2.Name = "tbPassword2";
             this.tbPassword2.PasswordChar = '•';
             this.tbPassword2.Size = new System.Drawing.Size(201, 21);
-            this.tbPassword2.TabIndex = 6;
+            this.tbPassword2.TabIndex = 1;
             this.tbPassword2.Validating += new System.ComponentModel.CancelEventHandler(this.tbPassword2_Validating);
             // 
             // frmPassword

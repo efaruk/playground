@@ -61,7 +61,7 @@ namespace WebAutoLogin.Manager
             if (dgAccounts.SelectedRows.Count == 0) return;
 
             var row = dgAccounts.SelectedRows[0];
-            var id = Convert.ToInt32(row.Cells["Id"].Value);
+            var id = Convert.ToInt32(row.Cells["idColumn"].Value);
             var account = _accounts.FirstOrDefault(a => a.Id == id);
             if (account == null) return;
 
