@@ -15,7 +15,8 @@ namespace WebAutoLogin.Client
         public static string TokenHeaderKey = "token";
 
         public static string SettingBaseAddress = "BaseAddress";
-        // AutoLoginUrl, UsernameInputIdentifier, PasswordInputIdentifier, SubmitButtonIdentifier
+
+        // LoginUrl, UsernameElementIdentifier, PasswordElementIdentifier, LoginElementIdentifier, LogoutUrl
 
         public static string SettingKey = "Key";
 

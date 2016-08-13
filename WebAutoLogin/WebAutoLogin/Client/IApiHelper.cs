@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using WebAutoLogin.Configuration;
 using WebAutoLogin.Data.Entities;
 
 namespace WebAutoLogin.Client
@@ -13,5 +14,6 @@ namespace WebAutoLogin.Client
         Account InsertAccount(Account account);
         HttpStatusCode UpdateAccount(Account account);
         bool Delete(int id);
+        AutoLoginSettings GetAutologinSettings();
     }
 }

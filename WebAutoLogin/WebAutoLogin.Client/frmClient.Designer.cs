@@ -33,8 +33,8 @@
             this.niMain = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmsNotification = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiTest = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnTestConnection = new System.Windows.Forms.Button();
             this.tsmiToggle = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnTestConnection = new System.Windows.Forms.Button();
             this.cmsNotification.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,7 +51,7 @@
             this.tsmiTest,
             this.tsmiToggle});
             this.cmsNotification.Name = "cmsNotification";
-            this.cmsNotification.Size = new System.Drawing.Size(197, 70);
+            this.cmsNotification.Size = new System.Drawing.Size(197, 48);
             // 
             // tsmiTest
             // 
@@ -59,6 +59,13 @@
             this.tsmiTest.Size = new System.Drawing.Size(196, 22);
             this.tsmiTest.Text = "Test Server Connection";
             this.tsmiTest.Click += new System.EventHandler(this.tsmiTest_Click);
+            // 
+            // tsmiToggle
+            // 
+            this.tsmiToggle.Name = "tsmiToggle";
+            this.tsmiToggle.Size = new System.Drawing.Size(196, 22);
+            this.tsmiToggle.Text = "Start / Stop";
+            this.tsmiToggle.Click += new System.EventHandler(this.tsmiToggle_Click);
             // 
             // btnTestConnection
             // 
@@ -71,13 +78,6 @@
             this.btnTestConnection.UseVisualStyleBackColor = true;
             this.btnTestConnection.Click += new System.EventHandler(this.btnTestConnection_Click);
             // 
-            // tsmiToggle
-            // 
-            this.tsmiToggle.Name = "tsmiToggle";
-            this.tsmiToggle.Size = new System.Drawing.Size(196, 22);
-            this.tsmiToggle.Text = "Start / Stop";
-            this.tsmiToggle.Click += new System.EventHandler(this.tsmiToggle_Click);
-            // 
             // frmClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -88,6 +88,7 @@
             this.MaximizeBox = false;
             this.Name = "frmClient";
             this.Text = "WAL Client";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmClient_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.cmsNotification.ResumeLayout(false);
             this.ResumeLayout(false);

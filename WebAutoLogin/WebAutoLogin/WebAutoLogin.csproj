@@ -68,7 +68,7 @@
     <Compile Include="Client\GlobalModule.cs" />
     <Compile Include="Client\IApiHelper.cs" />
     <Compile Include="Configuration\AppConfigSettingsProvider.cs" />
-    <Compile Include="Configuration\ServiceSettings.cs" />
+    <Compile Include="Configuration\AutoLoginSettings.cs" />
     <Compile Include="Data\Entities\Account.cs" />
     <Compile Include="Runtime\Serialization\ISerializer.cs" />
     <Compile Include="Runtime\Serialization\JsonNetSerializer.cs" />

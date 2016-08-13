@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Windows.Forms;
+using WebAutoLogin.Configuration;
 
 namespace WebAutoLogin.Client
 {
@@ -8,6 +9,7 @@ namespace WebAutoLogin.Client
     {
         private TokenDetector _tokenDetector;
         private IApiHelper _apiHelper;
+        private AutoLoginSettings _autoLoginSettings;
 
         public frmClient()
         {
@@ -21,11 +23,11 @@ namespace WebAutoLogin.Client
             btnTestConnection_Click(sender, e);
 
             _tokenDetector = new TokenDetector();
-            _tokenDetector.OnTokenChange += TokenChangeDetectorOnTokenChange;
+            _tokenDetector.OnTokenChange += TokenDetectorOnTokenChange;
             _tokenDetector.Start();
         }
 
-        private void TokenChangeDetectorOnTokenChange(string token)
+        private void TokenDetectorOnTokenChange(string token)
         {
             throw new NotImplementedException();
         }
@@ -37,8 +39,7 @@ namespace WebAutoLogin.Client
 
         private void btnTestConnection_Click(object sender, EventArgs e)
         {
-            var healthy = _apiHelper.HealthCheck();
-            if (healthy)
+            if (_apiHelper.HealthCheck())
             {
                 niMain.ShowBalloonTip(GlobalModule.NotificationTimeout, Text, "Server is working...", ToolTipIcon.Info);
             }
@@ -51,6 +52,11 @@ namespace WebAutoLogin.Client
         private void tsmiToggle_Click(object sender, EventArgs e)
         {
             _tokenDetector.Toggle();
+        }
+
+        private void frmClient_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _tokenDetector.Stop();
         }
     }
 }

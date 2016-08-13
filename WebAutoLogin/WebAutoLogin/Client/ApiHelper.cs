@@ -78,6 +78,14 @@ namespace WebAutoLogin.Client
             return response.StatusCode == HttpStatusCode.OK;
         }
 
+        public AutoLoginSettings GetAutologinSettings()
+        {
+            var client = SetupClient();
+            var request = new RestRequest("/settings", Method.GET);
+            var response = client.Execute<AutoLoginSettings>(request);
+            return response.StatusCode != HttpStatusCode.OK ? null : response.Data;
+        }
+
         private RestClient SetupClient()
         {
             var client = new RestClient(_baseUrl);
