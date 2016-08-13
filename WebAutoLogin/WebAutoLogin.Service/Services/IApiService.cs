@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using WebAutoLogin.Data.Entities;
 
 namespace WebAutoLogin.Service.Services
@@ -11,5 +12,6 @@ namespace WebAutoLogin.Service.Services
         List<Account> GetAccounts();
         Account InsertAccount(Account account);
         void UpdateAccount(Account account);
+        HttpStatusCode DeleteAccount(int id);
     }
 }

@@ -64,7 +64,7 @@
   <ItemGroup>
     <Compile Include="Client\ApiHelper.cs" />
     <Compile Include="Client\DependencyContainer.cs" />
-    <Compile Include="Client\DriveDetector.cs" />
+    <Compile Include="Client\TokenDetector.cs" />
     <Compile Include="Client\GlobalModule.cs" />
     <Compile Include="Client\IApiHelper.cs" />
     <Compile Include="Configuration\AppConfigSettingsProvider.cs" />

@@ -89,6 +89,14 @@ namespace WebAutoLogin.Service.Data
             });
         }
 
+        public void DeleteAccount(int id)
+        {
+            ExecuteQuery(_dbConnection, () =>
+            {
+                _dbConnection.Execute("delete from Account where Id=@Id", new { Id = id });
+            });
+        }
+
         public List<Account> GetAccounts()
         {
             var accounts = new List<Account>();

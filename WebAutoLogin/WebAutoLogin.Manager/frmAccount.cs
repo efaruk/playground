@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Windows.Forms;
 using WebAutoLogin.Client;
 using WebAutoLogin.Data.Entities;
 using WebAutoLogin.Security.Cryptography;
@@ -55,21 +58,55 @@ namespace WebAutoLogin.Manager
 
         private void btnSetupUsbStick_Click(object sender, System.EventArgs e)
         {
+            if (_isDirty)
+            {
+                MessageBox.Show("You should save changes first", Text);
+                return;
+            }
+            using (var frmUsbSetup = new frmUsbSetup { Account = Account })
+            {
+                frmUsbSetup.ShowDialog(this);
+            }
+        }
 
+        private void tbUsername_TextChanged(object sender, System.EventArgs e)
+        {
+            if (_binding) return;
+            UpdateToken();
         }
 
         private void btnSetPassword_Click(object sender, System.EventArgs e)
         {
-            var passwordForm = new frmPassword();
-            var result = passwordForm.ShowDialog(this);
-            if (result != DialogResult.OK) return;
+            using (var passwordForm = new frmPassword())
+            {
+                var result = passwordForm.ShowDialog(this);
+                if (result != DialogResult.OK) return;
 
-            Account.Password = passwordForm.Password;
-            UpdateToken();
+                tbPassword.Text = passwordForm.Password;
+                UpdateToken();
+            }
         }
 
         private void btnSave_Click(object sender, System.EventArgs e)
         {
+            //bsAccount.EndEdit();
+
+            var vr = new List<ValidationResult>();
+            var vc = new ValidationContext(Account);
+            var valid = Validator.TryValidateObject(Account, vc, vr);
+
+            if (!valid)
+            {
+                var sb = new StringBuilder("Validation Errors:");
+                foreach (var r in vr)
+                {
+                    sb.AppendLine(r.ErrorMessage);
+                }
+                MessageBox.Show(sb.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
             var resultAccount = _apiHelper.InsertAccount(Account);
             if (resultAccount == null) return;
 
@@ -90,7 +127,7 @@ namespace WebAutoLogin.Manager
         {
             DialogResult = DialogResult.Cancel;
         }
-        
+
         private void bsAccount_CurrentItemChanged(object sender, System.EventArgs e)
         {
             if (_binding) return;
@@ -105,5 +142,6 @@ namespace WebAutoLogin.Manager
                 _hashService.Hash(string.Format(GlobalModule.TokenHashFormat, tbUsername.Text.Trim(),
                     tbPassword.Text.Trim()));
         }
+
     }
 }

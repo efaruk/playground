@@ -10,7 +10,6 @@ namespace WebAutoLogin.Manager
     public partial class frmAccountList : frmBaseForm
     {
         private IApiHelper _apiHelper;
-        private frmLogin _loginForm;
         private List<Account> _accounts;
 
         public frmAccountList()
@@ -22,15 +21,17 @@ namespace WebAutoLogin.Manager
         {
             _apiHelper = DependencyContainer.Resolve<IApiHelper>();
             Visible = false;
-            _loginForm = new frmLogin();
-            var result = _loginForm.ShowDialog(this);
-            if (result != DialogResult.OK)
+            using (var loginForm = new frmLogin())
             {
-                Close();
-            }
-            else
-            {
-                Visible = true;
+                var result = loginForm.ShowDialog(this);
+                if (result != DialogResult.OK)
+                {
+                    Close();
+                }
+                else
+                {
+                    Visible = true;
+                }
             }
             LoadList();
         }
@@ -48,34 +49,67 @@ namespace WebAutoLogin.Manager
 
         private void tsbNew_Click(object sender, EventArgs e)
         {
-            var accountForm = new frmAccount { Account = new Account() };
-            var result = accountForm.ShowDialog(this);
-            if (result == DialogResult.OK)
+            using (var accountForm = new frmAccount {Account = new Account()})
             {
-                LoadList();
+                var result = accountForm.ShowDialog(this);
+                if (result == DialogResult.OK)
+                {
+                    LoadList();
+                }
             }
         }
 
         private void tsbEdit_Click(object sender, EventArgs e)
         {
-            if (dgAccounts.SelectedRows.Count == 0) return;
-
-            var row = dgAccounts.SelectedRows[0];
-            var id = Convert.ToInt32(row.Cells["idColumn"].Value);
-            var account = _accounts.FirstOrDefault(a => a.Id == id);
+            var account = SelectedAccount();
             if (account == null) return;
 
-            var accountForm = new frmAccount { Account = account };
-            var result = accountForm.ShowDialog(this);
-            if (result == DialogResult.OK)
+            using (var accountForm = new frmAccount { Account = account })
             {
-                LoadList();
+                var result = accountForm.ShowDialog(this);
+                if (result == DialogResult.OK)
+                {
+                    LoadList();
+                }
             }
         }
 
         private void tsbDelete_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Not supported.", Text);
+            var result = MessageBox.Show("Account will be deleted permanently. \r\n Are you sure?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result != DialogResult.Yes) return;
+
+            var account = SelectedAccount();
+            if (account == null) return;
+
+            var success = _apiHelper.Delete(account.Id);
+            if (!success)
+            {
+                MessageBox.Show("Account could not be deleted.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            LoadList();
+        }
+
+        private void tsbSetupUsbStick_Click(object sender, EventArgs e)
+        {
+            var account = SelectedAccount();
+            if (account == null) return;
+
+            using (var frmUsbSetup = new frmUsbSetup { Account = account })
+            {
+                frmUsbSetup.ShowDialog(this);
+            }
+        }
+
+        private Account SelectedAccount()
+        {
+            if (dgAccounts.SelectedRows.Count == 0) return null;
+
+            var row = dgAccounts.SelectedRows[0];
+            var id = Convert.ToInt32(row.Cells["idColumn"].Value);
+            var account = _accounts.FirstOrDefault(a => a.Id == id);
+            return account;
         }
     }
 }

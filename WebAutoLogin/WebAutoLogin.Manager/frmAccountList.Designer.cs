@@ -30,12 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgAccounts = new System.Windows.Forms.DataGridView();
-            this.bsAccounts = new System.Windows.Forms.BindingSource(this.components);
-            this.tsMain = new System.Windows.Forms.ToolStrip();
-            this.tsbNew = new System.Windows.Forms.ToolStripButton();
-            this.tsbEdit = new System.Windows.Forms.ToolStripButton();
-            this.tsbList = new System.Windows.Forms.ToolStripButton();
-            this.tsbDelete = new System.Windows.Forms.ToolStripButton();
             this.idColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fullNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.userNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,6 +37,13 @@
             this.tokenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lockedDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.adminDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.bsAccounts = new System.Windows.Forms.BindingSource(this.components);
+            this.tsMain = new System.Windows.Forms.ToolStrip();
+            this.tsbNew = new System.Windows.Forms.ToolStripButton();
+            this.tsbEdit = new System.Windows.Forms.ToolStripButton();
+            this.tsbList = new System.Windows.Forms.ToolStripButton();
+            this.tsbDelete = new System.Windows.Forms.ToolStripButton();
+            this.tsbSetupUsbStick = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgAccounts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsAccounts)).BeginInit();
             this.tsMain.SuspendLayout();
@@ -73,61 +74,6 @@
             this.dgAccounts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgAccounts.Size = new System.Drawing.Size(782, 402);
             this.dgAccounts.TabIndex = 0;
-            // 
-            // bsAccounts
-            // 
-            this.bsAccounts.AllowNew = false;
-            this.bsAccounts.DataSource = typeof(WebAutoLogin.Data.Entities.Account);
-            // 
-            // tsMain
-            // 
-            this.tsMain.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsbNew,
-            this.tsbEdit,
-            this.tsbList,
-            this.tsbDelete});
-            this.tsMain.Location = new System.Drawing.Point(0, 0);
-            this.tsMain.Name = "tsMain";
-            this.tsMain.Size = new System.Drawing.Size(782, 25);
-            this.tsMain.TabIndex = 1;
-            this.tsMain.Text = "toolStrip1";
-            // 
-            // tsbNew
-            // 
-            this.tsbNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbNew.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbNew.Name = "tsbNew";
-            this.tsbNew.Size = new System.Drawing.Size(36, 22);
-            this.tsbNew.Text = "New";
-            this.tsbNew.Click += new System.EventHandler(this.tsbNew_Click);
-            // 
-            // tsbEdit
-            // 
-            this.tsbEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbEdit.Name = "tsbEdit";
-            this.tsbEdit.Size = new System.Drawing.Size(32, 22);
-            this.tsbEdit.Text = "Edit";
-            this.tsbEdit.Click += new System.EventHandler(this.tsbEdit_Click);
-            // 
-            // tsbList
-            // 
-            this.tsbList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbList.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbList.Name = "tsbList";
-            this.tsbList.Size = new System.Drawing.Size(29, 22);
-            this.tsbList.Text = "List";
-            this.tsbList.Click += new System.EventHandler(this.tsbList_Click);
-            // 
-            // tsbDelete
-            // 
-            this.tsbDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbDelete.Name = "tsbDelete";
-            this.tsbDelete.Size = new System.Drawing.Size(47, 22);
-            this.tsbDelete.Text = "Delete";
-            this.tsbDelete.Click += new System.EventHandler(this.tsbDelete_Click);
             // 
             // idColumn
             // 
@@ -178,6 +124,71 @@
             this.adminDataGridViewCheckBoxColumn.Name = "adminDataGridViewCheckBoxColumn";
             this.adminDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
+            // bsAccounts
+            // 
+            this.bsAccounts.AllowNew = false;
+            this.bsAccounts.DataSource = typeof(WebAutoLogin.Data.Entities.Account);
+            // 
+            // tsMain
+            // 
+            this.tsMain.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbNew,
+            this.tsbEdit,
+            this.tsbList,
+            this.tsbDelete,
+            this.tsbSetupUsbStick});
+            this.tsMain.Location = new System.Drawing.Point(0, 0);
+            this.tsMain.Name = "tsMain";
+            this.tsMain.Size = new System.Drawing.Size(782, 25);
+            this.tsMain.TabIndex = 1;
+            this.tsMain.Text = "toolStrip1";
+            // 
+            // tsbNew
+            // 
+            this.tsbNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbNew.Name = "tsbNew";
+            this.tsbNew.Size = new System.Drawing.Size(36, 22);
+            this.tsbNew.Text = "New";
+            this.tsbNew.Click += new System.EventHandler(this.tsbNew_Click);
+            // 
+            // tsbEdit
+            // 
+            this.tsbEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbEdit.Name = "tsbEdit";
+            this.tsbEdit.Size = new System.Drawing.Size(32, 22);
+            this.tsbEdit.Text = "Edit";
+            this.tsbEdit.Click += new System.EventHandler(this.tsbEdit_Click);
+            // 
+            // tsbList
+            // 
+            this.tsbList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbList.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbList.Name = "tsbList";
+            this.tsbList.Size = new System.Drawing.Size(29, 22);
+            this.tsbList.Text = "List";
+            this.tsbList.Click += new System.EventHandler(this.tsbList_Click);
+            // 
+            // tsbDelete
+            // 
+            this.tsbDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbDelete.Name = "tsbDelete";
+            this.tsbDelete.Size = new System.Drawing.Size(47, 22);
+            this.tsbDelete.Text = "Delete";
+            this.tsbDelete.Click += new System.EventHandler(this.tsbDelete_Click);
+            // 
+            // tsbSetupUsbStick
+            // 
+            this.tsbSetupUsbStick.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbSetupUsbStick.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSetupUsbStick.Name = "tsbSetupUsbStick";
+            this.tsbSetupUsbStick.Size = new System.Drawing.Size(100, 22);
+            this.tsbSetupUsbStick.Text = "Setup USB Stick";
+            this.tsbSetupUsbStick.Click += new System.EventHandler(this.tsbSetupUsbStick_Click);
+            // 
             // frmAccountList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -215,5 +226,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn tokenDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn lockedDataGridViewCheckBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn adminDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.ToolStripButton tsbSetupUsbStick;
     }
 }

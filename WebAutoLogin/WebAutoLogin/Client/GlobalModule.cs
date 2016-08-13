@@ -6,9 +6,9 @@ namespace WebAutoLogin.Client
     {
         public static Account Account { get; set; }
 
-        public static string StickPattern = "sabet";
-
         public static int NotificationTimeout = 1000;
+
+        public static int TokenDetectionInterval = 3000;
 
         public static string TokenHashFormat = "{0}|{1}"; // {0} = username, {1} = password
 
@@ -22,5 +22,7 @@ namespace WebAutoLogin.Client
         public static string SettingVector = "Vector";
 
         public static string SettingApiUrl = "ApiUrl";
+
+        public static string TokenFileName = ".webautologin.tkn";
     }
 }

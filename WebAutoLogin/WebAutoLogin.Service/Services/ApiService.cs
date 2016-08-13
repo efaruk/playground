@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using WebAutoLogin.Client;
 using WebAutoLogin.Configuration;
 using WebAutoLogin.Data.Entities;
@@ -57,6 +58,15 @@ namespace WebAutoLogin.Service.Services
         public void UpdateAccount(Account account)
         {
             _dataService.UpdateAccount(account);
+        }
+
+        public HttpStatusCode DeleteAccount(int id)
+        {
+            var account = _dataService.GetAccountById(id);
+            if (account == null) return HttpStatusCode.NotFound;
+            if (account.Admin) return HttpStatusCode.Forbidden;
+            _dataService.DeleteAccount(id);
+            return HttpStatusCode.OK;
         }
     }
 }

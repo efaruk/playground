@@ -54,8 +54,8 @@ namespace WebAutoLogin.Service.Modules
 
             Delete["/{id:int}"] = p =>
             {
-                var response = new Response { StatusCode = HttpStatusCode.Forbidden };
-                return response;
+                var deleted = apiService.DeleteAccount(p.id);
+                return Negotiate.WithStatusCode((int)deleted);
             };
 
         }

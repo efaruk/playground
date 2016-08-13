@@ -6,11 +6,7 @@ namespace WebAutoLogin.Client
 {
     public partial class frmClient : Form
     {
-        private bool _closing = false;
-        private bool _loggedIn = false;
-
-        private DriveDetector _driveDetector;
-        //private frmLogin _frmLogin;
+        private TokenDetector _tokenDetector;
         private IApiHelper _apiHelper;
 
         public frmClient()
@@ -21,9 +17,17 @@ namespace WebAutoLogin.Client
         private void frmMain_Load(object sender, EventArgs e)
         {
             _apiHelper = DependencyContainer.Resolve<IApiHelper>();
-            //_frmLogin = new frmLogin();
-            _driveDetector = new DriveDetector();
-            _driveDetector.Start();
+            
+            btnTestConnection_Click(sender, e);
+
+            _tokenDetector = new TokenDetector();
+            _tokenDetector.OnTokenChange += TokenChangeDetectorOnTokenChange;
+            _tokenDetector.Start();
+        }
+
+        private void TokenChangeDetectorOnTokenChange(string token)
+        {
+            throw new NotImplementedException();
         }
 
         private void tsmiTest_Click(object sender, EventArgs e)
@@ -42,6 +46,11 @@ namespace WebAutoLogin.Client
             {
                 niMain.ShowBalloonTip(GlobalModule.NotificationTimeout, Text, "Can not connect to server", ToolTipIcon.Error);
             }
+        }
+
+        private void tsmiToggle_Click(object sender, EventArgs e)
+        {
+            _tokenDetector.Toggle();
         }
     }
 }

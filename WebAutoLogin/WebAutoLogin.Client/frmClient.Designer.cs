@@ -34,6 +34,7 @@
             this.cmsNotification = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiTest = new System.Windows.Forms.ToolStripMenuItem();
             this.btnTestConnection = new System.Windows.Forms.Button();
+            this.tsmiToggle = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsNotification.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,9 +48,10 @@
             // cmsNotification
             // 
             this.cmsNotification.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiTest});
+            this.tsmiTest,
+            this.tsmiToggle});
             this.cmsNotification.Name = "cmsNotification";
-            this.cmsNotification.Size = new System.Drawing.Size(197, 26);
+            this.cmsNotification.Size = new System.Drawing.Size(197, 70);
             // 
             // tsmiTest
             // 
@@ -68,6 +70,13 @@
             this.btnTestConnection.Text = "Test Server Connection";
             this.btnTestConnection.UseVisualStyleBackColor = true;
             this.btnTestConnection.Click += new System.EventHandler(this.btnTestConnection_Click);
+            // 
+            // tsmiToggle
+            // 
+            this.tsmiToggle.Name = "tsmiToggle";
+            this.tsmiToggle.Size = new System.Drawing.Size(196, 22);
+            this.tsmiToggle.Text = "Start / Stop";
+            this.tsmiToggle.Click += new System.EventHandler(this.tsmiToggle_Click);
             // 
             // frmClient
             // 
@@ -91,6 +100,7 @@
         private System.Windows.Forms.ContextMenuStrip cmsNotification;
         private System.Windows.Forms.ToolStripMenuItem tsmiTest;
         private System.Windows.Forms.Button btnTestConnection;
+        private System.Windows.Forms.ToolStripMenuItem tsmiToggle;
     }
 }
 

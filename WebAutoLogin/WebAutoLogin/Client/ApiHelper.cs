@@ -70,6 +70,14 @@ namespace WebAutoLogin.Client
             return response.StatusCode;
         }
 
+        public bool Delete(int id)
+        {
+            var client = SetupClient();
+            var request = new RestRequest(string.Format("/accounts/{0}", id), Method.DELETE);
+            var response = client.Execute(request);
+            return response.StatusCode == HttpStatusCode.OK;
+        }
+
         private RestClient SetupClient()
         {
             var client = new RestClient(_baseUrl);

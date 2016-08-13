@@ -12,5 +12,6 @@ namespace WebAutoLogin.Client
         bool HealthCheck();
         Account InsertAccount(Account account);
         HttpStatusCode UpdateAccount(Account account);
+        bool Delete(int id);
     }
 }

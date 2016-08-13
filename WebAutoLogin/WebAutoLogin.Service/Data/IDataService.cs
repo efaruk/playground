@@ -15,5 +15,6 @@ namespace WebAutoLogin.Service.Data
         List<Account> GetAccounts();
         Account InsertAccount(Account account);
         void UpdateAccount(Account account);
+        void DeleteAccount(int id);
     }
 }
